@@ -48,4 +48,3 @@ export default function CarModel() {
   )
 }
 
-useGLTF.preload('/models/toyota_soarer_compressed.glb')
