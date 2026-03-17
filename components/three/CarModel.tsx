@@ -2,11 +2,31 @@
 
 import { useEffect, useRef } from 'react'
 import { useGLTF } from '@react-three/drei'
+import { useThree } from '@react-three/fiber'
+import { KTX2Loader } from 'three-stdlib'
 import * as THREE from 'three'
 
+// Singleton KTX2Loader — created once per browser session
+let _ktx2Loader: KTX2Loader | null = null
+function getKTX2Loader(gl: THREE.WebGLRenderer): KTX2Loader {
+  if (!_ktx2Loader) {
+    _ktx2Loader = new KTX2Loader()
+    _ktx2Loader.setTranscoderPath('/')
+    _ktx2Loader.detectSupport(gl)
+  }
+  return _ktx2Loader
+}
+
 export default function CarModel() {
-  const { scene } = useGLTF('/models/toyota_soarer.glb')
+  const { gl } = useThree()
   const groupRef = useRef<THREE.Group>(null)
+
+  const { scene } = useGLTF(
+    '/models/toyota_soarer_compressed.glb',
+    undefined,
+    undefined,
+    (loader) => loader.setKTX2Loader(getKTX2Loader(gl))
+  )
 
   useEffect(() => {
     if (!scene) return
@@ -28,4 +48,4 @@ export default function CarModel() {
   )
 }
 
-useGLTF.preload('/models/toyota_soarer.glb')
+useGLTF.preload('/models/toyota_soarer_compressed.glb')
