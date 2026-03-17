@@ -8,7 +8,7 @@ interface GlassCardProps {
 export default function GlassCard({ children, className = '' }: GlassCardProps) {
   return (
     <div
-      className={`glass rounded-xl p-6 ${className}`}
+      className={`glass rounded-xl p-8 ${className}`}
     >
       {children}
     </div>

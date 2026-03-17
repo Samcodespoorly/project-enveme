@@ -11,8 +11,8 @@ const placeholderPhotos = [
 
 export default function GalleryPage() {
   return (
-    <main className="min-h-screen bg-[#0A0A0A] pt-24 pb-24">
-      <div className="max-w-7xl mx-auto px-6">
+    <main className="min-h-screen bg-[#0A0A0A] pt-32 pb-28">
+      <div className="max-w-7xl mx-auto px-8">
         {/* Page header */}
         <SectionHeading
           label="PROJECT ENVEME · VISUAL RECORD"
@@ -21,7 +21,7 @@ export default function GalleryPage() {
         />
 
         {/* Photo grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 mb-12">
           {placeholderPhotos.map((photo) => (
             <div
               key={photo.id}
@@ -31,13 +31,13 @@ export default function GalleryPage() {
               <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent" />
 
               <p
-                className="text-[#444444] text-[10px] tracking-[0.3em] uppercase z-10"
+                className="text-[#777777] text-[10px] tracking-[0.3em] uppercase z-10"
                 style={{ fontFamily: 'var(--font-mono)' }}
               >
                 PHOTO COMING SOON
               </p>
               <p
-                className="text-[#333333] text-xs z-10"
+                className="text-[#888888] text-xs z-10"
                 style={{ fontFamily: 'var(--font-body)' }}
               >
                 {photo.label}
@@ -49,7 +49,7 @@ export default function GalleryPage() {
         {/* Note */}
         <div className="glass rounded-xl p-5">
           <p
-            className="text-[#666666] text-xs leading-relaxed text-center"
+            className="text-[#888888] text-xs leading-relaxed text-center"
             style={{ fontFamily: 'var(--font-mono)' }}
           >
             Photos will be added as the build progresses.

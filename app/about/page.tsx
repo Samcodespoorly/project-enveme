@@ -51,9 +51,9 @@ const capabilities = [
 
 export default function AboutPage() {
   return (
-    <main className="min-h-screen bg-[#0A0A0A] pt-24 pb-24">
-      <div className="max-w-5xl mx-auto px-6">
-        {/* Page header */}
+    <main className="min-h-screen bg-[#0A0A0A] pt-32 pb-28">
+      <div className="max-w-5xl mx-auto px-8">
+
         <SectionHeading
           label="SAMUEL DONOVAN · ENGINEER"
           heading="About the Engineer"
@@ -62,7 +62,7 @@ export default function AboutPage() {
         {/* Intro */}
         <div className="mb-16 max-w-2xl">
           <p
-            className="text-[#A0A0A0] text-base leading-relaxed mb-4"
+            className="text-[#BBBBBB] text-base leading-relaxed mb-5"
             style={{ fontFamily: 'var(--font-body)' }}
           >
             I&apos;m Samuel Donovan — a conjoint Mechatronics Engineering and
@@ -73,7 +73,7 @@ export default function AboutPage() {
             analysis that underpins every build decision.
           </p>
           <p
-            className="text-[#A0A0A0] text-base leading-relaxed"
+            className="text-[#BBBBBB] text-base leading-relaxed"
             style={{ fontFamily: 'var(--font-body)' }}
           >
             The JZZ31 Soarer is the perfect project platform — a naturally
@@ -86,25 +86,25 @@ export default function AboutPage() {
         {/* Skills grid */}
         <div className="mb-16">
           <h3
-            className="text-2xl font-bold uppercase text-white mb-6 tracking-wide"
+            className="text-2xl font-bold uppercase text-white mb-8 tracking-wide"
             style={{ fontFamily: 'var(--font-display)' }}
           >
             Skill Areas
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {skills.map((skill) => (
               <GlassCard key={skill.title}>
                 <div className="flex items-start gap-4">
-                  <span className="text-2xl mt-0.5">{skill.icon}</span>
+                  <span className="text-2xl mt-0.5 flex-shrink-0">{skill.icon}</span>
                   <div>
                     <h4
-                      className="text-white font-semibold mb-1 text-sm uppercase tracking-wide"
+                      className="text-white font-semibold mb-2 text-sm uppercase tracking-wide"
                       style={{ fontFamily: 'var(--font-display)' }}
                     >
                       {skill.title}
                     </h4>
                     <p
-                      className="text-[#666666] text-xs leading-relaxed"
+                      className="text-[#999999] text-sm leading-relaxed"
                       style={{ fontFamily: 'var(--font-body)' }}
                     >
                       {skill.description}
@@ -119,18 +119,18 @@ export default function AboutPage() {
         {/* This project demonstrates */}
         <div className="mb-16">
           <h3
-            className="text-2xl font-bold uppercase text-white mb-6 tracking-wide"
+            className="text-2xl font-bold uppercase text-white mb-8 tracking-wide"
             style={{ fontFamily: 'var(--font-display)' }}
           >
             This project demonstrates
           </h3>
           <GlassCard>
-            <ul className="flex flex-col gap-3">
+            <ul className="flex flex-col gap-4">
               {capabilities.map((cap) => (
-                <li key={cap} className="flex items-start gap-3">
-                  <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#E8920A] flex-shrink-0" />
+                <li key={cap} className="flex items-start gap-4">
+                  <span className="mt-2 w-1.5 h-1.5 rounded-full bg-[#E8920A] flex-shrink-0" />
                   <span
-                    className="text-[#A0A0A0] text-sm leading-relaxed"
+                    className="text-[#BBBBBB] text-sm leading-relaxed"
                     style={{ fontFamily: 'var(--font-body)' }}
                   >
                     {cap}
@@ -144,13 +144,13 @@ export default function AboutPage() {
         {/* Education card */}
         <div>
           <h3
-            className="text-2xl font-bold uppercase text-white mb-6 tracking-wide"
+            className="text-2xl font-bold uppercase text-white mb-8 tracking-wide"
             style={{ fontFamily: 'var(--font-display)' }}
           >
             Education
           </h3>
           <GlassCard className="border-l-2 border-l-[#E8920A]">
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-3">
               <p
                 className="text-[#E8920A] text-xs tracking-[0.2em] uppercase"
                 style={{ fontFamily: 'var(--font-mono)' }}
@@ -164,7 +164,7 @@ export default function AboutPage() {
                 BE(Hons) Mechatronics · BCom Finance/Economics
               </h4>
               <p
-                className="text-[#A0A0A0] text-sm"
+                className="text-[#BBBBBB] text-sm leading-relaxed"
                 style={{ fontFamily: 'var(--font-body)' }}
               >
                 A conjoint degree combining honours-level engineering with
@@ -174,6 +174,7 @@ export default function AboutPage() {
             </div>
           </GlassCard>
         </div>
+
       </div>
     </main>
   )

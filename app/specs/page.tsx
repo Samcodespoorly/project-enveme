@@ -44,40 +44,43 @@ const currentState = [
 
 export default function SpecsPage() {
   return (
-    <main className="min-h-screen bg-[#0A0A0A] pt-24 pb-24">
-      <div className="max-w-7xl mx-auto px-6">
-        {/* Page header */}
+    <main className="min-h-screen bg-[#0A0A0A] pt-32 pb-28">
+      <div className="max-w-7xl mx-auto px-8">
+
         <SectionHeading
           label="JZZ31 PLATFORM · TECHNICAL DATA"
           heading="Vehicle Specifications"
         />
 
         {/* Two-column layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-14">
           {/* Left: key specs table */}
           <div>
             <h3
-              className="text-lg font-bold uppercase text-white mb-4 tracking-wide"
+              className="text-lg font-bold uppercase text-white mb-5 tracking-wide"
               style={{ fontFamily: 'var(--font-display)' }}
             >
               Factory Specifications
             </h3>
-            <GlassCard className="p-0 overflow-hidden">
+            <div
+              className="rounded-xl overflow-hidden"
+              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.09)' }}
+            >
               <table className="w-full">
                 <tbody>
                   {keySpecs.map((spec, i) => (
                     <tr
                       key={spec.label}
-                      className={i % 2 === 0 ? 'bg-white/[0.02]' : ''}
+                      className={`border-b border-white/[0.05] last:border-0 ${i % 2 === 0 ? 'bg-white/[0.02]' : ''}`}
                     >
                       <td
-                        className="px-5 py-3 text-xs text-[#666666] uppercase tracking-wider w-1/2"
+                        className="px-6 py-4 text-xs text-[#888888] uppercase tracking-wider w-2/5"
                         style={{ fontFamily: 'var(--font-mono)' }}
                       >
                         {spec.label}
                       </td>
                       <td
-                        className="px-5 py-3 text-sm text-[#FAFAFA]"
+                        className="px-6 py-4 text-sm text-[#EEEEEE]"
                         style={{ fontFamily: 'var(--font-body)' }}
                       >
                         {spec.value}
@@ -86,35 +89,39 @@ export default function SpecsPage() {
                   ))}
                 </tbody>
               </table>
-            </GlassCard>
+            </div>
           </div>
 
           {/* Right: specs grid */}
           <div>
             <h3
-              className="text-lg font-bold uppercase text-white mb-4 tracking-wide"
+              className="text-lg font-bold uppercase text-white mb-5 tracking-wide"
               style={{ fontFamily: 'var(--font-display)' }}
             >
               Key Numbers
             </h3>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {specsGrid.map((spec) => (
                 <div
                   key={spec.label}
-                  className="glass rounded-lg p-4 flex flex-col gap-1"
+                  className="rounded-xl overflow-hidden"
+                  style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.09)' }}
                 >
-                  <span
-                    className="text-xl font-medium text-[#E8920A]"
-                    style={{ fontFamily: 'var(--font-mono)' }}
-                  >
-                    {spec.value}
-                  </span>
-                  <span
-                    className="text-xs text-[#666666] uppercase tracking-wider"
-                    style={{ fontFamily: 'var(--font-body)' }}
-                  >
-                    {spec.label}
-                  </span>
+                  <div className="h-px bg-gradient-to-r from-[#E8920A]/50 via-[#E8920A]/15 to-transparent" />
+                  <div className="p-5">
+                    <span
+                      className="block text-xl font-semibold text-[#E8920A] mb-2"
+                      style={{ fontFamily: 'var(--font-mono)' }}
+                    >
+                      {spec.value}
+                    </span>
+                    <span
+                      className="block text-xs text-[#888888] uppercase tracking-wider"
+                      style={{ fontFamily: 'var(--font-body)' }}
+                    >
+                      {spec.label}
+                    </span>
+                  </div>
                 </div>
               ))}
             </div>
@@ -122,43 +129,50 @@ export default function SpecsPage() {
         </div>
 
         {/* Current state section */}
-        <div className="mb-12">
+        <div className="mb-14">
           <h3
-            className="text-lg font-bold uppercase text-white mb-4 tracking-wide"
+            className="text-lg font-bold uppercase text-white mb-5 tracking-wide"
             style={{ fontFamily: 'var(--font-display)' }}
           >
             Current State
           </h3>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {currentState.map((item) => (
-              <GlassCard key={item.label} className="p-4">
+              <div
+                key={item.label}
+                className="rounded-xl p-6"
+                style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.09)' }}
+              >
                 <p
-                  className="text-xs text-[#666666] uppercase tracking-wider mb-1"
+                  className="text-xs text-[#888888] uppercase tracking-wider mb-2"
                   style={{ fontFamily: 'var(--font-mono)' }}
                 >
                   {item.label}
                 </p>
                 <p
-                  className="text-sm text-[#FAFAFA]"
+                  className="text-sm text-[#EEEEEE] font-medium"
                   style={{ fontFamily: 'var(--font-body)' }}
                 >
                   {item.value}
                 </p>
-              </GlassCard>
+              </div>
             ))}
           </div>
         </div>
 
         {/* Integration note */}
-        <div className="glass rounded-xl p-5">
+        <div
+          className="rounded-xl p-6 text-center"
+          style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}
+        >
           <p
-            className="text-[#666666] text-xs leading-relaxed text-center"
+            className="text-[#888888] text-xs leading-relaxed"
             style={{ fontFamily: 'var(--font-mono)' }}
           >
-            Live data will sync from GarageOS when Firebase integration is
-            complete.
+            Live data will sync from GarageOS when Firebase integration is complete.
           </p>
         </div>
+
       </div>
     </main>
   )
