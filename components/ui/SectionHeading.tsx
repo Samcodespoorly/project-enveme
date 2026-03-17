@@ -31,7 +31,7 @@ export default function SectionHeading({
       </div>
       {subtitle && (
         <p
-          className="mt-4 text-[#A0A0A0] text-base max-w-xl"
+          className="mt-4 text-[#BBBBBB] text-base max-w-xl leading-relaxed"
           style={{ fontFamily: 'var(--font-body)' }}
         >
           {subtitle}

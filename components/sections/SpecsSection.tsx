@@ -4,11 +4,11 @@ import { motion } from 'framer-motion'
 import SectionHeading from '@/components/ui/SectionHeading'
 
 const specs = [
-  { value: '2JZ-GE', label: 'Engine' },
+  { value: '2JZ-GE', label: 'Engine Code' },
   { value: '2997cc', label: 'Displacement' },
   { value: '225 hp', label: 'Power @ 6000 RPM' },
   { value: '210 lb-ft', label: 'Torque @ 4800 RPM' },
-  { value: 'A340E 4AT', label: 'Transmission' },
+  { value: 'A340E', label: 'Transmission' },
   { value: 'RWD', label: 'Drivetrain' },
   { value: '1590 kg', label: 'Kerb Weight' },
   { value: '1995', label: 'Model Year' },
@@ -16,11 +16,11 @@ const specs = [
 
 export default function SpecsSection() {
   return (
-    <section className="py-24 px-6 bg-[#0A0A0A]">
+    <section className="py-28 px-6 bg-[#0D0D10]">
       <div className="max-w-7xl mx-auto">
         {/* Tag */}
         <motion.p
-          className="text-[#E8920A] text-xs tracking-[0.2em] uppercase mb-4"
+          className="text-[#E8920A] text-xs tracking-[0.25em] uppercase mb-5"
           style={{ fontFamily: 'var(--font-mono)' }}
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -38,32 +38,38 @@ export default function SpecsSection() {
         >
           <SectionHeading
             heading="Technical Specifications"
+            subtitle="Factory figures for the 1995 JZZ31 platform — the foundation everything is built on."
           />
         </motion.div>
 
         {/* Specs grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
           {specs.map((spec, i) => (
             <motion.div
               key={spec.label}
-              className="glass rounded-xl p-6 flex flex-col gap-2"
+              className="relative rounded-xl overflow-hidden"
+              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.09)' }}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-30px' }}
               transition={{ duration: 0.5, delay: i * 0.06 }}
             >
-              <span
-                className="text-2xl md:text-3xl font-medium text-[#E8920A]"
-                style={{ fontFamily: 'var(--font-mono)' }}
-              >
-                {spec.value}
-              </span>
-              <span
-                className="text-xs text-[#666666] uppercase tracking-wider"
-                style={{ fontFamily: 'var(--font-body)' }}
-              >
-                {spec.label}
-              </span>
+              {/* Amber top accent line */}
+              <div className="h-px bg-gradient-to-r from-[#E8920A]/60 via-[#E8920A]/20 to-transparent" />
+              <div className="p-7">
+                <span
+                  className="block text-3xl md:text-4xl font-semibold text-[#E8920A] leading-none mb-3"
+                  style={{ fontFamily: 'var(--font-mono)' }}
+                >
+                  {spec.value}
+                </span>
+                <span
+                  className="block text-sm text-[#888888] tracking-wide"
+                  style={{ fontFamily: 'var(--font-body)' }}
+                >
+                  {spec.label}
+                </span>
+              </div>
             </motion.div>
           ))}
         </div>

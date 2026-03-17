@@ -8,7 +8,7 @@ export default function CTASection() {
     <section className="relative py-32 px-6 bg-[#111111] overflow-hidden">
       {/* Radial amber glow */}
       <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
-        <div className="w-[500px] h-[300px] bg-[#E8920A]/8 rounded-full blur-[100px]" />
+        <div className="w-[600px] h-[350px] bg-[#E8920A]/12 rounded-full blur-[100px]" />
       </div>
 
       <div className="relative z-10 max-w-3xl mx-auto text-center">

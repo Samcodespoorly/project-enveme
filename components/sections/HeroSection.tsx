@@ -9,7 +9,8 @@ export default function HeroSection() {
     <section className="relative min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-[#0A0A0A] via-[#0D0D0D] to-[#111111] overflow-hidden">
       {/* Subtle ambient glow */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-[#E8920A]/5 rounded-full blur-[120px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-[#E8920A]/10 rounded-full blur-[140px]" />
+        <div className="absolute top-1/3 left-1/4 w-[300px] h-[300px] bg-[#6680ff]/5 rounded-full blur-[100px]" />
       </div>
 
       {/* Main content */}
@@ -42,7 +43,7 @@ export default function HeroSection() {
 
         {/* Subtitle */}
         <motion.p
-          className="mt-4 text-xl text-[#A0A0A0] max-w-lg"
+          className="mt-5 text-xl text-[#CCCCCC] max-w-lg"
           style={{ fontFamily: 'var(--font-body)' }}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
