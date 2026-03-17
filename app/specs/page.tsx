@@ -74,13 +74,13 @@ export default function SpecsPage() {
                       className={`border-b border-white/[0.05] last:border-0 ${i % 2 === 0 ? 'bg-white/[0.02]' : ''}`}
                     >
                       <td
-                        className="px-6 py-4 text-xs text-[#888888] uppercase tracking-wider w-2/5"
+                        className="px-8 py-5 text-xs text-[#888888] uppercase tracking-wider w-2/5"
                         style={{ fontFamily: 'var(--font-mono)' }}
                       >
                         {spec.label}
                       </td>
                       <td
-                        className="px-6 py-4 text-sm text-[#EEEEEE]"
+                        className="px-8 py-5 text-sm text-[#EEEEEE]"
                         style={{ fontFamily: 'var(--font-body)' }}
                       >
                         {spec.value}
@@ -108,7 +108,7 @@ export default function SpecsPage() {
                   style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.09)' }}
                 >
                   <div className="h-px bg-gradient-to-r from-[#E8920A]/50 via-[#E8920A]/15 to-transparent" />
-                  <div className="p-5">
+                  <div className="p-8">
                     <span
                       className="block text-xl font-semibold text-[#E8920A] mb-2"
                       style={{ fontFamily: 'var(--font-mono)' }}
@@ -140,7 +140,7 @@ export default function SpecsPage() {
             {currentState.map((item) => (
               <div
                 key={item.label}
-                className="rounded-xl p-6"
+                className="rounded-xl p-8"
                 style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.09)' }}
               >
                 <p

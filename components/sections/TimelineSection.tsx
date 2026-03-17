@@ -43,7 +43,7 @@ const tagStyles: Record<string, { color: string; bg: string; border: string }> =
 
 export default function TimelineSection() {
   return (
-    <section className="py-28 px-6 bg-[#0D0D10]">
+    <section className="relative z-10 py-28 px-6 bg-[#0D0D10]">
       <div className="max-w-5xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

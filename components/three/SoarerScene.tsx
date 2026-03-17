@@ -9,8 +9,9 @@ export default function SoarerScene() {
     <Canvas
       camera={{ position: [0, 2, 8], fov: 45 }}
       style={{ width: '100%', height: '100%' }}
-      dpr={[1, 1.5]}
-      gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
+      dpr={1}
+      performance={{ min: 0.5 }}
+      gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
     >
       {/* Lighting */}
       <ambientLight intensity={0.5} />

@@ -18,7 +18,7 @@ const SoarerScene = dynamic(() => import('@/components/three/SoarerScene'), {
 
 export default function SceneSection() {
   return (
-    <section className="relative h-screen sticky top-0">
+    <section className="relative h-screen sticky top-0 z-0">
       {/* Three.js canvas */}
       <div className="absolute inset-0">
         <SoarerScene />

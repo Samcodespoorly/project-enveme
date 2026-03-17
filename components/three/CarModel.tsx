@@ -10,15 +10,15 @@ export default function CarModel() {
 
   useEffect(() => {
     if (!scene) return
-    // Auto-centre and auto-scale the model to fit ~4 units wide in the scene
+    // Scale to fit ~4 units wide, then centre in world space
     const box = new THREE.Box3().setFromObject(scene)
     const center = box.getCenter(new THREE.Vector3())
     const size = box.getSize(new THREE.Vector3())
     const maxDim = Math.max(size.x, size.y, size.z)
     const scale = 4 / maxDim
 
-    scene.position.sub(center.multiplyScalar(scale))
     scene.scale.setScalar(scale)
+    scene.position.set(-center.x * scale, -center.y * scale, -center.z * scale)
   }, [scene])
 
   return (

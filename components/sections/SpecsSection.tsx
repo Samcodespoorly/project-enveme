@@ -16,7 +16,7 @@ const specs = [
 
 export default function SpecsSection() {
   return (
-    <section className="py-28 px-6 bg-[#0D0D10]">
+    <section className="relative z-10 py-28 px-6 bg-[#0D0D10]">
       <div className="max-w-7xl mx-auto">
         {/* Tag */}
         <motion.p
@@ -56,7 +56,7 @@ export default function SpecsSection() {
             >
               {/* Amber top accent line */}
               <div className="h-px bg-gradient-to-r from-[#E8920A]/60 via-[#E8920A]/20 to-transparent" />
-              <div className="p-7">
+              <div className="p-8">
                 <span
                   className="block text-3xl md:text-4xl font-semibold text-[#E8920A] leading-none mb-3"
                   style={{ fontFamily: 'var(--font-mono)' }}
