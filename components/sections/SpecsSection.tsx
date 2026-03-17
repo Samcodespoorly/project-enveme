@@ -16,7 +16,7 @@ const specs = [
 
 export default function SpecsSection() {
   return (
-    <section className="relative z-10 py-28 px-6 bg-[#0D0D10]">
+    <section className="py-28 px-6 bg-[#0D0D10]">
       <div className="max-w-7xl mx-auto">
         {/* Tag */}
         <motion.p
@@ -47,16 +47,16 @@ export default function SpecsSection() {
           {specs.map((spec, i) => (
             <motion.div
               key={spec.label}
-              className="relative rounded-xl overflow-hidden"
+              className="relative rounded-xl"
               style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.09)' }}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-30px' }}
               transition={{ duration: 0.5, delay: i * 0.06 }}
             >
-              {/* Amber top accent line */}
-              <div className="h-px bg-gradient-to-r from-[#E8920A]/60 via-[#E8920A]/20 to-transparent" />
-              <div className="p-8">
+              {/* Amber top accent line — inset so it doesn't need overflow-hidden */}
+              <div className="absolute top-0 left-0 right-0 h-px rounded-t-xl bg-gradient-to-r from-[#E8920A]/60 via-[#E8920A]/20 to-transparent" />
+              <div className="p-8 pt-9">
                 <span
                   className="block text-3xl md:text-4xl font-semibold text-[#E8920A] leading-none mb-3"
                   style={{ fontFamily: 'var(--font-mono)' }}

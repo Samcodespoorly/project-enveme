@@ -104,11 +104,11 @@ export default function SpecsPage() {
               {specsGrid.map((spec) => (
                 <div
                   key={spec.label}
-                  className="rounded-xl overflow-hidden"
+                  className="relative rounded-xl"
                   style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.09)' }}
                 >
-                  <div className="h-px bg-gradient-to-r from-[#E8920A]/50 via-[#E8920A]/15 to-transparent" />
-                  <div className="p-8">
+                  <div className="absolute top-0 left-0 right-0 h-px rounded-t-xl bg-gradient-to-r from-[#E8920A]/50 via-[#E8920A]/15 to-transparent" />
+                  <div className="p-8 pt-9">
                     <span
                       className="block text-xl font-semibold text-[#E8920A] mb-2"
                       style={{ fontFamily: 'var(--font-mono)' }}

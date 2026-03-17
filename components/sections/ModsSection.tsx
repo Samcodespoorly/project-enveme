@@ -47,7 +47,7 @@ const categoryColors: Record<string, { text: string; bg: string; border: string 
 
 export default function ModsSection() {
   return (
-    <section className="relative z-10 py-28 px-6 bg-[#0A0A0A]">
+    <section className="py-28 px-6 bg-[#0A0A0A]">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
