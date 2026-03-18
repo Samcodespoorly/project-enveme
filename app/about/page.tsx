@@ -1,31 +1,12 @@
 import SectionHeading from '@/components/ui/SectionHeading'
-import GlassCard from '@/components/ui/GlassCard'
 
 const skills = [
-  {
-    title: 'Mechanical Engineering',
-    description: 'Thermodynamics, dynamics, materials science, and machine design. Applied to real-world automotive systems.',
-  },
-  {
-    title: 'Electrical Systems',
-    description: 'Vehicle wiring, CAN bus diagnostics, sensor integration, and embedded microcontroller projects.',
-  },
-  {
-    title: 'Software Development',
-    description: 'Full-stack web development with Next.js, TypeScript, Firebase. This site is a live demonstration.',
-  },
-  {
-    title: 'Project Management',
-    description: 'Budgeting, scheduling, and documentation of a long-running engineering project from acquisition through build.',
-  },
-  {
-    title: 'Financial Analysis',
-    description: 'Total cost of ownership modelling, build cost tracking, and depreciation analysis for the JZZ31 platform.',
-  },
-  {
-    title: 'AI-Assisted Development',
-    description: 'Leveraging AI tools for code generation, research, and documentation acceleration throughout the project.',
-  },
+  { title: 'Mechanical Engineering', description: 'Thermodynamics, dynamics, materials science, and machine design applied to real-world automotive systems.' },
+  { title: 'Electrical Systems', description: 'Vehicle wiring, CAN bus diagnostics, sensor integration, and embedded microcontroller projects.' },
+  { title: 'Software Development', description: 'Full-stack web development with Next.js, TypeScript, Firebase. This site is a live demonstration.' },
+  { title: 'Project Management', description: 'Budgeting, scheduling, and documentation of a long-running engineering project from acquisition through build.' },
+  { title: 'Financial Analysis', description: 'Total cost of ownership modelling, build cost tracking, and depreciation analysis for the JZZ31 platform.' },
+  { title: 'AI-Assisted Development', description: 'Leveraging AI tools for code generation, research, and documentation acceleration throughout the project.' },
 ]
 
 const capabilities = [
@@ -39,8 +20,8 @@ const capabilities = [
 
 export default function AboutPage() {
   return (
-    <main className="min-h-screen bg-[#0A0A0A] pt-32 pb-28">
-      <div className="w-full max-w-5xl mx-auto px-6 sm:px-10 lg:px-16">
+    <main style={{ minHeight: '100vh', background: '#0A0A0A', paddingTop: '9rem', paddingBottom: '6rem' }}>
+      <div className="page-container">
 
         <SectionHeading
           label="SAMUEL DONOVAN · ENGINEER"
@@ -48,48 +29,53 @@ export default function AboutPage() {
         />
 
         {/* Intro */}
-        <div className="mb-16 max-w-2xl">
-          <p className="text-[#BBBBBB] text-base md:text-lg leading-relaxed mb-5" style={{ fontFamily: 'var(--font-body)' }}>
+        <div style={{ marginBottom: '4rem', maxWidth: '44rem' }}>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.0625rem', color: '#BBBBBB', lineHeight: 1.75, marginBottom: '1.25rem' }}>
             I&apos;m Samuel Donovan — a conjoint Mechatronics Engineering and Finance/Economics student in New Zealand. Project ENVEME is my platform to demonstrate full-stack engineering capability: from the mechanical knowledge to maintain and modify a 1995 Toyota Soarer, to the software skills to build this portfolio, to the financial analysis that underpins every build decision.
           </p>
-          <p className="text-[#BBBBBB] text-base md:text-lg leading-relaxed" style={{ fontFamily: 'var(--font-body)' }}>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.0625rem', color: '#BBBBBB', lineHeight: 1.75 }}>
             The JZZ31 Soarer is the perfect project platform — a naturally aspirated inline-6, a sophisticated chassis, and a growing community. Every stage of the build is documented here as a living portfolio of applied engineering.
           </p>
         </div>
 
         {/* Education */}
-        <div className="mb-14">
-          <h3 className="text-2xl md:text-3xl font-bold uppercase text-white mb-7 tracking-tight" style={{ fontFamily: 'var(--font-display)' }}>
+        <div style={{ marginBottom: '3.5rem' }}>
+          <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', fontWeight: 700, color: '#FFF', textTransform: 'uppercase', letterSpacing: '0.03em', marginBottom: '1.25rem' }}>
             Education
           </h3>
-          <div className="rounded-2xl bg-white/[0.04] border-l-2 border-l-[#E8920A] border-y border-r border-white/[0.08] p-9 md:p-11">
-            <p className="text-[#E8920A] text-[11px] tracking-[0.25em] uppercase mb-3" style={{ fontFamily: 'var(--font-mono)' }}>
+          <div style={{
+            borderRadius: '1.25rem',
+            background: 'rgba(255,255,255,0.04)',
+            borderTop: '1px solid rgba(255,255,255,0.08)',
+            borderRight: '1px solid rgba(255,255,255,0.08)',
+            borderBottom: '1px solid rgba(255,255,255,0.08)',
+            borderLeft: '3px solid #E8920A',
+            padding: '2.5rem 3rem',
+          }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6875rem', color: '#E8920A', letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: '0.875rem' }}>
               CONJOINT DEGREE · IN PROGRESS
             </p>
-            <h4 className="text-white text-xl md:text-2xl font-bold uppercase tracking-tight mb-4" style={{ fontFamily: 'var(--font-display)' }}>
+            <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', fontWeight: 700, color: '#FFF', textTransform: 'uppercase', letterSpacing: '0.03em', marginBottom: '1rem' }}>
               BE(Hons) Mechatronics · BCom Finance/Economics
             </h4>
-            <p className="text-[#BBBBBB] text-sm md:text-base leading-relaxed" style={{ fontFamily: 'var(--font-body)' }}>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.9375rem', color: '#BBBBBB', lineHeight: 1.7 }}>
               A conjoint degree combining honours-level engineering with commerce. Covering control systems, embedded software, financial modelling, and economic analysis.
             </p>
           </div>
         </div>
 
-        {/* Skills grid */}
-        <div className="mb-14">
-          <h3 className="text-2xl md:text-3xl font-bold uppercase text-white mb-7 tracking-tight" style={{ fontFamily: 'var(--font-display)' }}>
+        {/* Skills */}
+        <div style={{ marginBottom: '3.5rem' }}>
+          <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', fontWeight: 700, color: '#FFF', textTransform: 'uppercase', letterSpacing: '0.03em', marginBottom: '1.25rem' }}>
             Skill Areas
           </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1rem' }}>
             {skills.map((skill) => (
-              <div
-                key={skill.title}
-                className="rounded-2xl bg-white/[0.04] border border-white/[0.08] p-8"
-              >
-                <h4 className="text-white font-semibold text-sm uppercase tracking-wide mb-3" style={{ fontFamily: 'var(--font-display)' }}>
+              <div key={skill.title} style={{ borderRadius: '1rem', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', padding: '2rem' }}>
+                <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '0.9375rem', fontWeight: 600, color: '#FFF', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.75rem' }}>
                   {skill.title}
                 </h4>
-                <p className="text-[#AAAAAA] text-sm leading-relaxed" style={{ fontFamily: 'var(--font-body)' }}>
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.875rem', color: '#AAAAAA', lineHeight: 1.65 }}>
                   {skill.description}
                 </p>
               </div>
@@ -99,21 +85,21 @@ export default function AboutPage() {
 
         {/* Capabilities */}
         <div>
-          <h3 className="text-2xl md:text-3xl font-bold uppercase text-white mb-7 tracking-tight" style={{ fontFamily: 'var(--font-display)' }}>
+          <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', fontWeight: 700, color: '#FFF', textTransform: 'uppercase', letterSpacing: '0.03em', marginBottom: '1.25rem' }}>
             This Project Demonstrates
           </h3>
-          <GlassCard>
-            <ul className="flex flex-col gap-5">
+          <div className="card">
+            <ul style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
               {capabilities.map((cap) => (
-                <li key={cap} className="flex items-start gap-4">
-                  <span className="mt-2 w-1.5 h-1.5 rounded-full bg-[#E8920A] flex-shrink-0" />
-                  <span className="text-[#BBBBBB] text-sm md:text-base leading-relaxed" style={{ fontFamily: 'var(--font-body)' }}>
+                <li key={cap} style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem' }}>
+                  <span style={{ marginTop: '0.5rem', width: '6px', height: '6px', borderRadius: '50%', background: '#E8920A', flexShrink: 0 }} />
+                  <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.9375rem', color: '#BBBBBB', lineHeight: 1.65 }}>
                     {cap}
                   </span>
                 </li>
               ))}
             </ul>
-          </GlassCard>
+          </div>
         </div>
 
       </div>

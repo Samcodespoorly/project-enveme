@@ -5,15 +5,17 @@ import Link from 'next/link'
 
 export default function CTASection() {
   return (
-    <section className="relative py-28 md:py-36 bg-[#0A0A0A] overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
-        <div className="w-[500px] h-[300px] bg-[#E8920A]/8 rounded-full blur-[100px]" />
+    <section style={{ background: '#0A0A0A', padding: '7rem 0', position: 'relative', overflow: 'hidden' }}>
+      <div style={{
+        position: 'absolute', inset: 0, pointerEvents: 'none',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+      }}>
+        <div style={{ width: '500px', height: '300px', background: 'rgba(232,146,10,0.07)', borderRadius: '50%', filter: 'blur(100px)' }} />
       </div>
 
-      <div className="relative z-10 w-full max-w-5xl mx-auto px-6 sm:px-10 lg:px-16 text-center">
+      <div className="page-container" style={{ textAlign: 'center', position: 'relative', zIndex: 1 }}>
         <motion.p
-          className="text-[#E8920A] text-[11px] tracking-[0.3em] uppercase mb-5"
-          style={{ fontFamily: 'var(--font-mono)' }}
+          style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6875rem', color: '#E8920A', letterSpacing: '0.3em', textTransform: 'uppercase', marginBottom: '1.25rem' }}
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -23,8 +25,7 @@ export default function CTASection() {
         </motion.p>
 
         <motion.h2
-          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold uppercase text-white leading-tight tracking-tight"
-          style={{ fontFamily: 'var(--font-display)' }}
+          style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(3rem, 8vw, 6rem)', fontWeight: 700, color: '#FFF', textTransform: 'uppercase', lineHeight: 1, letterSpacing: '-0.02em' }}
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -34,8 +35,7 @@ export default function CTASection() {
         </motion.h2>
 
         <motion.p
-          className="mt-6 text-[#AAAAAA] text-base md:text-lg max-w-lg mx-auto"
-          style={{ fontFamily: 'var(--font-body)' }}
+          style={{ fontFamily: 'var(--font-body)', fontSize: '1.0625rem', color: '#AAAAAA', maxWidth: '36rem', margin: '1.5rem auto 0' }}
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -45,24 +45,44 @@ export default function CTASection() {
         </motion.p>
 
         <motion.div
-          className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4"
+          style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap', marginTop: '2.5rem' }}
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.22 }}
         >
-          <Link
-            href="/build"
-            className="px-10 py-4 bg-[#E8920A] hover:bg-[#FBB940] text-black font-semibold text-sm tracking-widest uppercase rounded-xl transition-colors duration-200 whitespace-nowrap"
-            style={{ fontFamily: 'var(--font-body)' }}
-          >
+          <Link href="/build" style={{
+            display: 'inline-block',
+            fontFamily: 'var(--font-body)',
+            fontSize: '0.8125rem',
+            fontWeight: 600,
+            color: '#000',
+            background: '#E8920A',
+            padding: '1rem 2.5rem',
+            borderRadius: '0.75rem',
+            textTransform: 'uppercase',
+            letterSpacing: '0.15em',
+            textDecoration: 'none',
+            whiteSpace: 'nowrap',
+            transition: 'background 0.2s',
+          }}>
             Build Journal
           </Link>
-          <Link
-            href="/about"
-            className="px-10 py-4 bg-white/10 hover:bg-white/15 border border-white/25 hover:border-white/45 text-white text-sm tracking-widest uppercase rounded-xl transition-colors duration-200 whitespace-nowrap"
-            style={{ fontFamily: 'var(--font-body)' }}
-          >
+          <Link href="/about" style={{
+            display: 'inline-block',
+            fontFamily: 'var(--font-body)',
+            fontSize: '0.8125rem',
+            fontWeight: 600,
+            color: '#FFF',
+            background: 'rgba(255,255,255,0.08)',
+            border: '1px solid rgba(255,255,255,0.2)',
+            padding: '1rem 2.5rem',
+            borderRadius: '0.75rem',
+            textTransform: 'uppercase',
+            letterSpacing: '0.15em',
+            textDecoration: 'none',
+            whiteSpace: 'nowrap',
+          }}>
             About the Engineer
           </Link>
         </motion.div>

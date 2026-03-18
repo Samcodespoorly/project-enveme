@@ -28,7 +28,7 @@ const specsGrid = [
   { value: 'RWD', label: 'Drivetrain' },
   { value: '1590 kg', label: 'Kerb Weight' },
   { value: 'JZZ31', label: 'Chassis' },
-  { value: '1995', label: 'Model Year' },
+  { value: '1995', label: 'Year' },
   { value: 'NZ', label: 'Market' },
 ]
 
@@ -36,41 +36,38 @@ const currentState = [
   { label: 'Odometer', value: '~102,000 km' },
   { label: 'Condition', value: 'Good — active project' },
   { label: 'Original colour', value: 'Pearl White' },
-  { label: 'Current status', value: 'Street registered · Active build' },
+  { label: 'Status', value: 'Street registered · Active build' },
   { label: 'NZ plate', value: 'ENVEME' },
   { label: 'Purchase price', value: 'NZD $19,000' },
 ]
 
 export default function SpecsPage() {
   return (
-    <main className="min-h-screen bg-[#0A0A0A] pt-32 pb-28">
-      <div className="w-full max-w-5xl mx-auto px-6 sm:px-10 lg:px-16">
+    <main style={{ minHeight: '100vh', background: '#0A0A0A', paddingTop: '9rem', paddingBottom: '6rem' }}>
+      <div className="page-container">
 
         <SectionHeading
           label="JZZ31 PLATFORM · TECHNICAL DATA"
           heading="Vehicle Specs"
         />
 
-        {/* Two-column layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '2rem', marginBottom: '3rem' }}
+          className="lg-grid-2">
 
           {/* Factory specs table */}
           <div>
-            <h3 className="text-xl font-bold uppercase text-white mb-5 tracking-tight" style={{ fontFamily: 'var(--font-display)' }}>
+            <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', fontWeight: 700, color: '#FFF', textTransform: 'uppercase', letterSpacing: '0.03em', marginBottom: '1.25rem' }}>
               Factory Specifications
             </h3>
-            <div className="rounded-2xl bg-white/[0.04] border border-white/[0.08] overflow-hidden">
-              <table className="w-full">
+            <div style={{ borderRadius: '1.25rem', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', overflow: 'hidden' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                 <tbody>
                   {keySpecs.map((spec, i) => (
-                    <tr
-                      key={spec.label}
-                      className={`border-b border-white/[0.05] last:border-0 ${i % 2 === 0 ? 'bg-white/[0.02]' : ''}`}
-                    >
-                      <td className="px-7 py-4 text-[11px] text-[#777] uppercase tracking-widest w-2/5" style={{ fontFamily: 'var(--font-mono)' }}>
+                    <tr key={spec.label} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', background: i % 2 === 0 ? 'rgba(255,255,255,0.015)' : 'transparent' }}>
+                      <td style={{ padding: '0.875rem 1.5rem', fontFamily: 'var(--font-mono)', fontSize: '0.6875rem', color: '#666', textTransform: 'uppercase', letterSpacing: '0.12em', width: '40%' }}>
                         {spec.label}
                       </td>
-                      <td className="px-7 py-4 text-sm text-[#E8E8E8]" style={{ fontFamily: 'var(--font-body)' }}>
+                      <td style={{ padding: '0.875rem 1.5rem', fontFamily: 'var(--font-body)', fontSize: '0.875rem', color: '#E8E8E8' }}>
                         {spec.value}
                       </td>
                     </tr>
@@ -82,19 +79,16 @@ export default function SpecsPage() {
 
           {/* Key numbers grid */}
           <div>
-            <h3 className="text-xl font-bold uppercase text-white mb-5 tracking-tight" style={{ fontFamily: 'var(--font-display)' }}>
+            <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', fontWeight: 700, color: '#FFF', textTransform: 'uppercase', letterSpacing: '0.03em', marginBottom: '1.25rem' }}>
               Key Numbers
             </h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.875rem' }}>
               {specsGrid.map((spec) => (
-                <div
-                  key={spec.label}
-                  className="rounded-xl bg-white/[0.04] border border-white/[0.08] p-6"
-                >
-                  <span className="block text-lg font-bold text-[#E8920A] mb-1.5" style={{ fontFamily: 'var(--font-mono)' }}>
+                <div key={spec.label} style={{ borderRadius: '1rem', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', padding: '1.5rem' }}>
+                  <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '1.25rem', fontWeight: 700, color: '#E8920A', marginBottom: '0.5rem' }}>
                     {spec.value}
                   </span>
-                  <span className="block text-[10px] text-[#666] uppercase tracking-widest" style={{ fontFamily: 'var(--font-mono)' }}>
+                  <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '0.625rem', color: '#666', textTransform: 'uppercase', letterSpacing: '0.15em' }}>
                     {spec.label}
                   </span>
                 </div>
@@ -104,20 +98,17 @@ export default function SpecsPage() {
         </div>
 
         {/* Current state */}
-        <div className="mb-10">
-          <h3 className="text-xl font-bold uppercase text-white mb-5 tracking-tight" style={{ fontFamily: 'var(--font-display)' }}>
+        <div style={{ marginBottom: '2rem' }}>
+          <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', fontWeight: 700, color: '#FFF', textTransform: 'uppercase', letterSpacing: '0.03em', marginBottom: '1.25rem' }}>
             Current State
           </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.875rem' }}>
             {currentState.map((item) => (
-              <div
-                key={item.label}
-                className="rounded-xl bg-white/[0.04] border border-white/[0.08] p-7"
-              >
-                <p className="text-[10px] text-[#666] uppercase tracking-widest mb-3" style={{ fontFamily: 'var(--font-mono)' }}>
+              <div key={item.label} style={{ borderRadius: '1rem', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', padding: '1.5rem' }}>
+                <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.625rem', color: '#666', textTransform: 'uppercase', letterSpacing: '0.15em', marginBottom: '0.625rem' }}>
                   {item.label}
                 </p>
-                <p className="text-sm text-[#E8E8E8] font-medium leading-snug" style={{ fontFamily: 'var(--font-body)' }}>
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.9375rem', color: '#E8E8E8', fontWeight: 500 }}>
                   {item.value}
                 </p>
               </div>
@@ -125,9 +116,8 @@ export default function SpecsPage() {
           </div>
         </div>
 
-        {/* Note */}
-        <div className="rounded-2xl bg-white/[0.02] border border-white/[0.06] p-8 text-center">
-          <p className="text-[#555] text-xs leading-relaxed" style={{ fontFamily: 'var(--font-mono)' }}>
+        <div style={{ borderRadius: '1.25rem', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', padding: '1.75rem', textAlign: 'center' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: '#555' }}>
             Live data will sync from GarageOS when Firebase integration is complete.
           </p>
         </div>

@@ -6,42 +6,38 @@ import SectionHeading from '@/components/ui/SectionHeading'
 const mods = [
   {
     category: 'ENGINE',
-    color: { text: '#E8920A', bg: 'rgba(232,146,10,0.1)', border: 'rgba(232,146,10,0.2)' },
+    tagColor: '#E8920A',
     title: 'Cold Air Intake',
-    description:
-      'High-flow cold air intake routed away from engine bay heat soak. Improves throttle response and adds an aggressive induction note under load.',
+    description: 'High-flow cold air intake routed away from engine bay heat soak. Improves throttle response and adds an aggressive induction note under load.',
     status: 'INSTALLED',
   },
   {
     category: 'SUSPENSION',
-    color: { text: '#60A5FA', bg: 'rgba(96,165,250,0.1)', border: 'rgba(96,165,250,0.2)' },
+    tagColor: '#60A5FA',
     title: 'Tein Coilover Suspension',
-    description:
-      'Tein Street Basis coilovers front and rear with adjustable ride height. Lowered 30mm from standard with a four-wheel alignment set to factory spec.',
+    description: 'Tein Street Basis coilovers front and rear with adjustable ride height. Lowered 30mm from standard with a four-wheel alignment set to factory spec.',
     status: 'INSTALLED',
   },
   {
     category: 'ELECTRICAL',
-    color: { text: '#A78BFA', bg: 'rgba(167,139,250,0.1)', border: 'rgba(167,139,250,0.2)' },
+    tagColor: '#A78BFA',
     title: 'Defi Gauge Cluster',
-    description:
-      'Defi-Link BF series oil pressure, oil temperature, and water temperature gauges on an A-pillar pod. Integrated with the Defi control unit for data logging.',
+    description: 'Defi-Link BF series oil pressure, oil temperature, and water temperature gauges on an A-pillar pod. Integrated with the Defi control unit for data logging.',
     status: 'INSTALLED',
   },
   {
     category: 'INTERIOR',
-    color: { text: '#34D399', bg: 'rgba(52,211,153,0.1)', border: 'rgba(52,211,153,0.2)' },
+    tagColor: '#34D399',
     title: 'Nardi Steering Wheel',
-    description:
-      'Nardi Classic 350mm leather wheel on a Works Bell hub adapter. Reduces column reach and improves driving position for spirited use.',
+    description: 'Nardi Classic 350mm leather wheel on a Works Bell hub adapter. Reduces column reach and improves driving position for spirited use.',
     status: 'INSTALLED',
   },
 ]
 
 export default function ModsSection() {
   return (
-    <section className="py-28 md:py-36 bg-[#0A0A0A]">
-      <div className="w-full max-w-5xl mx-auto px-6 sm:px-10 lg:px-16">
+    <section style={{ background: '#0A0A0A', padding: '7rem 0' }}>
+      <div className="page-container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -55,52 +51,64 @@ export default function ModsSection() {
           />
         </motion.div>
 
-        <div className="flex flex-col gap-5">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
           {mods.map((mod, i) => (
             <motion.div
               key={mod.title}
-              className="rounded-2xl bg-white/[0.04] border border-white/[0.08] p-8 md:p-10"
-              initial={{ opacity: 0, y: 24 }}
+              className="card"
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-20px' }}
-              transition={{ duration: 0.5, delay: i * 0.06 }}
+              transition={{ duration: 0.45, delay: i * 0.06 }}
             >
-              <div className="flex flex-wrap items-center gap-3 mb-5">
-                <span
-                  className="text-[10px] font-semibold tracking-[0.2em] px-3 py-1.5 rounded-lg"
-                  style={{
-                    fontFamily: 'var(--font-mono)',
-                    color: mod.color.text,
-                    background: mod.color.bg,
-                    border: `1px solid ${mod.color.border}`,
-                  }}
-                >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
+                <span style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.625rem',
+                  fontWeight: 600,
+                  letterSpacing: '0.2em',
+                  color: mod.tagColor,
+                  background: `${mod.tagColor}18`,
+                  border: `1px solid ${mod.tagColor}40`,
+                  padding: '0.3rem 0.75rem',
+                  borderRadius: '0.5rem',
+                }}>
                   {mod.category}
                 </span>
-                <span
-                  className="text-[10px] font-semibold tracking-[0.2em] px-3 py-1.5 rounded-lg"
-                  style={{
-                    fontFamily: 'var(--font-mono)',
-                    color: '#34D399',
-                    background: 'rgba(52,211,153,0.1)',
-                    border: '1px solid rgba(52,211,153,0.2)',
-                  }}
-                >
+                <span style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.625rem',
+                  fontWeight: 600,
+                  letterSpacing: '0.2em',
+                  color: '#34D399',
+                  background: 'rgba(52,211,153,0.1)',
+                  border: '1px solid rgba(52,211,153,0.3)',
+                  padding: '0.3rem 0.75rem',
+                  borderRadius: '0.5rem',
+                }}>
                   {mod.status}
                 </span>
               </div>
 
-              <h3
-                className="text-2xl md:text-3xl font-bold uppercase text-white mb-4 leading-tight"
-                style={{ fontFamily: 'var(--font-display)' }}
-              >
+              <h3 style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: 'clamp(1.25rem, 3vw, 1.75rem)',
+                fontWeight: 700,
+                color: '#FFF',
+                textTransform: 'uppercase',
+                letterSpacing: '-0.01em',
+                lineHeight: 1.1,
+                marginBottom: '1rem',
+              }}>
                 {mod.title}
               </h3>
 
-              <p
-                className="text-[#AAAAAA] text-sm md:text-base leading-relaxed"
-                style={{ fontFamily: 'var(--font-body)' }}
-              >
+              <p style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '0.9375rem',
+                color: '#AAAAAA',
+                lineHeight: 1.7,
+              }}>
                 {mod.description}
               </p>
             </motion.div>
