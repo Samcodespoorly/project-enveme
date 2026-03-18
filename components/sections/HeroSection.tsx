@@ -61,14 +61,14 @@ export default function HeroSection() {
         >
           <Link
             href="/build"
-            className="px-8 py-3.5 bg-[#E8920A] hover:bg-[#FBB940] text-black font-semibold text-sm tracking-wide uppercase rounded transition-colors duration-200"
+            className="px-10 py-4 bg-[#E8920A] hover:bg-[#FBB940] text-black font-semibold text-sm tracking-widest uppercase rounded-lg transition-colors duration-200"
             style={{ fontFamily: 'var(--font-body)' }}
           >
             Explore the Build
           </Link>
           <Link
             href="/specs"
-            className="px-8 py-3.5 border border-white/20 hover:border-white/40 text-white text-sm tracking-wide uppercase rounded transition-colors duration-200"
+            className="px-10 py-4 bg-white/10 hover:bg-white/15 border border-white/30 hover:border-white/50 text-white text-sm tracking-widest uppercase rounded-lg transition-colors duration-200"
             style={{ fontFamily: 'var(--font-body)' }}
           >
             View Specs
