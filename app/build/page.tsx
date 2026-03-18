@@ -1,5 +1,4 @@
 import SectionHeading from '@/components/ui/SectionHeading'
-import GlassCard from '@/components/ui/GlassCard'
 import Link from 'next/link'
 
 const journalEntries = [
@@ -35,7 +34,7 @@ const journalEntries = [
 export default function BuildPage() {
   return (
     <main className="min-h-screen bg-[#0A0A0A] pt-32 pb-28">
-      <div className="max-w-3xl mx-auto px-8">
+      <div className="max-w-2xl mx-auto px-10">
 
         <SectionHeading
           label="DOCUMENTED BUILD LOG"
@@ -44,16 +43,19 @@ export default function BuildPage() {
         />
 
         {/* Journal entries */}
-        <div className="flex flex-col gap-6 mb-16">
+        <div className="flex flex-col gap-10 mb-16">
           {journalEntries.map((entry) => (
-            <GlassCard key={entry.slug} className="hover:border-white/20 transition-colors">
-              <div className="flex items-center gap-3 mb-5">
+            <div
+              key={entry.slug}
+              className="rounded-2xl p-12 hover:border-white/20 transition-colors"
+              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.09)' }}
+            >
+              <div className="flex items-center gap-3 mb-6">
                 <span
                   className="text-xs tracking-[0.2em] font-semibold px-3 py-1.5 rounded-md"
                   style={{
                     fontFamily: 'var(--font-mono)',
                     color: entry.categoryColor.text,
-                    borderColor: entry.categoryColor.border,
                     background: entry.categoryColor.bg,
                     border: `1px solid ${entry.categoryColor.border}`,
                   }}
@@ -69,14 +71,14 @@ export default function BuildPage() {
               </div>
 
               <h3
-                className="text-2xl font-bold uppercase text-white mb-4 leading-tight"
+                className="text-2xl font-bold uppercase text-white mb-5 leading-tight"
                 style={{ fontFamily: 'var(--font-display)' }}
               >
                 {entry.title}
               </h3>
 
               <p
-                className="text-[#BBBBBB] text-sm leading-relaxed mb-6"
+                className="text-[#BBBBBB] text-sm leading-relaxed mb-8"
                 style={{ fontFamily: 'var(--font-body)' }}
               >
                 {entry.excerpt}
@@ -89,13 +91,13 @@ export default function BuildPage() {
               >
                 Read more →
               </Link>
-            </GlassCard>
+            </div>
           ))}
         </div>
 
         {/* Footer note */}
         <div
-          className="rounded-xl p-6 text-center"
+          className="rounded-2xl p-8 text-center"
           style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}
         >
           <p

@@ -16,7 +16,7 @@ const specs = [
 
 export default function SpecsSection() {
   return (
-    <section className="py-28 px-6 bg-[#0D0D10]">
+    <section className="py-36 px-8 bg-[#0D0D10]">
       <div className="max-w-7xl mx-auto">
         {/* Tag */}
         <motion.p
@@ -43,7 +43,7 @@ export default function SpecsSection() {
         </motion.div>
 
         {/* Specs grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {specs.map((spec, i) => (
             <motion.div
               key={spec.label}
@@ -56,9 +56,9 @@ export default function SpecsSection() {
             >
               {/* Amber top accent line — inset so it doesn't need overflow-hidden */}
               <div className="absolute top-0 left-0 right-0 h-px rounded-t-xl bg-gradient-to-r from-[#E8920A]/60 via-[#E8920A]/20 to-transparent" />
-              <div className="p-8 pt-9">
+              <div className="p-10 pt-12">
                 <span
-                  className="block text-3xl md:text-4xl font-semibold text-[#E8920A] leading-none mb-3"
+                  className="block text-4xl md:text-5xl font-semibold text-[#E8920A] leading-none mb-4"
                   style={{ fontFamily: 'var(--font-mono)' }}
                 >
                   {spec.value}
