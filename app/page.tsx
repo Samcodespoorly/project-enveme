@@ -1,4 +1,3 @@
-import HeroSection from '@/components/sections/HeroSection'
 import SceneSection from '@/components/sections/SceneSection'
 import SpecsSection from '@/components/sections/SpecsSection'
 import ModsSection from '@/components/sections/ModsSection'
@@ -8,7 +7,6 @@ import CTASection from '@/components/sections/CTASection'
 export default function Home() {
   return (
     <main>
-      <HeroSection />
       <SceneSection />
       <SpecsSection />
       <ModsSection />

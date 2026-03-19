@@ -1,6 +1,7 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import AnimatedText from '@/components/ui/AnimatedText'
+import Badge from '@/components/ui/Badge'
 import SectionHeading from '@/components/ui/SectionHeading'
 
 const mods = [
@@ -38,80 +39,59 @@ export default function ModsSection() {
   return (
     <section style={{ background: '#0A0A0A', padding: '7rem 0' }}>
       <div className="page-container">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
+        <AnimatedText>
           <SectionHeading
             label="BUILD · MODIFICATIONS"
             heading="Current Mods"
             subtitle="Every change documented — what was done, why, and with what."
           />
-        </motion.div>
+        </AnimatedText>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+        {/* 2-column grid on desktop */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(1, 1fr)',
+          gap: '1.25rem',
+        }}
+          className="md-grid-2"
+        >
           {mods.map((mod, i) => (
-            <motion.div
-              key={mod.title}
-              className="card"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-20px' }}
-              transition={{ duration: 0.45, delay: i * 0.06 }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
-                <span style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.625rem',
-                  fontWeight: 600,
-                  letterSpacing: '0.2em',
-                  color: mod.tagColor,
-                  background: `${mod.tagColor}18`,
-                  border: `1px solid ${mod.tagColor}40`,
-                  padding: '0.3rem 0.75rem',
-                  borderRadius: '0.5rem',
+            <AnimatedText key={mod.title} delay={i * 0.06}>
+              <div
+                className="card"
+                style={{
+                  borderLeft: `3px solid ${mod.tagColor}`,
+                  borderRadius: '1.25rem',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
+                  <Badge label={mod.category} color={mod.tagColor} />
+                  <Badge label={mod.status} color="#34D399" />
+                </div>
+
+                <h3 style={{
+                  fontFamily: 'var(--font-display)',
+                  fontSize: 'clamp(1.25rem, 3vw, 1.75rem)',
+                  fontWeight: 700,
+                  color: '#FFF',
+                  textTransform: 'uppercase',
+                  letterSpacing: '-0.01em',
+                  lineHeight: 1.1,
+                  marginBottom: '1rem',
                 }}>
-                  {mod.category}
-                </span>
-                <span style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.625rem',
-                  fontWeight: 600,
-                  letterSpacing: '0.2em',
-                  color: '#34D399',
-                  background: 'rgba(52,211,153,0.1)',
-                  border: '1px solid rgba(52,211,153,0.3)',
-                  padding: '0.3rem 0.75rem',
-                  borderRadius: '0.5rem',
+                  {mod.title}
+                </h3>
+
+                <p style={{
+                  fontFamily: 'var(--font-body)',
+                  fontSize: '0.9375rem',
+                  color: '#AAAAAA',
+                  lineHeight: 1.7,
                 }}>
-                  {mod.status}
-                </span>
+                  {mod.description}
+                </p>
               </div>
-
-              <h3 style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(1.25rem, 3vw, 1.75rem)',
-                fontWeight: 700,
-                color: '#FFF',
-                textTransform: 'uppercase',
-                letterSpacing: '-0.01em',
-                lineHeight: 1.1,
-                marginBottom: '1rem',
-              }}>
-                {mod.title}
-              </h3>
-
-              <p style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: '0.9375rem',
-                color: '#AAAAAA',
-                lineHeight: 1.7,
-              }}>
-                {mod.description}
-              </p>
-            </motion.div>
+            </AnimatedText>
           ))}
         </div>
       </div>

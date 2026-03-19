@@ -65,15 +65,12 @@ export default function Navigation() {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className={`text-sm transition-colors relative pb-0.5 ${
-                    isActive ? 'text-white' : 'text-[#A0A0A0] hover:text-white'
+                  className={`nav-underline-link text-sm transition-colors pb-0.5 ${
+                    isActive ? 'text-white is-active' : 'text-[#A0A0A0] hover:text-white'
                   }`}
                   style={{ fontFamily: 'var(--font-body)' }}
                 >
                   {link.label}
-                  {isActive && (
-                    <span className="absolute -bottom-0.5 left-0 right-0 h-px bg-[#E8920A]" />
-                  )}
                 </Link>
               </li>
             )

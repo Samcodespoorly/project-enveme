@@ -3,17 +3,19 @@
 import { useFrame, useThree } from '@react-three/fiber'
 
 interface ScrollCameraProps {
-  scrollProgress: number
+  scrollProgressRef: React.MutableRefObject<number>
 }
 
 function lerp(a: number, b: number, t: number): number {
   return a + (b - a) * t
 }
 
+// Camera orbits around the car across these 4 keyframes
 const cameraPath = [
-  { progress: 0, position: [0, 2, 8] as [number, number, number] },
-  { progress: 0.5, position: [4, 1.5, 4] as [number, number, number] },
-  { progress: 1, position: [0, 3, 6] as [number, number, number] },
+  { progress: 0,    position: [3, 1.5, 7]  as [number, number, number] },
+  { progress: 0.33, position: [5, 1.2, 3]  as [number, number, number] },
+  { progress: 0.66, position: [0, 2.5, 6]  as [number, number, number] },
+  { progress: 1,    position: [-3, 3, 5]   as [number, number, number] },
 ]
 
 function getCameraPosition(progress: number): [number, number, number] {
@@ -36,15 +38,32 @@ function getCameraPosition(progress: number): [number, number, number] {
   return cameraPath[0].position
 }
 
-export default function ScrollCamera({ scrollProgress }: ScrollCameraProps) {
+export default function ScrollCamera({ scrollProgressRef }: ScrollCameraProps) {
   const { camera } = useThree()
 
   useFrame(() => {
-    const target = getCameraPosition(scrollProgress)
-    camera.position.x = lerp(camera.position.x, target[0], 0.05)
-    camera.position.y = lerp(camera.position.y, target[1], 0.05)
-    camera.position.z = lerp(camera.position.z, target[2], 0.05)
-    camera.lookAt(0, 0, 0)
+    const progress = scrollProgressRef.current
+    const target = getCameraPosition(progress)
+
+    // Lerp camera position along the path
+    camera.position.x = lerp(camera.position.x, target[0], 0.12)
+    camera.position.y = lerp(camera.position.y, target[1], 0.12)
+    camera.position.z = lerp(camera.position.z, target[2], 0.12)
+
+    // ── Hero lookAt offset ───────────────────────────────────────────────
+    // During the hero state (first ~18% of scroll), look slightly LEFT of the
+    // car so the car occupies the right portion of the viewport — leaving
+    // room for the text overlay on the left. Smoothly transitions to center
+    // (lookAt origin) once the hero text fades out.
+    //
+    // Why this works: the camera always looks toward its target. If the
+    // target is shifted left of the car (origin), the car appears to the
+    // RIGHT in the rendered frame, without moving the geometry at all.
+    const heroT = Math.min(progress / 0.18, 1) // 0 → 1 over first 18% of scroll
+    const lookAtX = lerp(-1.6, 0, heroT)
+    const lookAtY = lerp(0.15, 0, heroT)
+
+    camera.lookAt(lookAtX, lookAtY, 0)
   })
 
   return null

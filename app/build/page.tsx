@@ -1,32 +1,13 @@
+import type { Metadata } from 'next'
 import SectionHeading from '@/components/ui/SectionHeading'
+import Badge from '@/components/ui/Badge'
 import Link from 'next/link'
+import { journalEntries } from '@/lib/buildData'
 
-const journalEntries = [
-  {
-    date: 'May 2025',
-    category: 'SUSPENSION',
-    tagColor: '#60A5FA',
-    title: 'Tein Coilover Installation & Alignment',
-    excerpt: 'After sourcing a set of Tein Street Basis coilovers, I undertook the full front and rear suspension replacement over a weekend. The process involved removing the OEM shock absorbers, compressing the new coilover springs, and setting the initial ride height at 30mm below standard before a four-wheel alignment.',
-    slug: 'tein-coilover-install',
-  },
-  {
-    date: 'Apr 2025',
-    category: 'MAINTENANCE',
-    tagColor: '#34D399',
-    title: 'Full Fluid Service & Baseline Inspection',
-    excerpt: 'With the JZZ31 freshly acquired, the first priority was a comprehensive fluid service and mechanical baseline. Engine oil, coolant, transmission fluid, differential oil, and brake fluid were all replaced. Worn front lower control arm bushings were identified and replaced ahead of the upcoming suspension work.',
-    slug: 'baseline-fluid-service',
-  },
-  {
-    date: 'Mar 2025',
-    category: 'ACQUISITION',
-    tagColor: '#E8920A',
-    title: 'Purchasing the JZZ31 — Why This Car?',
-    excerpt: 'After months of searching Trade Me and local classifieds, I found the right example in Auckland — a 1995 Pearl White JZZ31 with 102,000 km and a folder of service history. The 2JZ-GE is a bulletproof platform, the chassis is sophisticated, and the Soarer is genuinely undervalued in the NZ market.',
-    slug: 'acquisition-story',
-  },
-]
+export const metadata: Metadata = {
+  title: 'Build Journal — ENVEME',
+  description: 'Chronological documentation of the 1995 Toyota Soarer JZZ31 build — suspension, maintenance, and modifications.',
+}
 
 export default function BuildPage() {
   return (
@@ -41,23 +22,18 @@ export default function BuildPage() {
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
           {journalEntries.map((entry) => (
-            <div key={entry.slug} className="card" style={{ transition: 'border-color 0.2s' }}>
+            <div
+              key={entry.slug}
+              className="card build-card"
+              style={{ '--card-accent': entry.tagColor } as React.CSSProperties}
+            >
               <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
-                <span style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.625rem',
-                  fontWeight: 600,
-                  letterSpacing: '0.2em',
-                  color: entry.tagColor,
-                  background: `${entry.tagColor}18`,
-                  border: `1px solid ${entry.tagColor}40`,
-                  padding: '0.35rem 0.875rem',
-                  borderRadius: '0.5rem',
-                }}>
-                  {entry.category}
-                </span>
+                <Badge label={entry.category} color={entry.tagColor} />
                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: '#666', letterSpacing: '0.1em' }}>
                   {entry.date}
+                </span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: '#555', letterSpacing: '0.1em' }}>
+                  {entry.readTime}
                 </span>
               </div>
 

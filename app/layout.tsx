@@ -27,18 +27,18 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'ENVEME | Project Build Portfolio',
-  description: '1995 Toyota Soarer JZZ31 — a mechatronics and finance engineering portfolio',
+  title: 'ENVEME — 1995 Toyota Soarer JZZ31 Build',
+  description: 'Project ENVEME: a fully documented 1995 Toyota Soarer JZZ31 build by Samuel Donovan, Auckland NZ.',
   openGraph: {
-    title: 'ENVEME | Project Build Portfolio',
-    description: '1995 Toyota Soarer JZZ31 — a mechatronics and finance engineering portfolio',
-    type: 'website',
+    title: 'ENVEME — 1995 Toyota Soarer JZZ31',
+    description: 'A live engineering portfolio documenting the build of a 1995 Toyota Soarer JZZ31.',
     siteName: 'ENVEME',
+    type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'ENVEME | Project Build Portfolio',
-    description: '1995 Toyota Soarer JZZ31 — a mechatronics and finance engineering portfolio',
+    title: 'ENVEME — 1995 Toyota Soarer JZZ31 Build',
+    description: 'Project ENVEME: a fully documented 1995 Toyota Soarer JZZ31 build by Samuel Donovan, Auckland NZ.',
   },
 }
 

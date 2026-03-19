@@ -98,11 +98,58 @@ body {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
   padding: 2.5rem;
+  transition: border-color 0.3s ease-out, transform 0.3s ease-out, box-shadow 0.3s ease-out;
 }
 
 @media (min-width: 768px) {
   .card {
     padding: 3rem;
+  }
+}
+
+.card:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3), 0 0 20px rgba(232, 146, 10, 0.06);
+}
+
+/* Build journal cards: colored inset left accent on hover */
+.build-card:hover {
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3), 0 0 20px rgba(232, 146, 10, 0.06), inset 3px 0 0 var(--card-accent, #E8920A);
+}
+
+/* Spec cards: amber value text brightens on hover */
+.spec-value {
+  transition: color 0.2s ease;
+}
+
+.spec-card:hover .spec-value {
+  color: #FBB940;
+}
+
+/* ─── Responsive grid utilities ──────────────────────────────────────────── */
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+@media (min-width: 768px) {
+  .md-grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .md-grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .md-grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .lg-grid-2 {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -136,6 +183,95 @@ body {
 .accent-line {
   border-left: 2px solid #E8920A;
   padding-left: 1rem;
+}
+
+/* ─── Nav link animated underline ────────────────────────────────────────── */
+.nav-underline-link {
+  position: relative;
+}
+
+.nav-underline-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: #E8920A;
+  transition: width 0.3s ease;
+}
+
+.nav-underline-link:hover::after,
+.nav-underline-link.is-active::after {
+  width: 100%;
+}
+
+/* ─── Timeline responsive layout ─────────────────────────────────────────── */
+.timeline-entry-wrap {
+  position: relative;
+  padding-left: 2.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.timeline-mobile-entry {
+  display: flex;
+  align-items: flex-start;
+}
+
+.timeline-desktop-entry {
+  display: none;
+  grid-template-columns: 1fr 60px 1fr;
+  align-items: flex-start;
+}
+
+@media (min-width: 768px) {
+  .timeline-entry-wrap {
+    padding-left: 0;
+    margin-bottom: 3rem;
+  }
+
+  .timeline-mobile-entry {
+    display: none;
+  }
+
+  .timeline-desktop-entry {
+    display: grid;
+  }
+}
+
+/* ─── Wide container (SpecsSection) ─────────────────────────────────────── */
+.wide-container {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .wide-container {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+}
+
+/* Footer hover utilities */
+.footer-link {
+  color: #A0A0A0;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-link:hover {
+  color: #FFFFFF;
+}
+
+.footer-social {
+  color: #666;
+  transition: color 0.2s;
+}
+.footer-social:hover {
+  color: #FFFFFF;
 }
 
 /* Amber gradient text */

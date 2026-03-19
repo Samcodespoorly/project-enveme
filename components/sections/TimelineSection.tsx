@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import Badge from '@/components/ui/Badge'
 import SectionHeading from '@/components/ui/SectionHeading'
 
 const entries = [
@@ -34,6 +35,64 @@ const entries = [
   },
 ]
 
+function TimelineCard({
+  entry,
+  align = 'left',
+}: {
+  entry: typeof entries[0]
+  align?: 'left' | 'right'
+}) {
+  return (
+    <div className="card" style={{ width: '100%' }}>
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '0.75rem',
+        marginBottom: '1.25rem',
+        flexWrap: 'wrap',
+        justifyContent: align === 'right' ? 'flex-end' : 'flex-start',
+      }}>
+        <Badge label={entry.tag} color={entry.tagColor} />
+      </div>
+      <h3 style={{
+        fontFamily: 'var(--font-display)',
+        fontSize: 'clamp(1.125rem, 2vw, 1.625rem)',
+        fontWeight: 700,
+        color: '#FFFFFF',
+        textTransform: 'uppercase',
+        letterSpacing: '-0.01em',
+        lineHeight: 1.1,
+        marginBottom: '0.875rem',
+        textAlign: align === 'right' ? 'right' : 'left',
+      }}>
+        {entry.title}
+      </h3>
+      <p style={{
+        fontFamily: 'var(--font-body)',
+        fontSize: '0.9375rem',
+        color: '#AAAAAA',
+        lineHeight: 1.7,
+        textAlign: align === 'right' ? 'right' : 'left',
+      }}>
+        {entry.description}
+      </p>
+    </div>
+  )
+}
+
+function TimelineNode({ color }: { color: string }) {
+  return (
+    <div style={{
+      width: '0.75rem',
+      height: '0.75rem',
+      borderRadius: '50%',
+      background: color,
+      boxShadow: `0 0 0 4px #0D0D10, 0 0 10px ${color}80`,
+      flexShrink: 0,
+    }} />
+  )
+}
+
 export default function TimelineSection() {
   return (
     <section style={{ background: '#0D0D10', padding: '7rem 0' }}>
@@ -51,74 +110,157 @@ export default function TimelineSection() {
           />
         </motion.div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-          {entries.map((entry, i) => (
-            <motion.div
-              key={entry.title}
-              className="card"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-20px' }}
-              transition={{ duration: 0.45, delay: i * 0.06 }}
-            >
-              {/* Top row: date + tag */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
-                <span
-                  style={{
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: '0.75rem',
-                    color: '#E8920A',
-                    letterSpacing: '0.15em',
-                  }}
+        <div style={{ position: 'relative' }}>
+          {/* Mobile: line on left */}
+          <div className="md:hidden" style={{
+            position: 'absolute',
+            left: '0.75rem',
+            top: '0.5rem',
+            bottom: '0.5rem',
+            width: '2px',
+            background: 'linear-gradient(to bottom, transparent, #E8920A 8%, #E8920A 92%, transparent)',
+          }} />
+
+          {/* Desktop: line in center */}
+          <div className="hidden md:block" style={{
+            position: 'absolute',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            top: '0.5rem',
+            bottom: '0.5rem',
+            width: '2px',
+            background: 'linear-gradient(to bottom, transparent, #E8920A 8%, #E8920A 92%, transparent)',
+          }} />
+
+          {entries.map((entry, i) => {
+            const isLeft = i % 2 === 0 // even = date on left, card on right
+
+            return (
+              <div key={entry.title} className="timeline-entry-wrap">
+
+                {/* ── MOBILE LAYOUT ── */}
+                <motion.div
+                  className="timeline-mobile-entry"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-20px' }}
+                  transition={{ duration: 0.45, delay: i * 0.08 }}
                 >
-                  {entry.date}
-                </span>
-                <span
-                  style={{
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: '0.625rem',
-                    fontWeight: 600,
-                    letterSpacing: '0.2em',
-                    color: entry.tagColor,
-                    background: `${entry.tagColor}18`,
-                    border: `1px solid ${entry.tagColor}40`,
-                    padding: '0.3rem 0.75rem',
-                    borderRadius: '0.5rem',
-                  }}
+                  {/* Node sits on the left line */}
+                  <div style={{
+                    position: 'absolute',
+                    left: '0.75rem',
+                    top: '1.625rem',
+                    transform: 'translateX(-50%)',
+                  }}>
+                    <TimelineNode color={entry.tagColor} />
+                  </div>
+
+                  {/* Card */}
+                  <div className="card" style={{ flex: 1 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.875rem', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
+                      <span style={{
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: '0.75rem',
+                        color: '#E8920A',
+                        letterSpacing: '0.15em',
+                      }}>
+                        {entry.date}
+                      </span>
+                      <Badge label={entry.tag} color={entry.tagColor} />
+                    </div>
+                    <h3 style={{
+                      fontFamily: 'var(--font-display)',
+                      fontSize: 'clamp(1.25rem, 3vw, 1.75rem)',
+                      fontWeight: 700,
+                      color: '#FFFFFF',
+                      textTransform: 'uppercase',
+                      letterSpacing: '-0.01em',
+                      lineHeight: 1.1,
+                      marginBottom: '1rem',
+                    }}>
+                      {entry.title}
+                    </h3>
+                    <p style={{
+                      fontFamily: 'var(--font-body)',
+                      fontSize: '0.9375rem',
+                      color: '#AAAAAA',
+                      lineHeight: 1.7,
+                    }}>
+                      {entry.description}
+                    </p>
+                  </div>
+                </motion.div>
+
+                {/* ── DESKTOP LAYOUT (alternating) ── */}
+                <motion.div
+                  className="timeline-desktop-entry"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-20px' }}
+                  transition={{ duration: 0.45, delay: i * 0.08 }}
                 >
-                  {entry.tag}
-                </span>
+                  {/* Left column */}
+                  <div style={{
+                    padding: '0 2rem',
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    justifyContent: 'flex-end',
+                    paddingTop: '1.25rem',
+                  }}>
+                    {isLeft ? (
+                      // Date label on left
+                      <span style={{
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: '0.75rem',
+                        color: '#E8920A',
+                        letterSpacing: '0.15em',
+                        paddingTop: '0.375rem',
+                      }}>
+                        {entry.date}
+                      </span>
+                    ) : (
+                      // Card on left (right-aligned text)
+                      <TimelineCard entry={entry} align="right" />
+                    )}
+                  </div>
+
+                  {/* Center: node */}
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    paddingTop: '1.625rem',
+                  }}>
+                    <TimelineNode color={entry.tagColor} />
+                  </div>
+
+                  {/* Right column */}
+                  <div style={{
+                    padding: '0 2rem',
+                    paddingTop: '1.25rem',
+                  }}>
+                    {isLeft ? (
+                      // Card on right
+                      <TimelineCard entry={entry} align="left" />
+                    ) : (
+                      // Date label on right
+                      <span style={{
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: '0.75rem',
+                        color: '#E8920A',
+                        letterSpacing: '0.15em',
+                        paddingTop: '0.375rem',
+                        display: 'block',
+                      }}>
+                        {entry.date}
+                      </span>
+                    )}
+                  </div>
+                </motion.div>
+
               </div>
-
-              {/* Title */}
-              <h3
-                style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: 'clamp(1.25rem, 3vw, 1.75rem)',
-                  fontWeight: 700,
-                  color: '#FFFFFF',
-                  textTransform: 'uppercase',
-                  letterSpacing: '-0.01em',
-                  lineHeight: 1.1,
-                  marginBottom: '1rem',
-                }}
-              >
-                {entry.title}
-              </h3>
-
-              {/* Description */}
-              <p
-                style={{
-                  fontFamily: 'var(--font-body)',
-                  fontSize: '0.9375rem',
-                  color: '#AAAAAA',
-                  lineHeight: 1.7,
-                }}
-              >
-                {entry.description}
-              </p>
-            </motion.div>
-          ))}
+            )
+          })}
         </div>
       </div>
     </section>

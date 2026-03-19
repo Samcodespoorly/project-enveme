@@ -1,4 +1,10 @@
+import type { Metadata } from 'next'
 import SectionHeading from '@/components/ui/SectionHeading'
+
+export const metadata: Metadata = {
+  title: 'About — ENVEME',
+  description: 'Samuel Donovan — Mechatronics & Finance/Economics student. Project ENVEME is a live engineering portfolio.',
+}
 
 const skills = [
   { title: 'Mechanical Engineering', description: 'Thermodynamics, dynamics, materials science, and machine design applied to real-world automotive systems.' },
@@ -40,7 +46,15 @@ export default function AboutPage() {
 
         {/* Education */}
         <div style={{ marginBottom: '3.5rem' }}>
-          <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', fontWeight: 700, color: '#FFF', textTransform: 'uppercase', letterSpacing: '0.03em', marginBottom: '1.25rem' }}>
+          <h3 style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: '1.5rem',
+            fontWeight: 700,
+            color: '#FFF',
+            textTransform: 'uppercase',
+            letterSpacing: '0.03em',
+            marginBottom: '1.25rem',
+          }}>
             Education
           </h3>
           <div style={{
@@ -51,11 +65,27 @@ export default function AboutPage() {
             borderBottom: '1px solid rgba(255,255,255,0.08)',
             borderLeft: '3px solid #E8920A',
             padding: '2.5rem 3rem',
+            transition: 'border-color 0.3s ease-out, transform 0.3s ease-out, box-shadow 0.3s ease-out',
           }}>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6875rem', color: '#E8920A', letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: '0.875rem' }}>
+            <p style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.6875rem',
+              color: '#E8920A',
+              letterSpacing: '0.25em',
+              textTransform: 'uppercase',
+              marginBottom: '0.875rem',
+            }}>
               CONJOINT DEGREE · IN PROGRESS
             </p>
-            <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', fontWeight: 700, color: '#FFF', textTransform: 'uppercase', letterSpacing: '0.03em', marginBottom: '1rem' }}>
+            <h4 style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: '1.5rem',
+              fontWeight: 700,
+              color: '#FFF',
+              textTransform: 'uppercase',
+              letterSpacing: '0.03em',
+              marginBottom: '1rem',
+            }}>
               BE(Hons) Mechatronics · BCom Finance/Economics
             </h4>
             <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.9375rem', color: '#BBBBBB', lineHeight: 1.7 }}>
@@ -66,13 +96,29 @@ export default function AboutPage() {
 
         {/* Skills */}
         <div style={{ marginBottom: '3.5rem' }}>
-          <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', fontWeight: 700, color: '#FFF', textTransform: 'uppercase', letterSpacing: '0.03em', marginBottom: '1.25rem' }}>
+          <h3 style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: '1.5rem',
+            fontWeight: 700,
+            color: '#FFF',
+            textTransform: 'uppercase',
+            letterSpacing: '0.03em',
+            marginBottom: '1.25rem',
+          }}>
             Skill Areas
           </h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1rem' }}>
             {skills.map((skill) => (
-              <div key={skill.title} style={{ borderRadius: '1rem', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', padding: '2rem' }}>
-                <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '0.9375rem', fontWeight: 600, color: '#FFF', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.75rem' }}>
+              <div key={skill.title} className="card" style={{ padding: '2rem' }}>
+                <h4 style={{
+                  fontFamily: 'var(--font-display)',
+                  fontSize: '0.9375rem',
+                  fontWeight: 600,
+                  color: '#FFF',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em',
+                  marginBottom: '0.75rem',
+                }}>
                   {skill.title}
                 </h4>
                 <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.875rem', color: '#AAAAAA', lineHeight: 1.65 }}>
@@ -85,7 +131,15 @@ export default function AboutPage() {
 
         {/* Capabilities */}
         <div>
-          <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', fontWeight: 700, color: '#FFF', textTransform: 'uppercase', letterSpacing: '0.03em', marginBottom: '1.25rem' }}>
+          <h3 style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: '1.5rem',
+            fontWeight: 700,
+            color: '#FFF',
+            textTransform: 'uppercase',
+            letterSpacing: '0.03em',
+            marginBottom: '1.25rem',
+          }}>
             This Project Demonstrates
           </h3>
           <div className="card">
