@@ -1,4 +1,10 @@
+import type { Metadata } from 'next'
 import SectionHeading from '@/components/ui/SectionHeading'
+
+export const metadata: Metadata = {
+  title: 'Gallery — ENVEME',
+  description: 'Build photography for Project ENVEME — 1995 Toyota Soarer JZZ31. Photos added as the project progresses.',
+}
 
 const placeholderPhotos = [
   { id: 1, label: 'Exterior — Front 3/4' },

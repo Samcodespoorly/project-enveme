@@ -285,6 +285,19 @@ body {
   color: #FFFFFF;
 }
 
+.footer-email {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  color: #555;
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  margin-top: 0.25rem;
+  transition: color 0.2s;
+}
+.footer-email:hover {
+  color: #E8920A;
+}
+
 /* Amber gradient text */
 .text-gradient {
   background: linear-gradient(135deg, #E8920A 0%, #FBB940 50%, #E8920A 100%);

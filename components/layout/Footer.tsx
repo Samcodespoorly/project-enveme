@@ -36,7 +36,7 @@ export default function Footer() {
             {/* Social links */}
             <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.5rem' }}>
               <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/in/samuel-donovan-293470275/"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
@@ -47,7 +47,7 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="https://github.com"
+                href="https://github.com/Samcodespoorly/project-enveme"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub"
@@ -82,6 +82,13 @@ export default function Footer() {
             <p style={{ fontFamily: 'var(--font-body)', color: '#666', fontSize: '0.75rem' }}>
               Mechatronics &amp; Finance/Economics
             </p>
+            {/* TODO: Samuel — replace with your actual email */}
+            <a
+              href="mailto:samdonovanest05@gmail.com"
+              className="footer-email"
+            >
+              samdonovanest05@gmail.com
+            </a>
           </div>
         </div>
 

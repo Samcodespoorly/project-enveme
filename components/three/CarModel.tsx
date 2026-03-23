@@ -43,4 +43,4 @@ export default function CarModel() {
 }
 
 // Preload hint — starts fetching the model as soon as this module is imported
-useGLTF.preload('/models/toyota_soarer.glb')
+useGLTF.preload('/models/toyota_soarer_opt.glb')

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import SectionHeading from '@/components/ui/SectionHeading'
+import ContactButtons from '@/components/ui/ContactButtons'
 
 export const metadata: Metadata = {
   title: 'About — ENVEME',
@@ -33,6 +34,49 @@ export default function AboutPage() {
           label="SAMUEL DONOVAN · ENGINEER"
           heading="About the Engineer"
         />
+
+        {/* Status badge */}
+        <div style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '0.625rem',
+          background: 'rgba(232,146,10,0.08)',
+          border: '1px solid rgba(232,146,10,0.2)',
+          borderRadius: '2rem',
+          padding: '0.4375rem 1rem',
+          marginBottom: '2rem',
+        }}>
+          <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#34D399', flexShrink: 0, boxShadow: '0 0 5px rgba(52,211,153,0.6)' }} />
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', color: '#E8920A', letterSpacing: '0.22em', textTransform: 'uppercase' }}>
+            Available · Auckland, NZ · 2026
+          </span>
+        </div>
+
+        {/* Quick stats row */}
+        <div style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: '1rem 2.5rem',
+          marginBottom: '3.5rem',
+          paddingBottom: '3rem',
+          borderBottom: '1px solid rgba(255,255,255,0.06)',
+        }}>
+          {[
+            { label: 'Degree', value: 'Conjoint BE + BCom' },
+            { label: 'Specialisation', value: 'Mechatronics · Finance' },
+            { label: 'Year', value: 'Year 3 (in progress)' },
+            { label: 'Location', value: 'Auckland, New Zealand' },
+          ].map(stat => (
+            <div key={stat.label}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5rem', color: '#666', letterSpacing: '0.25em', textTransform: 'uppercase', display: 'block', marginBottom: '0.25rem' }}>
+                {stat.label}
+              </span>
+              <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.9375rem', color: '#DDDDDD', fontWeight: 500 }}>
+                {stat.value}
+              </span>
+            </div>
+          ))}
+        </div>
 
         {/* Intro */}
         <div style={{ marginBottom: '4rem', maxWidth: '44rem' }}>
@@ -154,6 +198,55 @@ export default function AboutPage() {
               ))}
             </ul>
           </div>
+        </div>
+
+        {/* ── Get in Touch ─────────────────────────────────────────── */}
+        <div style={{ marginTop: '5rem' }}>
+          {/* Amber rule */}
+          <div style={{
+            height: '1px',
+            background: 'linear-gradient(to right, #E8920A, rgba(232,146,10,0.1), transparent)',
+            marginBottom: '3rem',
+          }} />
+
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6875rem', color: '#E8920A', letterSpacing: '0.3em', textTransform: 'uppercase', marginBottom: '1rem' }}>
+            CONTACT
+          </p>
+          <h2 style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
+            fontWeight: 800,
+            color: '#FFFFFF',
+            textTransform: 'uppercase',
+            letterSpacing: '-0.02em',
+            lineHeight: 0.95,
+            marginBottom: '1.5rem',
+          }}>
+            Let&apos;s Connect
+          </h2>
+
+          {/* Status badge */}
+          <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.625rem',
+            background: 'rgba(232,146,10,0.1)',
+            border: '1px solid rgba(232,146,10,0.25)',
+            borderRadius: '2rem',
+            padding: '0.5rem 1.25rem',
+            marginBottom: '2rem',
+          }}>
+            <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#34D399', flexShrink: 0, boxShadow: '0 0 6px rgba(52,211,153,0.7)' }} />
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.625rem', color: '#E8920A', letterSpacing: '0.2em', textTransform: 'uppercase' }}>
+              Open to internships &amp; graduate roles · Auckland, NZ · 2026
+            </span>
+          </div>
+
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: '1rem', color: '#BBBBBB', lineHeight: 1.75, maxWidth: '38rem', marginBottom: '2.5rem' }}>
+            Interested in working together, or just curious about the build? I&apos;m actively seeking engineering internships and graduate positions. Reach out on LinkedIn or browse the project code on GitHub.
+          </p>
+
+          <ContactButtons />
         </div>
 
       </div>

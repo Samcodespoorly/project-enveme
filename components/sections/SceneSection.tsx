@@ -6,6 +6,7 @@ import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
+import type { PublicVehicle } from '@/lib/publicData'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -40,15 +41,15 @@ function clamp(v: number, min = 0, max = 1) {
   return Math.max(min, Math.min(max, v))
 }
 
-// ── Hero spec data ─────────────────────────────────────────────────────────
-const heroSpecs = [
-  { label: 'YEAR',    value: '1995' },
-  { label: 'MODEL',   value: 'SOARER' },
-  { label: 'CHASSIS', value: 'JZZ31' },
-  { label: 'ENGINE',  value: '2JZ-GE' },
-]
+type Props = { vehicle: PublicVehicle }
 
-export default function SceneSection() {
+export default function SceneSection({ vehicle }: Props) {
+  const heroSpecs = [
+    { label: 'YEAR',    value: String(vehicle.year) },
+    { label: 'MODEL',   value: vehicle.model.toUpperCase() },
+    { label: 'CHASSIS', value: 'JZZ31' },
+    { label: 'ENGINE',  value: '2JZ-GE' },
+  ]
   const containerRef   = useRef<HTMLDivElement>(null)
   const scrollProgressRef = useRef<number>(0)
   const overlay1Ref    = useRef<HTMLDivElement>(null)

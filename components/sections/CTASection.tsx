@@ -117,6 +117,34 @@ export default function CTASection() {
             </Link>
           </div>
         </AnimatedText>
+
+        <AnimatedText delay={0.28}>
+          <p style={{
+            fontFamily: 'var(--font-mono)',
+            fontSize: '0.625rem',
+            color: '#555',
+            letterSpacing: '0.2em',
+            textTransform: 'uppercase',
+            marginTop: '1.75rem',
+          }}>
+            Or connect directly:{' '}
+            <a
+              href="https://www.linkedin.com/in/samuel-donovan-293470275/"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: '#E8920A',
+                textDecoration: 'none',
+                letterSpacing: '0.2em',
+                transition: 'color 0.2s',
+              }}
+              onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.color = '#FBB940')}
+              onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.color = '#E8920A')}
+            >
+              linkedin.com/in/samuel-donovan →
+            </a>
+          </p>
+        </AnimatedText>
       </div>
     </section>
   )

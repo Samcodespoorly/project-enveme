@@ -1,13 +1,22 @@
 import type { Metadata } from 'next'
 import SectionHeading from '@/components/ui/SectionHeading'
-import { keySpecs, specsGrid, currentStateItems } from '@/lib/vehicleData'
+import { keySpecs, specsGrid, currentStateItems, vehicle } from '@/lib/vehicleData'
+import { fetchPublicVehicle } from '@/lib/publicData'
 
 export const metadata: Metadata = {
   title: 'Vehicle Specs — ENVEME',
   description: 'Factory and current specifications for the 1995 Toyota Soarer JZZ31 (Project ENVEME).',
 }
 
-export default function SpecsPage() {
+export default async function SpecsPage() {
+  const liveVehicle = await fetchPublicVehicle()
+  const liveOdometer = liveVehicle.odometer > 0
+    ? `${liveVehicle.odometer.toLocaleString('en-NZ')} km`
+    : vehicle.currentState.odometer
+
+  const liveCurrentStateItems = currentStateItems.map(item =>
+    item.label === 'Odometer' ? { ...item, value: liveOdometer } : item
+  )
   return (
     <main style={{ minHeight: '100vh', background: '#0A0A0A', paddingTop: '9rem', paddingBottom: '6rem' }}>
       <div className="page-container">
@@ -126,7 +135,7 @@ export default function SpecsPage() {
             Current State
           </h3>
           <div className="grid grid-cols-2 gap-3">
-            {currentStateItems.map((item) => (
+            {liveCurrentStateItems.map((item) => (
               <div key={item.label} className="card" style={{ padding: '1.5rem' }}>
                 <p style={{
                   fontFamily: 'var(--font-mono)',
@@ -159,7 +168,7 @@ export default function SpecsPage() {
           textAlign: 'center',
         }}>
           <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: '#555' }}>
-            Live data will sync from GarageOS when Firebase integration is complete.
+            Odometer synced live from GarageOS · Static specs from factory documentation.
           </p>
         </div>
 

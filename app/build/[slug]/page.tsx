@@ -315,10 +315,7 @@ export default async function BuildEntryPage({ params }: Props) {
                   <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', color: '#555', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
                     ← Earlier
                   </p>
-                  <p style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', fontWeight: 700, color: '#AAAAAA', textTransform: 'uppercase', lineHeight: 1.2, transition: 'color 0.2s' }}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = '#FFF')}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = '#AAAAAA')}
-                  >
+                  <p className="journal-nav-title" style={{ fontSize: '1rem', fontWeight: 700, textTransform: 'uppercase', lineHeight: 1.2 }}>
                     {prevEntry.title}
                   </p>
                 </Link>
@@ -330,10 +327,7 @@ export default async function BuildEntryPage({ params }: Props) {
                   <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', color: '#555', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
                     More recent →
                   </p>
-                  <p style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', fontWeight: 700, color: '#AAAAAA', textTransform: 'uppercase', lineHeight: 1.2, transition: 'color 0.2s' }}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = '#FFF')}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = '#AAAAAA')}
-                  >
+                  <p className="journal-nav-title" style={{ fontSize: '1rem', fontWeight: 700, textTransform: 'uppercase', lineHeight: 1.2 }}>
                     {nextEntry.title}
                   </p>
                 </Link>

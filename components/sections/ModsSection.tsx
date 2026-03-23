@@ -3,39 +3,33 @@
 import AnimatedText from '@/components/ui/AnimatedText'
 import Badge from '@/components/ui/Badge'
 import SectionHeading from '@/components/ui/SectionHeading'
+import type { PublicMod } from '@/lib/publicData'
 
-const mods = [
-  {
-    category: 'ENGINE',
-    tagColor: '#E8920A',
-    title: 'Cold Air Intake',
-    description: 'High-flow cold air intake routed away from engine bay heat soak. Improves throttle response and adds an aggressive induction note under load.',
-    status: 'INSTALLED',
-  },
-  {
-    category: 'SUSPENSION',
-    tagColor: '#60A5FA',
-    title: 'Tein Coilover Suspension',
-    description: 'Tein Street Basis coilovers front and rear with adjustable ride height. Lowered 30mm from standard with a four-wheel alignment set to factory spec.',
-    status: 'INSTALLED',
-  },
-  {
-    category: 'ELECTRICAL',
-    tagColor: '#A78BFA',
-    title: 'Defi Gauge Cluster',
-    description: 'Defi-Link BF series oil pressure, oil temperature, and water temperature gauges on an A-pillar pod. Integrated with the Defi control unit for data logging.',
-    status: 'INSTALLED',
-  },
-  {
-    category: 'INTERIOR',
-    tagColor: '#34D399',
-    title: 'Nardi Steering Wheel',
-    description: 'Nardi Classic 350mm leather wheel on a Works Bell hub adapter. Reduces column reach and improves driving position for spirited use.',
-    status: 'INSTALLED',
-  },
-]
+const CATEGORY_COLORS: Record<string, string> = {
+  suspension: '#60A5FA',
+  engine:     '#F97316',
+  interior:   '#A78BFA',
+  exterior:   '#34D399',
+  electrical: '#FCD34D',
+  drivetrain: '#FB7185',
+  other:      '#E8920A',
+  part:       '#E8920A',
+  safety:     '#EF4444',
+  consumable: '#F97316',
+  tool:       '#8B5CF6',
+}
 
-export default function ModsSection() {
+type Props = { mods: PublicMod[] }
+
+export default function ModsSection({ mods }: Props) {
+  const displayMods = mods.map(mod => ({
+    title: mod.name,
+    description: mod.description ?? (mod.brand ? `${mod.brand} ${mod.name}` : mod.name),
+    category: mod.category.toUpperCase(),
+    tagColor: CATEGORY_COLORS[mod.category] ?? '#E8920A',
+    status: 'INSTALLED',
+  }))
+
   return (
     <section style={{ background: '#0A0A0A', padding: '7rem 0' }}>
       <div className="page-container">
@@ -47,53 +41,66 @@ export default function ModsSection() {
           />
         </AnimatedText>
 
-        {/* 2-column grid on desktop */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(1, 1fr)',
-          gap: '1.25rem',
-        }}
-          className="md-grid-2"
-        >
-          {mods.map((mod, i) => (
-            <AnimatedText key={mod.title} delay={i * 0.06}>
-              <div
-                className="card"
-                style={{
-                  borderLeft: `3px solid ${mod.tagColor}`,
-                  borderRadius: '1.25rem',
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
-                  <Badge label={mod.category} color={mod.tagColor} />
-                  <Badge label={mod.status} color="#34D399" />
+        {displayMods.length === 0 ? (
+          <AnimatedText>
+            <div className="card" style={{ textAlign: 'center', padding: '3rem 2rem' }}>
+              <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: '#E8920A', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '0.75rem' }}>
+                BUILD IN PROGRESS
+              </p>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.9375rem', color: '#666' }}>
+                Modifications coming soon — check back as the build progresses.
+              </p>
+            </div>
+          </AnimatedText>
+        ) : (
+          /* 2-column grid on desktop */
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(1, 1fr)',
+            gap: '1.25rem',
+          }}
+            className="md-grid-2"
+          >
+            {displayMods.map((mod, i) => (
+              <AnimatedText key={mod.title + i} delay={i * 0.06}>
+                <div
+                  className="card"
+                  style={{
+                    borderLeft: `3px solid ${mod.tagColor}`,
+                    borderRadius: '1.25rem',
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
+                    <Badge label={mod.category} color={mod.tagColor} />
+                    <Badge label={mod.status} color="#34D399" />
+                  </div>
+
+                  <h3 style={{
+                    fontFamily: 'var(--font-display)',
+                    fontSize: 'clamp(1.25rem, 3vw, 1.75rem)',
+                    fontWeight: 700,
+                    color: '#FFF',
+                    textTransform: 'uppercase',
+                    letterSpacing: '-0.01em',
+                    lineHeight: 1.1,
+                    marginBottom: '1rem',
+                  }}>
+                    {mod.title}
+                  </h3>
+
+                  <p style={{
+                    fontFamily: 'var(--font-body)',
+                    fontSize: '0.9375rem',
+                    color: '#AAAAAA',
+                    lineHeight: 1.7,
+                  }}>
+                    {mod.description}
+                  </p>
                 </div>
-
-                <h3 style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: 'clamp(1.25rem, 3vw, 1.75rem)',
-                  fontWeight: 700,
-                  color: '#FFF',
-                  textTransform: 'uppercase',
-                  letterSpacing: '-0.01em',
-                  lineHeight: 1.1,
-                  marginBottom: '1rem',
-                }}>
-                  {mod.title}
-                </h3>
-
-                <p style={{
-                  fontFamily: 'var(--font-body)',
-                  fontSize: '0.9375rem',
-                  color: '#AAAAAA',
-                  lineHeight: 1.7,
-                }}>
-                  {mod.description}
-                </p>
-              </div>
-            </AnimatedText>
-          ))}
-        </div>
+              </AnimatedText>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   )

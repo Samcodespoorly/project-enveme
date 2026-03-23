@@ -3,8 +3,24 @@
 import { motion } from 'framer-motion'
 import Badge from '@/components/ui/Badge'
 import SectionHeading from '@/components/ui/SectionHeading'
+import type { PublicTimeline } from '@/lib/publicData'
 
-const entries = [
+interface DisplayEntry {
+  date: string
+  tag: string
+  tagColor: string
+  title: string
+  description: string
+}
+
+const STATUS_TAG: Record<string, { tag: string; color: string }> = {
+  complete:    { tag: 'COMPLETE',    color: '#34D399' },
+  in_progress: { tag: 'IN PROGRESS', color: '#FCD34D' },
+  planning:    { tag: 'PLANNED',     color: '#9CA3AF' },
+  on_hold:     { tag: 'ON HOLD',     color: '#F97316' },
+}
+
+const FALLBACK_ENTRIES: DisplayEntry[] = [
   {
     date: 'Mar 2025',
     tag: 'MILESTONE',
@@ -35,11 +51,13 @@ const entries = [
   },
 ]
 
+type Props = { entries: PublicTimeline[] }
+
 function TimelineCard({
   entry,
   align = 'left',
 }: {
-  entry: typeof entries[0]
+  entry: DisplayEntry
   align?: 'left' | 'right'
 }) {
   return (
@@ -93,7 +111,19 @@ function TimelineNode({ color }: { color: string }) {
   )
 }
 
-export default function TimelineSection() {
+export default function TimelineSection({ entries }: Props) {
+  const displayEntries: DisplayEntry[] = entries.length > 0
+    ? entries.map(e => ({
+        date: e.startDate
+          ? new Date(e.startDate).toLocaleDateString('en-NZ', { month: 'short', year: 'numeric' })
+          : '',
+        tag: STATUS_TAG[e.status]?.tag ?? e.status.toUpperCase(),
+        tagColor: STATUS_TAG[e.status]?.color ?? '#E8920A',
+        title: e.title,
+        description: e.description ?? '',
+      }))
+    : FALLBACK_ENTRIES
+
   return (
     <section style={{ background: '#0D0D10', padding: '7rem 0' }}>
       <div className="page-container">
@@ -132,7 +162,7 @@ export default function TimelineSection() {
             background: 'linear-gradient(to bottom, transparent, #E8920A 8%, #E8920A 92%, transparent)',
           }} />
 
-          {entries.map((entry, i) => {
+          {displayEntries.map((entry, i) => {
             const isLeft = i % 2 === 0 // even = date on left, card on right
 
             return (
