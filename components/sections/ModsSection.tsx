@@ -31,7 +31,7 @@ export default function ModsSection({ mods }: Props) {
   }))
 
   return (
-    <section style={{ background: '#0A0A0A', padding: '7rem 0' }}>
+    <section style={{ background: 'var(--color-bg-primary)', padding: '7rem 0' }}>
       <div className="page-container">
         <AnimatedText>
           <SectionHeading

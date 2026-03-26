@@ -15,7 +15,7 @@ const techStack = [
 export default function Footer() {
   return (
     <footer style={{ background: '#111111', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '3rem 1.5rem' }}>
+      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '3rem 1.5rem' }}>
 
         {/* Top row */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '2rem', marginBottom: '2rem' }}
@@ -82,7 +82,6 @@ export default function Footer() {
             <p style={{ fontFamily: 'var(--font-body)', color: '#666', fontSize: '0.75rem' }}>
               Mechatronics &amp; Finance/Economics
             </p>
-            {/* TODO: Samuel — replace with your actual email */}
             <a
               href="mailto:samdonovanest05@gmail.com"
               className="footer-email"

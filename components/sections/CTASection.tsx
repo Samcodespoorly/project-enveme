@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 export default function CTASection() {
   return (
-    <section style={{ background: '#0A0A0A', padding: '7rem 0', position: 'relative', overflow: 'hidden' }}>
+    <section style={{ background: 'var(--color-bg-primary)', padding: '7rem 0', position: 'relative', overflow: 'hidden' }}>
       {/* Ambient glow */}
       <div style={{
         position: 'absolute', inset: 0, pointerEvents: 'none',

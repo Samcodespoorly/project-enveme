@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -82,6 +83,7 @@ export default function Navigation() {
           className="md:hidden flex flex-col gap-1.5 p-2"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
+          aria-expanded={menuOpen}
         >
           <span className={`block w-6 h-px bg-white transition-all duration-200 ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
           <span className={`block w-6 h-px bg-white transition-all duration-200 ${menuOpen ? 'opacity-0' : ''}`} />
@@ -90,39 +92,48 @@ export default function Navigation() {
       </nav>
 
       {/* Mobile dropdown */}
-      {menuOpen && (
-        <div className="md:hidden bg-black/95 backdrop-blur-md border-b border-white/10 px-6 py-5">
-          <ul className="flex flex-col gap-5">
-            <li>
-              <Link
-                href="/"
-                onClick={() => setMenuOpen(false)}
-                className="text-sm text-[#E8920A] flex items-center gap-2"
-                style={{ fontFamily: 'var(--font-body)' }}
-              >
-                ← Home
-              </Link>
-            </li>
-            {navLinks.map((link) => {
-              const isActive = pathname === link.href
-              return (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    onClick={() => setMenuOpen(false)}
-                    className={`text-sm transition-colors ${
-                      isActive ? 'text-[#E8920A]' : 'text-[#A0A0A0] hover:text-white'
-                    }`}
-                    style={{ fontFamily: 'var(--font-body)' }}
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              )
-            })}
-          </ul>
-        </div>
-      )}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            key="mobile-menu"
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.15, ease: 'easeOut' }}
+            className="md:hidden bg-black/95 backdrop-blur-md border-b border-white/10 px-6 py-5"
+          >
+            <ul className="flex flex-col gap-5">
+              <li>
+                <Link
+                  href="/"
+                  onClick={() => setMenuOpen(false)}
+                  className="text-sm text-[#E8920A] flex items-center gap-2"
+                  style={{ fontFamily: 'var(--font-body)' }}
+                >
+                  ← Home
+                </Link>
+              </li>
+              {navLinks.map((link) => {
+                const isActive = pathname === link.href
+                return (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      onClick={() => setMenuOpen(false)}
+                      className={`text-sm transition-colors ${
+                        isActive ? 'text-[#E8920A]' : 'text-[#A0A0A0] hover:text-white'
+                      }`}
+                      style={{ fontFamily: 'var(--font-body)' }}
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                )
+              })}
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   )
 }

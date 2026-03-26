@@ -6,7 +6,7 @@ import { homepageSpecs } from '@/lib/vehicleData'
 
 export default function SpecsSection() {
   return (
-    <section style={{ background: '#0D0D10', padding: '7rem 0' }}>
+    <section style={{ background: 'var(--color-bg-secondary)', padding: '7rem 0' }}>
       <div className="wide-container">
         <AnimatedText>
           <SectionHeading

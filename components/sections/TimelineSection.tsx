@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import Badge from '@/components/ui/Badge'
 import SectionHeading from '@/components/ui/SectionHeading'
+import AmberOutlineLink from '@/components/ui/AmberOutlineLink'
 import type { PublicTimeline } from '@/lib/publicData'
 
 interface DisplayEntry {
@@ -125,7 +126,7 @@ export default function TimelineSection({ entries }: Props) {
     : FALLBACK_ENTRIES
 
   return (
-    <section style={{ background: '#0D0D10', padding: '7rem 0' }}>
+    <section style={{ background: 'var(--color-bg-secondary)', padding: '7rem 0' }}>
       <div className="page-container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -166,7 +167,7 @@ export default function TimelineSection({ entries }: Props) {
             const isLeft = i % 2 === 0 // even = date on left, card on right
 
             return (
-              <div key={entry.title} className="timeline-entry-wrap">
+              <div key={`${entry.title}-${i}`} className="timeline-entry-wrap">
 
                 {/* ── MOBILE LAYOUT ── */}
                 <motion.div
@@ -292,6 +293,18 @@ export default function TimelineSection({ entries }: Props) {
             )
           })}
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4, delay: 0.2 }}
+          style={{ textAlign: 'center', marginTop: '3.5rem' }}
+        >
+          <AmberOutlineLink href="/build">
+            View full build log →
+          </AmberOutlineLink>
+        </motion.div>
       </div>
     </section>
   )

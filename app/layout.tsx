@@ -39,6 +39,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'ENVEME — 1995 Toyota Soarer JZZ31 Build',
     description: 'Project ENVEME: a fully documented 1995 Toyota Soarer JZZ31 build by Samuel Donovan, Auckland NZ.',
+    images: ['/og-image.jpg'],
   },
 }
 

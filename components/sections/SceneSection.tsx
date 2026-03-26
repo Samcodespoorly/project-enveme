@@ -16,7 +16,7 @@ const SoarerScene = dynamic(() => import('@/components/three/SoarerScene'), {
     <div
       className="w-full h-full"
       style={{
-        background: '#0A0A0A',
+        background: 'var(--color-bg-primary)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -56,11 +56,13 @@ export default function SceneSection({ vehicle }: Props) {
   const overlay2Ref    = useRef<HTMLDivElement>(null)
   const overlay3Ref    = useRef<HTMLDivElement>(null)
   const overlay4Ref    = useRef<HTMLDivElement>(null)
+  const [mounted, setMounted] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768)
     check()
+    setMounted(true)
     window.addEventListener('resize', check)
     return () => window.removeEventListener('resize', check)
   }, [])
@@ -147,11 +149,12 @@ export default function SceneSection({ vehicle }: Props) {
   }, [isMobile])
 
   // ── Mobile static hero (no canvas, no GSAP pin) ─────────────────────────
+  if (!mounted) return null
   if (isMobile) {
     return (
       <section style={{
         minHeight: '100vh',
-        background: '#0A0A0A',
+        background: 'var(--color-bg-primary)',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -179,7 +182,7 @@ export default function SceneSection({ vehicle }: Props) {
           transition={{ duration: 0.8, delay: 0.3 }}
         >
           <div style={{ width: '2.5rem', height: '1px', background: 'linear-gradient(to right, #E8920A, rgba(232,146,10,0.2))', flexShrink: 0 }} />
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5rem', color: '#E8920A', letterSpacing: '0.3em', textTransform: 'uppercase' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.625rem', color: '#E8920A', letterSpacing: '0.3em', textTransform: 'uppercase' }}>
             PROJECT BUILD · NZ PLATE: ENVEME
           </span>
         </motion.div>
@@ -228,7 +231,7 @@ export default function SceneSection({ vehicle }: Props) {
             <div key={spec.label} style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
               {i > 0 && <div style={{ width: '1px', height: '20px', background: 'rgba(255,255,255,0.1)', flexShrink: 0 }} />}
               <div>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.4375rem', color: '#E8920A', letterSpacing: '0.25em', textTransform: 'uppercase', display: 'block', marginBottom: '0.1rem' }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.625rem', color: '#E8920A', letterSpacing: '0.25em', textTransform: 'uppercase', display: 'block', marginBottom: '0.1rem' }}>
                   {spec.label}
                 </span>
                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8125rem', color: '#FFF', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
@@ -302,7 +305,7 @@ export default function SceneSection({ vehicle }: Props) {
           transition={{ duration: 0.6, delay: 1.2 }}
         >
           <div style={{ width: '1px', height: '36px', background: 'linear-gradient(to bottom, rgba(232,146,10,0.55), transparent)' }} />
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5rem', color: '#444', letterSpacing: '0.3em', textTransform: 'uppercase' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.625rem', color: '#444', letterSpacing: '0.3em', textTransform: 'uppercase' }}>
             Scroll to explore
           </span>
         </motion.div>
@@ -314,7 +317,7 @@ export default function SceneSection({ vehicle }: Props) {
   return (
     <div
       ref={containerRef}
-      style={{ height: '100vh', position: 'relative', background: '#0A0A0A', overflow: 'hidden' }}
+      style={{ height: '100vh', position: 'relative', background: 'var(--color-bg-primary)', overflow: 'hidden' }}
     >
       {/* Three.js canvas — full viewport */}
       <div style={{ position: 'absolute', inset: 0 }}>
@@ -362,7 +365,7 @@ export default function SceneSection({ vehicle }: Props) {
             <span
               style={{
                 fontFamily: 'var(--font-mono)',
-                fontSize: '0.5rem',
+                fontSize: '0.625rem',
                 color: '#E8920A',
                 letterSpacing: '0.3em',
                 textTransform: 'uppercase',
@@ -424,7 +427,7 @@ export default function SceneSection({ vehicle }: Props) {
                   <span
                     style={{
                       fontFamily: 'var(--font-mono)',
-                      fontSize: '0.4375rem',
+                      fontSize: '0.625rem',
                       color: '#E8920A',
                       letterSpacing: '0.25em',
                       textTransform: 'uppercase',
@@ -563,7 +566,7 @@ export default function SceneSection({ vehicle }: Props) {
             <span
               style={{
                 fontFamily: 'var(--font-mono)',
-                fontSize: '0.5rem',
+                fontSize: '0.625rem',
                 color: '#444',
                 letterSpacing: '0.3em',
                 textTransform: 'uppercase',
@@ -664,7 +667,7 @@ export default function SceneSection({ vehicle }: Props) {
             style={{
               fontFamily: 'var(--font-mono)',
               fontSize: '0.5625rem',
-              color: '#60A5FA',
+              color: 'var(--color-accent)',
               letterSpacing: '0.3em',
               textTransform: 'uppercase',
               marginBottom: '1rem',

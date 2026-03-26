@@ -7,6 +7,10 @@
   --color-enveme-surface3: #222222;
   --color-accent: #E8920A;
 
+  /* Semantic background tokens */
+  --color-bg-primary: #0A0A0A;
+  --color-bg-secondary: #0D0D10;
+
   --font-family-display: var(--font-display), 'Barlow Condensed', sans-serif;
   --font-family-body: var(--font-body), 'DM Sans', sans-serif;
   --font-family-mono: var(--font-mono), 'JetBrains Mono', monospace;
