@@ -146,7 +146,7 @@ export default function SceneSection({ vehicle }: Props) {
     })
 
     return () => { trigger.kill() }
-  }, [isMobile])
+  }, [isMobile, mounted])
 
   // ── Mobile static hero (no canvas, no GSAP pin) ─────────────────────────
   if (!mounted) return null
