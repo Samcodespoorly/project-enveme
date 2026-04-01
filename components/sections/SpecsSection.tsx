@@ -1,13 +1,21 @@
-'use client'
-
 import AnimatedText from '@/components/ui/AnimatedText'
 import SectionHeading from '@/components/ui/SectionHeading'
 import { homepageSpecs } from '@/lib/vehicleData'
 
 export default function SpecsSection() {
   return (
-    <section style={{ background: 'var(--color-bg-secondary)', padding: '7rem 0' }}>
-      <div className="wide-container">
+    <section style={{ background: 'var(--color-bg-secondary)', padding: '7rem 0', position: 'relative', overflow: 'hidden' }}>
+      {/* Subtle top-left amber bloom */}
+      <div style={{
+        position: 'absolute',
+        top: '-80px',
+        left: '-80px',
+        width: '400px',
+        height: '400px',
+        background: 'radial-gradient(circle, rgba(232,146,10,0.05) 0%, transparent 65%)',
+        pointerEvents: 'none',
+      }} />
+      <div className="wide-container" style={{ position: 'relative', zIndex: 1 }}>
         <AnimatedText>
           <SectionHeading
             label="PLATFORM · JZZ31 CHASSIS"
@@ -44,7 +52,7 @@ export default function SpecsSection() {
                   display: 'block',
                   fontFamily: 'var(--font-mono)',
                   fontSize: '0.6875rem',
-                  color: '#666',
+                  color: '#777',
                   textTransform: 'uppercase',
                   letterSpacing: '0.15em',
                 }}>

@@ -129,10 +129,10 @@ export default function TimelineSection({ entries }: Props) {
     <section style={{ background: 'var(--color-bg-secondary)', padding: '7rem 0' }}>
       <div className="page-container">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
           <SectionHeading
             label="CHRONOLOGICAL · PROJECT LOG"
@@ -175,7 +175,7 @@ export default function TimelineSection({ entries }: Props) {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-20px' }}
-                  transition={{ duration: 0.45, delay: i * 0.08 }}
+                  transition={{ duration: 0.65, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] }}
                 >
                   {/* Node sits on the left line */}
                   <div style={{
@@ -229,7 +229,7 @@ export default function TimelineSection({ entries }: Props) {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-20px' }}
-                  transition={{ duration: 0.45, delay: i * 0.08 }}
+                  transition={{ duration: 0.65, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] }}
                 >
                   {/* Left column */}
                   <div style={{
@@ -295,10 +295,10 @@ export default function TimelineSection({ entries }: Props) {
         </div>
 
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4, delay: 0.2 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
           style={{ textAlign: 'center', marginTop: '3.5rem' }}
         >
           <AmberOutlineLink href="/build">

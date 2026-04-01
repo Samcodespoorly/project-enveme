@@ -305,11 +305,24 @@ export default async function BuildPage() {
           borderRadius: '1.25rem',
           background: 'rgba(255,255,255,0.02)',
           border: '1px solid rgba(255,255,255,0.06)',
-          padding: '2rem',
-          textAlign: 'center',
+          padding: '1.75rem 2rem',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.875rem',
+          flexWrap: 'wrap',
         }}>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: '#555', lineHeight: 1.6 }}>
-            Projects synced live from GarageOS · Journal entries are hand-authored build logs.
+          <span style={{
+            width: '6px', height: '6px', borderRadius: '50%',
+            background: '#34D399',
+            boxShadow: '0 0 5px rgba(52,211,153,0.6)',
+            flexShrink: 0,
+          }} />
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6875rem', color: '#666', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+            Projects synced live from GarageOS
+          </p>
+          <span style={{ color: 'rgba(255,255,255,0.1)', fontSize: '0.875rem', flexShrink: 0 }}>·</span>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6875rem', color: '#555', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+            Journal entries are hand-authored build logs
           </p>
         </div>
 

@@ -46,7 +46,7 @@ export default function AboutPage() {
           padding: '0.4375rem 1rem',
           marginBottom: '2rem',
         }}>
-          <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#34D399', flexShrink: 0, boxShadow: '0 0 5px rgba(52,211,153,0.6)' }} />
+          <span className="status-dot-live" style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#34D399', flexShrink: 0 }} />
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', color: '#E8920A', letterSpacing: '0.22em', textTransform: 'uppercase' }}>
             Available · Auckland, NZ · 2026
           </span>
@@ -236,7 +236,7 @@ export default function AboutPage() {
             padding: '0.5rem 1.25rem',
             marginBottom: '2rem',
           }}>
-            <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#34D399', flexShrink: 0, boxShadow: '0 0 6px rgba(52,211,153,0.7)' }} />
+            <span className="status-dot-live" style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#34D399', flexShrink: 0 }} />
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.625rem', color: '#E8920A', letterSpacing: '0.2em', textTransform: 'uppercase' }}>
               Open to internships &amp; graduate roles · Auckland, NZ · 2026
             </span>

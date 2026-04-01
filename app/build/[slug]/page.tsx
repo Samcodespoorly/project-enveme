@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { journalEntries, type ContentBlock } from '@/lib/buildData'
 import Badge from '@/components/ui/Badge'
+import ReadingProgress from '@/components/ui/ReadingProgress'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -195,6 +196,7 @@ export default async function BuildEntryPage({ params }: Props) {
 
   return (
     <main style={{ minHeight: '100vh', background: '#0A0A0A', paddingTop: '9rem', paddingBottom: '6rem' }}>
+      <ReadingProgress color={entry.tagColor} />
       <div className="page-container">
 
         {/* Back link */}

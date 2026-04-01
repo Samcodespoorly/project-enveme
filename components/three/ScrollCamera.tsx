@@ -46,9 +46,9 @@ export default function ScrollCamera({ scrollProgressRef }: ScrollCameraProps) {
     const target = getCameraPosition(progress)
 
     // Lerp camera position along the path
-    camera.position.x = lerp(camera.position.x, target[0], 0.12)
-    camera.position.y = lerp(camera.position.y, target[1], 0.12)
-    camera.position.z = lerp(camera.position.z, target[2], 0.12)
+    camera.position.x = lerp(camera.position.x, target[0], 0.07)
+    camera.position.y = lerp(camera.position.y, target[1], 0.07)
+    camera.position.z = lerp(camera.position.z, target[2], 0.07)
 
     // ── Hero lookAt offset ───────────────────────────────────────────────
     // During the hero state (first ~18% of scroll), look slightly LEFT of the

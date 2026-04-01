@@ -1,5 +1,3 @@
-'use client'
-
 import AnimatedText from '@/components/ui/AnimatedText'
 import Badge from '@/components/ui/Badge'
 import SectionHeading from '@/components/ui/SectionHeading'
@@ -43,13 +41,25 @@ export default function ModsSection({ mods }: Props) {
 
         {displayMods.length === 0 ? (
           <AnimatedText>
-            <div className="card" style={{ textAlign: 'center', padding: '3rem 2rem' }}>
-              <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: '#E8920A', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '0.75rem' }}>
-                BUILD IN PROGRESS
+            <div className="card" style={{ textAlign: 'center', padding: '4rem 2rem' }}>
+              <div style={{
+                width: '2rem',
+                height: '1px',
+                background: 'linear-gradient(to right, transparent, #E8920A, transparent)',
+                margin: '0 auto 1.75rem',
+              }} />
+              <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.625rem', color: '#E8920A', letterSpacing: '0.3em', textTransform: 'uppercase', marginBottom: '0.75rem' }}>
+                MODIFICATIONS BEING LOGGED
               </p>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.9375rem', color: '#666' }}>
-                Modifications coming soon — check back as the build progresses.
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.9375rem', color: '#777', lineHeight: 1.7, maxWidth: '320px', margin: '0 auto' }}>
+                Every change will appear here as the build progresses. Check the Build Journal for the latest updates.
               </p>
+              <div style={{
+                width: '2rem',
+                height: '1px',
+                background: 'linear-gradient(to right, transparent, #E8920A, transparent)',
+                margin: '1.75rem auto 0',
+              }} />
             </div>
           </AnimatedText>
         ) : (

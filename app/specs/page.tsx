@@ -24,6 +24,7 @@ export default async function SpecsPage() {
         <SectionHeading
           label="JZZ31 PLATFORM · TECHNICAL DATA"
           heading="Vehicle Specs"
+          subtitle="Factory figures and live build state for the 1995 Toyota Soarer JZZ31. Odometer synced in real time from GarageOS."
         />
 
         {/* 1 col mobile → 2 cols lg+ */}

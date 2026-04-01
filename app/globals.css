@@ -27,6 +27,11 @@
       transform: translateY(0);
     }
   }
+
+  @keyframes status-pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 5px rgba(52,211,153,0.6); }
+    50%       { opacity: 0.5; box-shadow: 0 0 10px rgba(52,211,153,0.3); }
+  }
 }
 
 * {
@@ -300,6 +305,11 @@ body {
 }
 .footer-email:hover {
   color: #E8920A;
+}
+
+/* Live status dot — pulsing green indicator */
+.status-dot-live {
+  animation: status-pulse 2.4s ease-in-out infinite;
 }
 
 /* Amber gradient text */
