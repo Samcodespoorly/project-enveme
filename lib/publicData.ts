@@ -134,8 +134,15 @@ async function fetchDoc(
   docPath: string,
   revalidate = 300
 ): Promise<Record<string, FirestoreValue> | null> {
-  const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID
-  const apiKey = process.env.NEXT_PUBLIC_FIREBASE_API_KEY
+  // Prefer server-only vars (no NEXT_PUBLIC_ prefix) so they are not
+  // embedded in the client bundle.  Fall back to the public variants so
+  // existing deployments keep working while env vars are being migrated.
+  const projectId =
+    process.env.FIREBASE_PROJECT_ID ??
+    process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID
+  const apiKey =
+    process.env.FIREBASE_API_KEY ??
+    process.env.NEXT_PUBLIC_FIREBASE_API_KEY
   if (!projectId || !apiKey) return null
 
   try {

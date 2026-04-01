@@ -18,21 +18,62 @@ const SoarerScene = dynamic(() => import('@/components/three/SoarerScene'), {
       style={{
         background: 'var(--color-bg-primary)',
         display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
+        gap: '1.5rem',
       }}
     >
-      <p
-        style={{
+      {/* Amber pulsing ring */}
+      <div style={{ position: 'relative', width: '48px', height: '48px' }}>
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          borderRadius: '50%',
+          border: '1px solid rgba(232,146,10,0.15)',
+          animation: 'scene-ping 1.8s cubic-bezier(0,0,0.2,1) infinite',
+        }} />
+        <div style={{
+          position: 'absolute',
+          inset: '10px',
+          borderRadius: '50%',
+          border: '1px solid rgba(232,146,10,0.4)',
+          animation: 'scene-ping 1.8s cubic-bezier(0,0,0.2,1) 0.4s infinite',
+        }} />
+        <div style={{
+          position: 'absolute',
+          inset: '20px',
+          borderRadius: '50%',
+          background: '#E8920A',
+          opacity: 0.7,
+        }} />
+        <style>{`
+          @keyframes scene-ping {
+            0%   { transform: scale(1); opacity: 0.8; }
+            80%, 100% { transform: scale(2); opacity: 0; }
+          }
+        `}</style>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.375rem' }}>
+        <p style={{
           fontFamily: 'var(--font-mono)',
           color: '#E8920A',
-          fontSize: '0.6875rem',
-          letterSpacing: '0.25em',
+          fontSize: '0.625rem',
+          letterSpacing: '0.3em',
           textTransform: 'uppercase',
-        }}
-      >
-        LOADING 3D SCENE...
-      </p>
+        }}>
+          INITIALISING SCENE
+        </p>
+        <p style={{
+          fontFamily: 'var(--font-mono)',
+          color: '#444',
+          fontSize: '0.5625rem',
+          letterSpacing: '0.15em',
+          textTransform: 'uppercase',
+        }}>
+          JZZ31 · 3D MODEL
+        </p>
+      </div>
     </div>
   ),
 })
@@ -149,7 +190,16 @@ export default function SceneSection({ vehicle }: Props) {
   }, [isMobile, mounted])
 
   // ── Mobile static hero (no canvas, no GSAP pin) ─────────────────────────
-  if (!mounted) return null
+  // Return a visibility-hidden placeholder (not null) so the page layout
+  // reserves the correct space before hydration completes, avoiding CLS.
+  if (!mounted) {
+    return (
+      <div
+        style={{ height: '100vh', visibility: 'hidden' }}
+        aria-hidden="true"
+      />
+    )
+  }
   if (isMobile) {
     return (
       <section style={{
@@ -244,7 +294,7 @@ export default function SceneSection({ vehicle }: Props) {
 
         {/* Subtitle */}
         <motion.p
-          style={{ fontFamily: 'var(--font-body)', fontSize: '0.9375rem', color: '#666', lineHeight: 1.65, marginBottom: '2rem', maxWidth: '340px' }}
+          style={{ fontFamily: 'var(--font-body)', fontSize: '0.9375rem', color: '#888', lineHeight: 1.65, marginBottom: '2rem', maxWidth: '340px' }}
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
@@ -305,7 +355,7 @@ export default function SceneSection({ vehicle }: Props) {
           transition={{ duration: 0.6, delay: 1.2 }}
         >
           <div style={{ width: '1px', height: '36px', background: 'linear-gradient(to bottom, rgba(232,146,10,0.55), transparent)' }} />
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.625rem', color: '#444', letterSpacing: '0.3em', textTransform: 'uppercase' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.625rem', color: '#777', letterSpacing: '0.3em', textTransform: 'uppercase' }}>
             Scroll to explore
           </span>
         </motion.div>
@@ -458,7 +508,7 @@ export default function SceneSection({ vehicle }: Props) {
             style={{
               fontFamily: 'var(--font-body)',
               fontSize: 'clamp(0.875rem, 1.3vw, 1rem)',
-              color: '#666',
+              color: '#888',
               lineHeight: 1.65,
               maxWidth: '360px',
               marginBottom: '2.25rem',
@@ -567,7 +617,7 @@ export default function SceneSection({ vehicle }: Props) {
               style={{
                 fontFamily: 'var(--font-mono)',
                 fontSize: '0.625rem',
-                color: '#444',
+                color: '#777',
                 letterSpacing: '0.3em',
                 textTransform: 'uppercase',
               }}
@@ -715,34 +765,68 @@ export default function SceneSection({ vehicle }: Props) {
           flexDirection: 'column',
           alignItems: 'center',
           zIndex: 10,
-          pointerEvents: 'none',
           opacity: 0,
         }}
       >
         <p
           style={{
             fontFamily: 'var(--font-mono)',
-            fontSize: '0.6875rem',
+            fontSize: '0.625rem',
             color: '#E8920A',
             letterSpacing: '0.3em',
             textTransform: 'uppercase',
-            marginBottom: '0.75rem',
+            marginBottom: '1rem',
+            pointerEvents: 'none',
           }}
         >
-          SCROLL COMPLETE
+          PROJECT ENVEME · JZZ31
         </p>
         <p
           style={{
             fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
-            fontWeight: 700,
+            fontSize: 'clamp(1.75rem, 4.5vw, 3rem)',
+            fontWeight: 800,
             color: '#FFFFFF',
             textTransform: 'uppercase',
-            letterSpacing: '-0.01em',
+            letterSpacing: '-0.02em',
+            lineHeight: 1,
+            marginBottom: '1.75rem',
+            textShadow: '0 0 60px rgba(232,146,10,0.25)',
+            pointerEvents: 'none',
           }}
         >
-          Explore the Build ↓
+          Ready to Explore?
         </p>
+        <Link
+          href="/build"
+          style={{
+            fontFamily: 'var(--font-body)',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            background: '#E8920A',
+            color: '#000',
+            fontWeight: 700,
+            fontSize: '0.8125rem',
+            letterSpacing: '0.18em',
+            textTransform: 'uppercase',
+            padding: '0.9rem 2.25rem',
+            borderRadius: '0.5rem',
+            textDecoration: 'none',
+            transition: 'background 0.2s ease',
+          }}
+          onMouseEnter={e =>
+            ((e.currentTarget as HTMLAnchorElement).style.background = '#FBB940')
+          }
+          onMouseLeave={e =>
+            ((e.currentTarget as HTMLAnchorElement).style.background = '#E8920A')
+          }
+        >
+          Enter the Build Journal
+          <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
+            <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </Link>
       </div>
     </div>
   )
