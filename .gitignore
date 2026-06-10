@@ -48,3 +48,6 @@ gltfpack.zip
 # AI working files
 /.claude/
 /_directives/
+
+# Vercel CLI auto-generated
+AGENTS.md
