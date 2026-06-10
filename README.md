@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Project ENVEME
 
-## Getting Started
+A live engineering portfolio documenting the build of a 1995 Toyota Soarer (JZZ31, 2JZ-GE) — and the site itself is part of the portfolio.
 
-First, run the development server:
+**Live:** https://project-enveme.vercel.app
+
+## What it demonstrates
+
+- **Scroll-driven 3D hero** — the Soarer rendered from a Draco + WebP-compressed GLB (5.9 MB, down from a 49 MB source scan), camera choreographed with GSAP ScrollTrigger over a pinned 300vh section, smooth-scrolled with Lenis.
+- **Live data, not lorem ipsum** — odometer, service history, and build timeline stream from the same Firestore backend as [GarageOS](https://github.com/Samcodespoorly/GarageOS), the car-management app I built to run the project. The site reads a curated public summary via the Firestore REST API with 5-minute ISR.
+- **The build itself** — every modification, service, and decision on the car is logged and published here as it happens.
+
+## Stack
+
+Next.js 16 (App Router) · TypeScript · Tailwind CSS v4 · Three.js / React Three Fiber · GSAP + ScrollTrigger · Lenis · Framer Motion · Firebase Firestore · Vercel
+
+## Structure
+
+| Route | Purpose |
+|---|---|
+| `/` | Scroll-driven 3D scene + project overview |
+| `/build` | Build journal, grouped by status, live from Firestore |
+| `/specs` | Full vehicle specification (single source: `lib/vehicleData.ts`) |
+| `/about` | About the engineer — skills, education, contact |
+| `/gallery` | Photo gallery (in progress) |
+
+## Local development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Requires `NEXT_PUBLIC_FIREBASE_*` vars in `.env.local` for live data; pages render with fallbacks without them.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Samuel Donovan — Mechatronics / Finance conjoint, Auckland NZ. [LinkedIn](https://www.linkedin.com/in/samuel-donovan-293470275/)

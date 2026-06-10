@@ -3,25 +3,7 @@
 
 export function SkeletonShimmer({ style }: { style?: React.CSSProperties }) {
   return (
-    <>
-      <style>{`
-        @keyframes skeleton-shimmer {
-          0%   { background-position: -600px 0; }
-          100% { background-position: 600px 0; }
-        }
-        .skeleton-shimmer {
-          background: linear-gradient(
-            90deg,
-            rgba(255,255,255,0.03) 0%,
-            rgba(232,146,10,0.07) 40%,
-            rgba(255,255,255,0.03) 80%
-          );
-          background-size: 600px 100%;
-          animation: skeleton-shimmer 1.8s ease-in-out infinite;
-        }
-      `}</style>
-      <div className="skeleton-shimmer" style={{ borderRadius: '0.5rem', ...style }} />
-    </>
+    <div className="skeleton-shimmer" style={{ borderRadius: '0.5rem', ...style }} />
   )
 }
 

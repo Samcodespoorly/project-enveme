@@ -39,3 +39,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# model source assets + tooling (web-ready GLBs live in public/models)
+/assets-src/
+gltfpack
+gltfpack.zip
+
+# AI working files
+/.claude/
+/_directives/

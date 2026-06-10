@@ -7,9 +7,9 @@ import * as THREE from 'three'
 export default function CarModel() {
   const groupRef = useRef<THREE.Group>(null)
 
-  // Use uncompressed model — KTX2 compressed version has transcoder issues.
-  // TODO: Replace with Draco-compressed version once created
-  const { scene } = useGLTF('/models/toyota_soarer_opt.glb')
+  // Draco geometry + WebP textures (EXT_texture_webp decodes natively in
+  // three.js — avoids the KTX2 transcoder issues entirely). 5.9 MB vs 37 MB.
+  const { scene } = useGLTF('/models/toyota_soarer_web.glb')
 
   // Clone the scene so React re-renders don't mutate the cached original.
   // useGLTF caches the result — if we mutate scale/position on the original,
@@ -43,4 +43,4 @@ export default function CarModel() {
 }
 
 // Preload hint — starts fetching the model as soon as this module is imported
-useGLTF.preload('/models/toyota_soarer_opt.glb')
+useGLTF.preload('/models/toyota_soarer_web.glb')

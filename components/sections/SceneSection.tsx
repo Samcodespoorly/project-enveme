@@ -47,12 +47,6 @@ const SoarerScene = dynamic(() => import('@/components/three/SoarerScene'), {
           background: '#E8920A',
           opacity: 0.7,
         }} />
-        <style>{`
-          @keyframes scene-ping {
-            0%   { transform: scale(1); opacity: 0.8; }
-            80%, 100% { transform: scale(2); opacity: 0; }
-          }
-        `}</style>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.375rem' }}>
         <p style={{

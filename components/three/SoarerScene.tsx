@@ -91,13 +91,6 @@ function LoadingOverlay() {
           JZZ31 · 3D MODEL
         </p>
       </div>
-
-      <style>{`
-        @keyframes scene-ping {
-          0%   { transform: scale(1); opacity: 0.8; }
-          80%, 100% { transform: scale(2); opacity: 0; }
-        }
-      `}</style>
     </div>
   )
 }
@@ -165,7 +158,7 @@ export default function SoarerScene({ scrollProgressRef }: SoarerSceneProps) {
         <pointLight position={[0, 4, 0]} intensity={0.6} color="#E8920A" />
 
         {/* Car model — wrapped in Suspense so the canvas doesn't crash
-            if the 49MB GLB takes time to load */}
+            if the GLB takes time to load on slow connections */}
         <Suspense fallback={null}>
           <CarModel />
         </Suspense>
