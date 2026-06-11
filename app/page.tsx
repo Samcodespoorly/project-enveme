@@ -1,7 +1,7 @@
 import { Suspense } from 'react'
 import SceneSection from '@/components/sections/SceneSection'
 import SpecsSection from '@/components/sections/SpecsSection'
-import ModsSection from '@/components/sections/ModsSection'
+import DigitalTwinSection from '@/components/sections/DigitalTwinSection'
 import TimelineSection from '@/components/sections/TimelineSection'
 import CTASection from '@/components/sections/CTASection'
 import { ModsSectionSkeleton, TimelineSectionSkeleton } from '@/components/ui/Skeletons'
@@ -18,9 +18,9 @@ async function VehicleScene() {
   return <SceneSection vehicle={vehicle} />
 }
 
-async function ModsSectionAsync() {
+async function DigitalTwinAsync() {
   const mods = await fetchPublicMods()
-  return <ModsSection mods={mods} />
+  return <DigitalTwinSection mods={mods} />
 }
 
 async function TimelineSectionAsync() {
@@ -44,9 +44,10 @@ export default function Home() {
       {/* Fully static — no Firebase dependency */}
       <SpecsSection />
 
-      {/* Data-dependent sections stream in independently */}
+      {/* Interactive digital twin — replaces the static mods grid; the same
+          parts data is now explorable on the 3D car itself */}
       <Suspense fallback={<ModsSectionSkeleton />}>
-        <ModsSectionAsync />
+        <DigitalTwinAsync />
       </Suspense>
 
       <Suspense fallback={<TimelineSectionSkeleton />}>
