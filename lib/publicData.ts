@@ -25,8 +25,19 @@ export interface PublicMod {
   category: string
   description: string | null
   cost: number | null
+  partNumber: string | null
+  oemPartNumber: string | null
+  fitmentNotes: string | null
+  supplier: string | null
+  installOdometer: number | null
   installDate: string | null
   status: 'installed'
+}
+
+export interface PublicModsDoc {
+  items: PublicMod[]
+  totalInstalled: number
+  updatedAt: string
 }
 
 export interface PublicTimeline {
@@ -174,23 +185,38 @@ export async function fetchPublicVehicle(): Promise<PublicVehicle> {
   }
 }
 
-export async function fetchPublicMods(): Promise<PublicMod[]> {
+export async function fetchPublicModsDoc(): Promise<PublicModsDoc> {
   const fields = await fetchDoc('public/mods')
-  if (!fields) return []
+  if (!fields) return { items: [], totalInstalled: 0, updatedAt: '' }
 
-  return arrValues(fields.items).map(item => {
+  const items = arrValues(fields.items).map(item => {
     const f = mapFields(item)
     return {
-      id:          str(f.id),
-      name:        str(f.name),
-      brand:       strOrNull(f.brand),
-      category:    str(f.category),
-      description: strOrNull(f.description),
-      cost:        numOrNull(f.cost),
-      installDate: strOrNull(f.installDate),
-      status:      'installed' as const,
+      id:              str(f.id),
+      name:            str(f.name),
+      brand:           strOrNull(f.brand),
+      category:        str(f.category),
+      description:     strOrNull(f.description),
+      cost:            numOrNull(f.cost),
+      partNumber:      strOrNull(f.partNumber),
+      oemPartNumber:   strOrNull(f.oemPartNumber),
+      fitmentNotes:    strOrNull(f.fitmentNotes),
+      supplier:        strOrNull(f.supplier),
+      installOdometer: numOrNull(f.installOdometer),
+      installDate:     strOrNull(f.installDate),
+      status:          'installed' as const,
     }
   })
+
+  return {
+    items,
+    totalInstalled: num(fields.totalInstalled, items.length),
+    updatedAt:      str(fields.updatedAt),
+  }
+}
+
+export async function fetchPublicMods(): Promise<PublicMod[]> {
+  return (await fetchPublicModsDoc()).items
 }
 
 export async function fetchPublicTimeline(): Promise<PublicTimeline[]> {
