@@ -23,32 +23,39 @@ const STATUS_TAG: Record<string, { tag: string; color: string }> = {
 
 const FALLBACK_ENTRIES: DisplayEntry[] = [
   {
-    date: 'Mar 2025',
+    date: 'Jul 2025',
     tag: 'MILESTONE',
     tagColor: '#E8920A',
     title: 'Acquisition',
-    description: 'Purchased the JZZ31 in Auckland. Full service history, 102,000 km on the clock. Pearl White over beige interior — all original and unmolested.',
+    description: 'Purchased the JZZ31 with just 49,000 km on the clock — a genuinely low-mileage example of the naturally aspirated 2JZ-GE grand tourer.',
   },
   {
-    date: 'Apr 2025',
+    date: 'Jul 2025',
     tag: 'SERVICE',
     tagColor: '#60A5FA',
-    title: 'Assessment & Baseline',
-    description: 'Full mechanical inspection. Fluid flush across engine, gearbox, and diff. Front lower control arm bushings replaced. Baseline condition established.',
+    title: 'Full Service & Baseline Assessment',
+    description: 'Complete service — engine oil, oil filter, and air filter replaced — followed by a full performance assessment. Flagged leaking shock absorbers and a worn steering rack as priority future work.',
   },
   {
-    date: 'May 2025',
+    date: 'Oct 2025',
+    tag: 'MAINTENANCE',
+    tagColor: '#60A5FA',
+    title: 'Front-of-Engine Refresh',
+    description: 'With parts ordered from Amayama, replaced the crankshaft pulley / harmonic damper, both valve cover gaskets, and the drive belt tensioner and drive belt.',
+  },
+  {
+    date: 'Mar 2026',
     tag: 'MODIFICATION',
     tagColor: '#A78BFA',
-    title: 'Suspension Overhaul',
-    description: 'Tein coilovers installed front and rear. Four-wheel alignment set to factory spec. Ride height lowered 30mm — visual and handling improvement significant.',
+    title: 'Security & Audio',
+    description: 'Installed an Avital 5308L aftermarket alarm system and updated the Carrozzeria FH-P040 head unit to add Bluetooth connectivity.',
   },
   {
-    date: 'Jun 2025',
+    date: 'In progress',
     tag: 'IN PROGRESS',
     tagColor: '#34D399',
-    title: 'Gauges & Interior',
-    description: 'Defi gauge cluster, cold air intake, and Nardi steering wheel in progress. Interior refresh and detail underway. Build documentation initiated.',
+    title: 'Interior & Mirror Fabrication',
+    description: '3D modelling replacement trim pieces for the cracked AC vents, plus Ganador-style aero wing mirrors to replace the originals.',
   },
 ]
 
