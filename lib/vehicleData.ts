@@ -6,8 +6,6 @@ export const vehicle = {
   bodyStyle: '2-door grand tourer coupé',
   plate: 'ENVEME',
   market: 'New Zealand',
-  purchasePrice: 19000,
-  currency: 'NZD',
 
   engine: {
     code: '2JZ-GE',
@@ -19,7 +17,7 @@ export const vehicle = {
   },
 
   drivetrain: {
-    transmission: 'A340E 4-speed automatic',
+    transmission: 'R154 5-speed manual',
     layout: 'RWD',
   },
 
@@ -28,9 +26,9 @@ export const vehicle = {
   },
 
   currentState: {
-    odometer: '~102,000 km',
+    odometer: '~49,000 km',
     condition: 'Good — active project',
-    colour: 'Pearl White',
+    colour: 'Bluish Silver Metallic (1A0)',
     status: 'Street registered · Active build',
   },
 }
@@ -61,7 +59,7 @@ export const specsGrid = [
   { value: `${vehicle.engine.power.rpm} rpm`, label: 'Power RPM' },
   { value: `${vehicle.engine.torque.lbft} lb-ft`, label: 'Peak Torque' },
   { value: `${vehicle.engine.torque.rpm} rpm`, label: 'Torque RPM' },
-  { value: 'A340E', label: 'Gearbox' },
+  { value: 'R154', label: 'Gearbox' },
   { value: vehicle.drivetrain.layout, label: 'Drivetrain' },
   { value: vehicle.dimensions.kerbWeight, label: 'Kerb Weight' },
   { value: vehicle.chassis, label: 'Chassis' },
@@ -75,7 +73,6 @@ export const currentStateItems = [
   { label: 'Original colour', value: vehicle.currentState.colour },
   { label: 'Status', value: vehicle.currentState.status },
   { label: 'NZ plate', value: vehicle.plate },
-  { label: 'Purchase price', value: `${vehicle.currency} $${vehicle.purchasePrice.toLocaleString()}` },
 ]
 
 // Specs used in the homepage SpecsSection (subset — key numbers only)
@@ -84,7 +81,7 @@ export const homepageSpecs = [
   { value: vehicle.engine.displacement, label: 'Displacement' },
   { value: `${vehicle.engine.power.hp} hp`, label: 'Peak Power' },
   { value: `${vehicle.engine.torque.lbft} lb-ft`, label: 'Peak Torque' },
-  { value: 'A340E', label: 'Transmission' },
+  { value: 'R154', label: 'Transmission' },
   { value: vehicle.drivetrain.layout, label: 'Drivetrain' },
   { value: vehicle.dimensions.kerbWeight, label: 'Kerb Weight' },
   { value: String(vehicle.year), label: 'Model Year' },

@@ -229,13 +229,13 @@ export const journalEntries: JournalEntry[] = [
     category: 'ACQUISITION',
     tagColor: '#E8920A',
     title: 'Buying the JZZ31 — Why This Car?',
-    excerpt: 'I picked up the Soarer in Browns Bay with just 49,000 km on the clock — a low-spec, clean, manual JZZ31 in Toyota\'s grey-blue. Low spec means fewer things to break, the manual makes it a genuine driver\'s car, and the early non-VVT-i 2JZ-GE underneath is one of the best project platforms going.',
+    excerpt: 'I picked up the Soarer in Browns Bay with just 49,000 km on the clock — a low-spec, clean JZZ31 in Bluish Silver Metallic, already converted to a manual R154 gearbox. Low spec means fewer things to break, the R154 swap makes it a genuine driver\'s car, and the early non-VVT-i 2JZ-GE underneath is one of the best project platforms going.',
     readTime: '5 min read',
     tools: [],
     content: [
       {
         type: 'paragraph',
-        text: 'I picked the car up in Browns Bay. What sold me wasn\'t a single feature but the combination: a genuinely low-mileage example, a factory manual gearbox, and the 2JZ-GE platform underneath it. That mix is rare, and it\'s exactly what you want as a starting point for a long-term build.',
+        text: 'I picked the car up in Browns Bay. What sold me wasn\'t a single feature but the combination: a genuinely low-mileage example, an R154 manual conversion already done, and the 2JZ-GE platform underneath it. That mix is rare, and it\'s exactly what you want as a starting point for a long-term build.',
       },
       {
         type: 'heading',
@@ -265,10 +265,10 @@ export const journalEntries: JournalEntry[] = [
           { label: 'Engine', value: '2JZ-GE · 3.0L DOHC Inline-6 · NA' },
           { label: 'Ignition', value: 'Early non-VVT-i · distributor' },
           { label: 'Internals', value: 'Thicker connecting rods' },
-          { label: 'Transmission', value: 'Factory manual' },
+          { label: 'Transmission', value: 'R154 5-speed manual (2020 conversion, Kaspa Transmissions)' },
           { label: 'Drivetrain', value: 'Rear-wheel drive' },
           { label: 'Odometer at purchase', value: '≈49,000 km' },
-          { label: 'Colour', value: 'Toyota grey-blue' },
+          { label: 'Colour', value: 'Bluish Silver Metallic (1A0)' },
           { label: 'Location', value: 'Browns Bay, NZ' },
         ],
       },
