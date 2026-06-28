@@ -1,25 +1,30 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { journalEntries, type ContentBlock } from '@/lib/buildData'
+import { fetchPublicJournal, type PublicContentBlock } from '@/lib/publicData'
 import Badge from '@/components/ui/Badge'
 import ReadingProgress from '@/components/ui/ReadingProgress'
 
 type Props = { params: Promise<{ slug: string }> }
 
-export function generateStaticParams() {
-  return journalEntries.map((e) => ({ slug: e.slug }))
+export const dynamicParams = true
+export const revalidate = 300
+
+export async function generateStaticParams() {
+  const entries = await fetchPublicJournal()
+  return entries.map(e => ({ slug: e.slug }))
 }
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params
-  const entry = journalEntries.find((e) => e.slug === slug)
+  const entries = await fetchPublicJournal()
+  const entry = entries.find((e) => e.slug === slug)
   return {
     title: entry ? `${entry.title} — ENVEME` : 'Build Journal — ENVEME',
     description: entry?.excerpt,
   }
 }
 
-function renderBlock(block: ContentBlock, tagColor: string, index: number) {
+function renderBlock(block: PublicContentBlock, tagColor: string, index: number) {
   switch (block.type) {
     case 'paragraph':
       return (
@@ -95,6 +100,36 @@ function renderBlock(block: ContentBlock, tagColor: string, index: number) {
           <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.8125rem', color: '#666' }}>
             {block.caption}
           </p>
+        </div>
+      )
+
+    case 'image':
+      return (
+        <div key={index} style={{ marginBottom: '2rem' }}>
+          <img
+            src={block.url}
+            alt={block.caption ?? ''}
+            loading="lazy"
+            style={{
+              width: '100%',
+              aspectRatio: '16/9',
+              objectFit: 'cover',
+              borderRadius: '1rem',
+              border: '1px solid rgba(255,255,255,0.08)',
+            }}
+          />
+          {block.caption && (
+            <p style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.6875rem',
+              color: '#666',
+              textAlign: 'center',
+              marginTop: '0.75rem',
+              letterSpacing: '0.1em',
+            }}>
+              {block.caption}
+            </p>
+          )}
         </div>
       )
 
@@ -186,13 +221,14 @@ function renderBlock(block: ContentBlock, tagColor: string, index: number) {
 
 export default async function BuildEntryPage({ params }: Props) {
   const { slug } = await params
-  const entry = journalEntries.find((e) => e.slug === slug)
+  const entries = await fetchPublicJournal()
+  const entry = entries.find((e) => e.slug === slug)
 
   if (!entry) notFound()
 
-  const currentIndex = journalEntries.findIndex((e) => e.slug === slug)
-  const prevEntry = currentIndex < journalEntries.length - 1 ? journalEntries[currentIndex + 1] : null
-  const nextEntry = currentIndex > 0 ? journalEntries[currentIndex - 1] : null
+  const currentIndex = entries.findIndex((e) => e.slug === slug)
+  const prevEntry = currentIndex < entries.length - 1 ? entries[currentIndex + 1] : null
+  const nextEntry = currentIndex > 0 ? entries[currentIndex - 1] : null
 
   return (
     <main style={{ minHeight: '100vh', background: '#0A0A0A', paddingTop: '9rem', paddingBottom: '6rem' }}>

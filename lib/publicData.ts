@@ -1,3 +1,5 @@
+import { journalEntries } from './buildData'
+
 // lib/publicData.ts
 // Server-side helpers to fetch the publicly readable Firestore documents
 // that GarageOS syncs via syncPublic.ts.
@@ -83,6 +85,30 @@ export interface PublicCompliance {
   updatedAt: string
 }
 
+export type PublicContentBlock =
+  | { type: 'paragraph'; text: string }
+  | { type: 'heading'; text: string }
+  | { type: 'callout'; label: string; text: string; color?: string }
+  | { type: 'spec-table'; rows: { label: string; value: string }[] }
+  | { type: 'image'; url: string; caption?: string }
+  | { type: 'image-placeholder'; caption: string }
+
+export interface PublicJournalEntry {
+  slug: string
+  title: string
+  date: string
+  category: string
+  tagColor: string
+  excerpt: string
+  readTime: string
+  order: number
+  published: boolean
+  tools?: string[]
+  cost?: string
+  relatedMods?: string[]
+  content: PublicContentBlock[]
+}
+
 // ── Fallback data ─────────────────────────────────────────────────────────
 
 const FALLBACK_VEHICLE: PublicVehicle = {
@@ -95,6 +121,13 @@ const FALLBACK_VEHICLE: PublicVehicle = {
   buildStatus: 'Street registered · Active build',
   updatedAt: '',
 }
+
+const FALLBACK_JOURNAL: PublicJournalEntry[] = journalEntries.map(e => ({
+  ...e,
+  order: 0,
+  published: true,
+  content: e.content as PublicContentBlock[],
+}))
 
 // ── REST API helpers ──────────────────────────────────────────────────────
 
@@ -139,6 +172,11 @@ function mapFields(v: FirestoreValue | undefined): Record<string, FirestoreValue
 function arrValues(v: FirestoreValue | undefined): FirestoreValue[] {
   if (!v || !('arrayValue' in v)) return []
   return v.arrayValue.values ?? []
+}
+
+function bool(v: FirestoreValue | undefined, fallback = false): boolean {
+  if (!v) return fallback
+  return 'booleanValue' in v ? v.booleanValue : fallback
 }
 
 async function fetchDoc(
@@ -292,4 +330,56 @@ export async function fetchPublicCompliance(): Promise<PublicCompliance> {
     entries,
     updatedAt: str(fields.updatedAt),
   }
+}
+
+export async function fetchPublicJournal(): Promise<PublicJournalEntry[]> {
+  const fields = await fetchDoc('public/journal')
+  if (!fields) return FALLBACK_JOURNAL
+
+  const entries = arrValues(fields.entries).map(entry => {
+    const f = mapFields(entry)
+    const content: PublicContentBlock[] = arrValues(f.content).map(block => {
+      const bf = mapFields(block)
+      const type = str(bf.type)
+      switch (type) {
+        case 'paragraph':        return { type: 'paragraph' as const, text: str(bf.text) }
+        case 'heading':          return { type: 'heading' as const, text: str(bf.text) }
+        case 'image-placeholder': return { type: 'image-placeholder' as const, caption: str(bf.caption) }
+        case 'image':            return { type: 'image' as const, url: str(bf.url), caption: str(bf.caption) || undefined }
+        case 'callout':          return {
+          type:  'callout' as const,
+          label: str(bf.label),
+          text:  str(bf.text),
+          color: str(bf.color) || undefined,
+        }
+        case 'spec-table': return {
+          type: 'spec-table' as const,
+          rows: arrValues(bf.rows).map(r => {
+            const rf = mapFields(r)
+            return { label: str(rf.label), value: str(rf.value) }
+          }),
+        }
+        default: return { type: 'paragraph' as const, text: '' }
+      }
+    })
+
+    return {
+      slug:        str(f.slug),
+      title:       str(f.title),
+      date:        str(f.date),
+      category:    str(f.category),
+      tagColor:    str(f.tagColor, '#F87171'),
+      excerpt:     str(f.excerpt),
+      readTime:    str(f.readTime),
+      order:       num(f.order),
+      published:   bool(f.published, true),
+      tools:       arrValues(f.tools).map(t => str(t)).filter(Boolean),
+      cost:        str(f.cost) || undefined,
+      relatedMods: arrValues(f.relatedMods).map(m => str(m)).filter(Boolean),
+      content,
+    }
+  })
+
+  if (entries.length === 0) return FALLBACK_JOURNAL
+  return entries.sort((a, b) => b.order - a.order)
 }

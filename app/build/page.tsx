@@ -2,8 +2,7 @@ import type { Metadata } from 'next'
 import SectionHeading from '@/components/ui/SectionHeading'
 import Badge from '@/components/ui/Badge'
 import Link from 'next/link'
-import { journalEntries } from '@/lib/buildData'
-import { fetchPublicTimeline } from '@/lib/publicData'
+import { fetchPublicTimeline, fetchPublicJournal } from '@/lib/publicData'
 import type { PublicTimeline } from '@/lib/publicData'
 
 export const metadata: Metadata = {
@@ -34,7 +33,10 @@ function formatDate(dateStr: string | null): string {
 }
 
 export default async function BuildPage() {
-  const allProjects = await fetchPublicTimeline()
+  const [allProjects, journalEntries] = await Promise.all([
+    fetchPublicTimeline(),
+    fetchPublicJournal(),
+  ])
 
   // Group by status in display order
   const grouped = STATUS_ORDER
