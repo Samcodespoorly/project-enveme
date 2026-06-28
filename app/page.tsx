@@ -9,6 +9,7 @@ import {
   fetchPublicVehicle,
   fetchPublicMods,
   fetchPublicTimeline,
+  fetchPublicSpecs,
 } from '@/lib/publicData'
 
 // ── Async server component wrappers ───────────────────────────────────────
@@ -16,6 +17,11 @@ import {
 async function VehicleScene() {
   const vehicle = await fetchPublicVehicle()
   return <SceneSection vehicle={vehicle} />
+}
+
+async function SpecsSectionAsync() {
+  const { homepageSpecs } = await fetchPublicSpecs()
+  return <SpecsSection specs={homepageSpecs} />
 }
 
 async function DigitalTwinAsync() {
@@ -41,8 +47,9 @@ export default function Home() {
         <VehicleScene />
       </Suspense>
 
-      {/* Fully static — no Firebase dependency */}
-      <SpecsSection />
+      <Suspense fallback={<SpecsSection />}>
+        <SpecsSectionAsync />
+      </Suspense>
 
       {/* Interactive digital twin — replaces the static mods grid; the same
           parts data is now explorable on the 3D car itself */}

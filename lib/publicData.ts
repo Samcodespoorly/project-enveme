@@ -383,3 +383,112 @@ export async function fetchPublicJournal(): Promise<PublicJournalEntry[]> {
   if (entries.length === 0) return FALLBACK_JOURNAL
   return entries.sort((a, b) => b.order - a.order)
 }
+
+// ── Specs ─────────────────────────────────────────────────────────────────
+
+export interface PublicSpecs {
+  vehicle:      { name: string; chassis: string; alsoKnownAs: string; year: number; bodyStyle: string; plate: string; market: string }
+  engine:       { code: string; type: string; displacement: string; aspiration: string; powerHp: number; powerRpm: number; torqueLbft: number; torqueRpm: number }
+  drivetrain:   { transmission: string; layout: string }
+  dimensions:   { kerbWeight: number }
+  currentState: { condition: string; colour: string; status: string }
+  updatedAt:    string
+}
+
+export interface SpecsRow { label: string; value: string }
+
+export interface DerivedSpecs {
+  keySpecs:          SpecsRow[]
+  specsGrid:         SpecsRow[]
+  currentStateItems: SpecsRow[]
+  homepageSpecs:     SpecsRow[]
+}
+
+import {
+  keySpecs as FALLBACK_KEY_SPECS,
+  specsGrid as FALLBACK_SPECS_GRID,
+  currentStateItems as FALLBACK_CURRENT_STATE,
+  homepageSpecs as FALLBACK_HOMEPAGE_SPECS,
+} from './vehicleData'
+
+const FALLBACK_DERIVED: DerivedSpecs = {
+  keySpecs:          FALLBACK_KEY_SPECS,
+  specsGrid:         FALLBACK_SPECS_GRID,
+  currentStateItems: FALLBACK_CURRENT_STATE,
+  homepageSpecs:     FALLBACK_HOMEPAGE_SPECS,
+}
+
+export async function fetchPublicSpecs(): Promise<DerivedSpecs> {
+  const fields = await fetchDoc('public/specs')
+  if (!fields) return FALLBACK_DERIVED
+
+  const vf   = mapFields(fields.vehicle)
+  const ef   = mapFields(fields.engine)
+  const df   = mapFields(fields.drivetrain)
+  const dims = mapFields(fields.dimensions)
+  const cs   = mapFields(fields.currentState)
+
+  const chassis      = str(vf.chassis)
+  const engineCode   = str(ef.code)
+  const displacement = str(ef.displacement)
+  const powerHp      = num(ef.powerHp)
+  const powerRpm     = num(ef.powerRpm)
+  const torqueLbft   = num(ef.torqueLbft)
+  const torqueRpm    = num(ef.torqueRpm)
+  const transmission = str(df.transmission)
+  const layout       = str(df.layout)
+  const kerbWeight   = num(dims.kerbWeight)
+
+  const keySpecs: SpecsRow[] = [
+    { label: 'Make',          value: str(vf.name, 'Toyota Soarer').split(' ')[0] || 'Toyota' },
+    { label: 'Model',         value: `Soarer (${chassis})` },
+    { label: 'Also known as', value: str(vf.alsoKnownAs) },
+    { label: 'Year',          value: String(num(vf.year, 1995)) },
+    { label: 'Engine code',   value: engineCode },
+    { label: 'Engine type',   value: str(ef.type) },
+    { label: 'Displacement',  value: displacement },
+    { label: 'Power output',  value: `${powerHp} hp @ ${powerRpm} RPM` },
+    { label: 'Torque',        value: `${torqueLbft} lb-ft @ ${torqueRpm} RPM` },
+    { label: 'Aspiration',    value: str(ef.aspiration) },
+    { label: 'Transmission',  value: transmission },
+    { label: 'Drivetrain',    value: layout },
+    { label: 'Kerb weight',   value: `${kerbWeight} kg` },
+    { label: 'Body style',    value: str(vf.bodyStyle) },
+  ]
+
+  const specsGrid: SpecsRow[] = [
+    { value: engineCode,                 label: 'Engine' },
+    { value: displacement,               label: 'Displacement' },
+    { value: `${powerHp} hp`,            label: 'Peak Power' },
+    { value: `${powerRpm} rpm`,          label: 'Power RPM' },
+    { value: `${torqueLbft} lb-ft`,      label: 'Peak Torque' },
+    { value: `${torqueRpm} rpm`,         label: 'Torque RPM' },
+    { value: transmission.split(' ')[0], label: 'Gearbox' },
+    { value: layout,                     label: 'Drivetrain' },
+    { value: `${kerbWeight} kg`,         label: 'Kerb Weight' },
+    { value: chassis,                    label: 'Chassis' },
+    { value: String(num(vf.year, 1995)), label: 'Year' },
+    { value: str(vf.market, 'NZ').split(' ')[0].replace(',', ''), label: 'Market' },
+  ]
+
+  const currentStateItems: SpecsRow[] = [
+    { label: 'Odometer',        value: '—' },
+    { label: 'Condition',       value: str(cs.condition) },
+    { label: 'Original colour', value: str(cs.colour) },
+    { label: 'Status',          value: str(cs.status) },
+    { label: 'NZ plate',        value: str(vf.plate) },
+  ]
+
+  const homepageSpecs: SpecsRow[] = [
+    { value: engineCode,                 label: 'Engine Code' },
+    { value: displacement,               label: 'Displacement' },
+    { value: `${powerHp} hp`,            label: 'Peak Power' },
+    { value: `${torqueLbft} lb-ft`,      label: 'Peak Torque' },
+    { value: transmission,               label: 'Transmission' },
+    { value: layout,                     label: 'Drivetrain' },
+    { value: `${kerbWeight} kg`,         label: 'Kerb Weight' },
+    { value: String(num(vf.year, 1995)), label: 'Model Year' },
+  ]
+
+  return { keySpecs, specsGrid, currentStateItems, homepageSpecs }
+}

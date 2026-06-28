@@ -1,8 +1,12 @@
 import AnimatedText from '@/components/ui/AnimatedText'
 import SectionHeading from '@/components/ui/SectionHeading'
 import { homepageSpecs } from '@/lib/vehicleData'
+import type { SpecsRow } from '@/lib/publicData'
 
-export default function SpecsSection() {
+interface Props { specs?: SpecsRow[] }
+
+export default function SpecsSection({ specs }: Props) {
+  const items = specs ?? homepageSpecs
   return (
     <section style={{ background: 'var(--color-bg-secondary)', padding: '7rem 0', position: 'relative', overflow: 'hidden' }}>
       {/* Subtle top-left amber bloom */}
@@ -26,7 +30,7 @@ export default function SpecsSection() {
 
         {/* 2 cols mobile → 4 cols md+ */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
-          {homepageSpecs.map((spec, i) => (
+          {items.map((spec, i) => (
             <AnimatedText key={spec.label} delay={i * 0.05}>
               <div className="card spec-card" style={{ position: 'relative' }}>
                 <div style={{

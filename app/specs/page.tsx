@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import SectionHeading from '@/components/ui/SectionHeading'
-import { keySpecs, specsGrid, currentStateItems, vehicle } from '@/lib/vehicleData'
-import { fetchPublicVehicle } from '@/lib/publicData'
+import { fetchPublicVehicle, fetchPublicSpecs } from '@/lib/publicData'
 
 export const metadata: Metadata = {
   title: 'Vehicle Specs — ENVEME',
@@ -9,12 +8,16 @@ export const metadata: Metadata = {
 }
 
 export default async function SpecsPage() {
-  const liveVehicle = await fetchPublicVehicle()
+  const [liveVehicle, derivedSpecs] = await Promise.all([
+    fetchPublicVehicle(),
+    fetchPublicSpecs(),
+  ])
+
   const liveOdometer = liveVehicle.odometer > 0
     ? `${liveVehicle.odometer.toLocaleString('en-NZ')} km`
-    : vehicle.currentState.odometer
+    : derivedSpecs.currentStateItems.find(i => i.label === 'Odometer')?.value ?? '—'
 
-  const liveCurrentStateItems = currentStateItems.map(item =>
+  const liveCurrentStateItems = derivedSpecs.currentStateItems.map(item =>
     item.label === 'Odometer' ? { ...item, value: liveOdometer } : item
   )
   return (
@@ -46,7 +49,7 @@ export default async function SpecsPage() {
             <div style={{ borderRadius: '1.25rem', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', overflow: 'hidden' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                 <tbody>
-                  {keySpecs.map((spec, i) => (
+                  {derivedSpecs.keySpecs.map((spec, i) => (
                     <tr key={spec.label} style={{
                       borderBottom: '1px solid rgba(255,255,255,0.05)',
                       background: i % 2 === 0 ? 'rgba(255,255,255,0.015)' : 'transparent',
@@ -91,7 +94,7 @@ export default async function SpecsPage() {
               Key Numbers
             </h3>
             <div className="grid grid-cols-2 gap-3">
-              {specsGrid.map((spec) => (
+              {derivedSpecs.specsGrid.map((spec) => (
                 <div key={spec.label} className="card spec-card" style={{ padding: '1.5rem' }}>
                   <span
                     className="spec-value"
