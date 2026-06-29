@@ -399,3 +399,26 @@ body {
   background: rgba(232, 146, 10, 0.35);
   color: #fff;
 }
+
+@keyframes tickerscroll { to { transform: translateX(-50%); } }
+@keyframes livepulse { 0%, 100% { opacity: .35; } 50% { opacity: 1; } }
+
+.ticker-outer:hover .ticker-inner { animation-play-state: paused; }
+
+.frame-holder {
+  position: relative;
+  border: 1px solid var(--line);
+  padding: 6px;
+  background: var(--surface);
+}
+.frame-holder::before,
+.frame-holder::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border: 1px solid var(--ink-faint);
+  opacity: .5;
+}
+.frame-holder::before { left: -1px; top: -1px; border-right: 0; border-bottom: 0; }
+.frame-holder::after  { right: -1px; bottom: -1px; border-left: 0; border-top: 0; }
