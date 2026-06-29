@@ -57,7 +57,7 @@ export default function SpecsError({ error, reset }: ErrorProps) {
             fontFamily: 'var(--font-body)',
             fontSize: '0.8125rem',
             fontWeight: 700,
-            color: '#000',
+            color: 'var(--on-accent)',
             background: 'var(--accent)',
             border: 'none',
             cursor: 'pointer',

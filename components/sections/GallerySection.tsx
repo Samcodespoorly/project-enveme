@@ -52,7 +52,7 @@ export default function GallerySection({ gallery }: { gallery: PublicGallery }) 
         </p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '14px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '14px' }}>
         {frames.map((f) => (
           <div
             key={f.code}

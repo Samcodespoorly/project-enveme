@@ -381,7 +381,7 @@ export async function fetchPublicJournal(): Promise<PublicJournalEntry[]> {
   })
 
   if (entries.length === 0) return FALLBACK_JOURNAL
-  return entries.sort((a, b) => b.order - a.order)
+  return entries.filter(e => e.published).sort((a, b) => b.order - a.order)
 }
 
 // ── Profile ───────────────────────────────────────────────────────────────

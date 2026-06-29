@@ -13,7 +13,7 @@ export default function ContactButtons() {
           alignItems: 'center',
           gap: '0.625rem',
           background: 'var(--accent)',
-          color: '#000',
+          color: 'var(--on-accent)',
           fontFamily: 'var(--font-body)',
           fontWeight: 700,
           fontSize: '0.8125rem',
