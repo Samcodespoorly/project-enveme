@@ -11,8 +11,8 @@
   --color-bg-primary: #0A0A0A;
   --color-bg-secondary: #0D0D10;
 
-  --font-family-display: var(--font-display), 'Barlow Condensed', sans-serif;
-  --font-family-body: var(--font-body), 'DM Sans', sans-serif;
+  --font-family-display: var(--font-display), 'Saira Condensed', sans-serif;
+  --font-family-body: var(--font-body), 'Saira', sans-serif;
   --font-family-mono: var(--font-mono), 'JetBrains Mono', monospace;
 
   --animate-fade-up: fade-up 0.6s ease forwards;
@@ -34,6 +34,12 @@
   }
 }
 
+:root {
+  --font-display: var(--font-saira-cond);
+  --font-body: var(--font-saira);
+  --font-mono: var(--font-jetbrains);
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -53,7 +59,7 @@ html {
 body {
   background: #0A0A0A;
   color: #FAFAFA;
-  font-family: var(--font-body), 'DM Sans', sans-serif;
+  font-family: var(--font-body), 'Saira', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
