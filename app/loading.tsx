@@ -13,7 +13,7 @@ export default function RootLoading() {
         style={{
           fontFamily: 'var(--font-mono)',
           fontSize: '0.6875rem',
-          color: '#E8920A',
+          color: 'var(--accent)',
           letterSpacing: '0.25em',
           textTransform: 'uppercase',
         }}

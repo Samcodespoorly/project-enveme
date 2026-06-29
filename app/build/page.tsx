@@ -20,7 +20,7 @@ const STATUS_LABELS: Record<PublicTimeline['status'], string> = {
 }
 
 const STATUS_COLOURS: Record<PublicTimeline['status'], string> = {
-  in_progress: '#E8920A',
+  in_progress: 'var(--accent)',
   complete:    '#34D399',
   planning:    '#60A5FA',
   on_hold:     '#9CA3AF',
@@ -51,7 +51,7 @@ export default async function BuildPage() {
   const hasLiveProjects = allProjects.length > 0
 
   return (
-    <main style={{ minHeight: '100vh', background: '#0A0A0A', paddingTop: '9rem', paddingBottom: '6rem' }}>
+    <main style={{ minHeight: '100vh', background: 'var(--bg)', paddingTop: '9rem', paddingBottom: '6rem' }}>
       <div className="page-container">
 
         <SectionHeading
@@ -67,7 +67,7 @@ export default async function BuildPage() {
               fontFamily: 'var(--font-display)',
               fontSize: 'clamp(1.125rem, 2.5vw, 1.5rem)',
               fontWeight: 700,
-              color: '#FFF',
+              color: 'var(--ink)',
               textTransform: 'uppercase',
               letterSpacing: '0.03em',
               marginBottom: '2.5rem',
@@ -125,7 +125,7 @@ export default async function BuildPage() {
                             fontFamily: 'var(--font-display)',
                             fontSize: 'clamp(1rem, 2.5vw, 1.25rem)',
                             fontWeight: 700,
-                            color: '#FFF',
+                            color: 'var(--ink)',
                             textTransform: 'uppercase',
                             letterSpacing: '-0.01em',
                             lineHeight: 1.15,
@@ -147,7 +147,7 @@ export default async function BuildPage() {
                           <span style={{
                             fontFamily: 'var(--font-mono)',
                             fontSize: '0.6875rem',
-                            color: '#555',
+                            color: 'var(--ink-faint)',
                             letterSpacing: '0.1em',
                             textTransform: 'uppercase',
                           }}>
@@ -156,7 +156,7 @@ export default async function BuildPage() {
                           <span style={{
                             fontFamily: 'var(--font-mono)',
                             fontSize: '0.6875rem',
-                            color: '#444',
+                            color: 'var(--ink-faint)',
                             letterSpacing: '0.08em',
                           }}>
                             {project.completedDate
@@ -173,7 +173,7 @@ export default async function BuildPage() {
                         <p style={{
                           fontFamily: 'var(--font-body)',
                           fontSize: '0.9375rem',
-                          color: '#AAAAAA',
+                          color: 'var(--ink-soft)',
                           lineHeight: 1.7,
                           margin: 0,
                         }}>
@@ -198,9 +198,9 @@ export default async function BuildPage() {
                                 style={{
                                   fontFamily: 'var(--font-mono)',
                                   fontSize: '0.625rem',
-                                  color: '#666',
-                                  background: 'rgba(255,255,255,0.04)',
-                                  border: '1px solid rgba(255,255,255,0.08)',
+                                  color: 'var(--ink-faint)',
+                                  background: 'var(--surface)',
+                                  border: '1px solid var(--line)',
                                   borderRadius: '4px',
                                   padding: '0.2rem 0.5rem',
                                   textTransform: 'uppercase',
@@ -215,7 +215,7 @@ export default async function BuildPage() {
                             <span style={{
                               fontFamily: 'var(--font-mono)',
                               fontSize: '0.75rem',
-                              color: '#E8920A',
+                              color: 'var(--accent)',
                               letterSpacing: '0.05em',
                             }}>
                               NZD ${project.totalCost.toLocaleString('en-NZ')}
@@ -238,7 +238,7 @@ export default async function BuildPage() {
               fontFamily: 'var(--font-display)',
               fontSize: 'clamp(1.125rem, 2.5vw, 1.5rem)',
               fontWeight: 700,
-              color: '#FFF',
+              color: 'var(--ink)',
               textTransform: 'uppercase',
               letterSpacing: '0.03em',
               marginBottom: '2rem',
@@ -256,10 +256,10 @@ export default async function BuildPage() {
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
                   <Badge label={entry.category} color={entry.tagColor} />
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: '#666', letterSpacing: '0.1em' }}>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--ink-faint)', letterSpacing: '0.1em' }}>
                     {entry.date}
                   </span>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: '#555', letterSpacing: '0.1em' }}>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--ink-faint)', letterSpacing: '0.1em' }}>
                     {entry.readTime}
                   </span>
                 </div>
@@ -268,7 +268,7 @@ export default async function BuildPage() {
                   fontFamily: 'var(--font-display)',
                   fontSize: 'clamp(1.25rem, 3vw, 1.875rem)',
                   fontWeight: 700,
-                  color: '#FFF',
+                  color: 'var(--ink)',
                   textTransform: 'uppercase',
                   lineHeight: 1.1,
                   letterSpacing: '-0.01em',
@@ -280,7 +280,7 @@ export default async function BuildPage() {
                 <p style={{
                   fontFamily: 'var(--font-body)',
                   fontSize: '0.9375rem',
-                  color: '#AAAAAA',
+                  color: 'var(--ink-soft)',
                   lineHeight: 1.75,
                   marginBottom: '1.75rem',
                 }}>
@@ -290,7 +290,7 @@ export default async function BuildPage() {
                 <Link href={`/build/${entry.slug}`} style={{
                   fontFamily: 'var(--font-body)',
                   fontSize: '0.875rem',
-                  color: '#E8920A',
+                  color: 'var(--accent)',
                   textDecoration: 'none',
                   fontWeight: 500,
                   letterSpacing: '0.05em',
@@ -305,8 +305,8 @@ export default async function BuildPage() {
         <div style={{
           marginTop: '2rem',
           borderRadius: '1.25rem',
-          background: 'rgba(255,255,255,0.02)',
-          border: '1px solid rgba(255,255,255,0.06)',
+          background: 'var(--surface)',
+          border: '1px solid var(--line-soft)',
           padding: '1.75rem 2rem',
           display: 'flex',
           alignItems: 'center',
@@ -319,11 +319,11 @@ export default async function BuildPage() {
             boxShadow: '0 0 5px rgba(52,211,153,0.6)',
             flexShrink: 0,
           }} />
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6875rem', color: '#666', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6875rem', color: 'var(--ink-faint)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
             Projects synced live from GarageOS
           </p>
-          <span style={{ color: 'rgba(255,255,255,0.1)', fontSize: '0.875rem', flexShrink: 0 }}>·</span>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6875rem', color: '#555', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+          <span style={{ color: 'var(--line)', fontSize: '0.875rem', flexShrink: 0 }}>·</span>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6875rem', color: 'var(--ink-faint)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
             Journal entries are hand-authored build logs
           </p>
         </div>

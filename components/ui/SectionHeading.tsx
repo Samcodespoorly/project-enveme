@@ -15,22 +15,22 @@ export default function SectionHeading({
     <div className={`mb-16 ${className}`}>
       {label && (
         <p
-          className="text-[#E8920A] text-[11px] tracking-[0.3em] uppercase mb-5"
-          style={{ fontFamily: 'var(--font-mono)' }}
+          className="text-[11px] tracking-[0.3em] uppercase mb-5"
+          style={{ fontFamily: 'var(--font-mono)', color: 'var(--accent)' }}
         >
           {label}
         </p>
       )}
       <h2
-        className="text-5xl sm:text-6xl lg:text-7xl font-bold uppercase text-white tracking-tight leading-[0.92]"
-        style={{ fontFamily: 'var(--font-display)' }}
+        className="text-5xl sm:text-6xl lg:text-7xl font-bold uppercase tracking-tight leading-[0.92]"
+        style={{ fontFamily: 'var(--font-display)', color: 'var(--ink)' }}
       >
         {heading}
       </h2>
       {subtitle && (
         <p
-          className="mt-6 text-[#AAAAAA] text-base md:text-lg max-w-2xl leading-relaxed"
-          style={{ fontFamily: 'var(--font-body)' }}
+          className="mt-6 text-base md:text-lg max-w-2xl leading-relaxed"
+          style={{ fontFamily: 'var(--font-body)', color: 'var(--ink-soft)' }}
         >
           {subtitle}
         </p>

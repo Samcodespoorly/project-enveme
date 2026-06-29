@@ -17,7 +17,7 @@ export default function BuildError({ error, reset }: ErrorProps) {
     <main
       style={{
         minHeight: '100vh',
-        background: '#0A0A0A',
+        background: 'var(--bg)',
         paddingTop: '9rem',
         paddingBottom: '6rem',
         display: 'flex',
@@ -32,7 +32,7 @@ export default function BuildError({ error, reset }: ErrorProps) {
         style={{
           fontFamily: 'var(--font-mono)',
           fontSize: '0.6875rem',
-          color: '#E8920A',
+          color: 'var(--accent)',
           letterSpacing: '0.3em',
           textTransform: 'uppercase',
           marginBottom: '1rem',
@@ -44,7 +44,7 @@ export default function BuildError({ error, reset }: ErrorProps) {
         style={{
           fontFamily: 'var(--font-body)',
           fontSize: '0.9375rem',
-          color: '#666',
+          color: 'var(--ink-faint)',
           lineHeight: 1.7,
           maxWidth: '28rem',
           marginBottom: '2.5rem',
@@ -61,7 +61,7 @@ export default function BuildError({ error, reset }: ErrorProps) {
             fontSize: '0.8125rem',
             fontWeight: 700,
             color: '#000',
-            background: '#E8920A',
+            background: 'var(--accent)',
             border: 'none',
             cursor: 'pointer',
             padding: '0.875rem 2rem',
@@ -78,9 +78,9 @@ export default function BuildError({ error, reset }: ErrorProps) {
             fontFamily: 'var(--font-body)',
             fontSize: '0.8125rem',
             fontWeight: 600,
-            color: '#FFF',
+            color: 'var(--ink)',
             background: 'transparent',
-            border: '1px solid rgba(255,255,255,0.2)',
+            border: '1px solid var(--line)',
             padding: '0.875rem 2rem',
             borderRadius: '0.5rem',
             textTransform: 'uppercase',

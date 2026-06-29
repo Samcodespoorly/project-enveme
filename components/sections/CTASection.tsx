@@ -13,7 +13,7 @@ export default function CTASection() {
       }}>
         <div style={{
           width: '500px', height: '300px',
-          background: 'rgba(232,146,10,0.07)',
+          background: 'var(--surface)',
           borderRadius: '50%',
           filter: 'blur(100px)',
         }} />
@@ -24,7 +24,7 @@ export default function CTASection() {
           <p style={{
             fontFamily: 'var(--font-mono)',
             fontSize: '0.6875rem',
-            color: '#E8920A',
+            color: 'var(--accent)',
             letterSpacing: '0.3em',
             textTransform: 'uppercase',
             marginBottom: '1.25rem',
@@ -38,7 +38,7 @@ export default function CTASection() {
             fontFamily: 'var(--font-display)',
             fontSize: 'clamp(3rem, 8vw, 6rem)',
             fontWeight: 700,
-            color: '#FFF',
+            color: 'var(--ink)',
             textTransform: 'uppercase',
             lineHeight: 1,
             letterSpacing: '-0.02em',
@@ -51,7 +51,7 @@ export default function CTASection() {
           <p style={{
             fontFamily: 'var(--font-body)',
             fontSize: '1.0625rem',
-            color: '#AAAAAA',
+            color: 'var(--ink-soft)',
             maxWidth: '36rem',
             margin: '1.5rem auto 0',
           }}>
@@ -74,7 +74,7 @@ export default function CTASection() {
               fontSize: '0.8125rem',
               fontWeight: 600,
               color: '#000',
-              background: '#E8920A',
+              background: 'var(--accent)',
               padding: '1rem 2.5rem',
               borderRadius: '0.75rem',
               textTransform: 'uppercase',
@@ -93,9 +93,9 @@ export default function CTASection() {
               fontFamily: 'var(--font-body)',
               fontSize: '0.8125rem',
               fontWeight: 600,
-              color: '#FFF',
-              background: 'rgba(255,255,255,0.08)',
-              border: '1px solid rgba(255,255,255,0.2)',
+              color: 'var(--ink)',
+              background: 'var(--line)',
+              border: '1px solid var(--line)',
               padding: '1rem 2.5rem',
               borderRadius: '0.75rem',
               textTransform: 'uppercase',
@@ -106,11 +106,11 @@ export default function CTASection() {
             }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = 'scale(1.02)'
-                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.35)'
+                e.currentTarget.style.borderColor = 'rgba(42,32,24,0.35)'
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = 'scale(1)'
-                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'
+                e.currentTarget.style.borderColor = 'var(--line)'
               }}
             >
               About the Engineer
@@ -122,7 +122,7 @@ export default function CTASection() {
           <p style={{
             fontFamily: 'var(--font-mono)',
             fontSize: '0.625rem',
-            color: '#555',
+            color: 'var(--ink-faint)',
             letterSpacing: '0.2em',
             textTransform: 'uppercase',
             marginTop: '1.75rem',
@@ -133,13 +133,13 @@ export default function CTASection() {
               target="_blank"
               rel="noopener noreferrer"
               style={{
-                color: '#E8920A',
+                color: 'var(--accent)',
                 textDecoration: 'none',
                 letterSpacing: '0.2em',
                 transition: 'color 0.2s',
               }}
-              onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.color = '#FBB940')}
-              onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.color = '#E8920A')}
+              onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--accent-2)')}
+              onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--accent)')}
             >
               linkedin.com/in/samuel-donovan →
             </a>

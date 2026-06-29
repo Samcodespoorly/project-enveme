@@ -9,14 +9,14 @@ export default function SpecsSection({ specs }: Props) {
   const items = specs ?? homepageSpecs
   return (
     <section style={{ background: 'var(--color-bg-secondary)', padding: '7rem 0', position: 'relative', overflow: 'hidden' }}>
-      {/* Subtle top-left amber bloom */}
+      {/* Subtle top-left accent bloom */}
       <div style={{
         position: 'absolute',
         top: '-80px',
         left: '-80px',
         width: '400px',
         height: '400px',
-        background: 'radial-gradient(circle, rgba(232,146,10,0.05) 0%, transparent 65%)',
+        background: 'radial-gradient(circle, rgba(191,74,35,0.05) 0%, transparent 65%)',
         pointerEvents: 'none',
       }} />
       <div className="wide-container" style={{ position: 'relative', zIndex: 1 }}>
@@ -36,7 +36,7 @@ export default function SpecsSection({ specs }: Props) {
                 <div style={{
                   position: 'absolute', top: 0, left: '1.5rem', right: '1.5rem',
                   height: '1px',
-                  background: 'linear-gradient(to right, rgba(232,146,10,0.7), rgba(232,146,10,0.2), transparent)',
+                  background: 'linear-gradient(to right, var(--accent), transparent)',
                 }} />
                 <span
                   className="spec-value"
@@ -45,7 +45,7 @@ export default function SpecsSection({ specs }: Props) {
                     fontFamily: 'var(--font-mono)',
                     fontSize: 'clamp(1.25rem, 3vw, 2rem)',
                     fontWeight: 700,
-                    color: '#E8920A',
+                    color: 'var(--accent)',
                     lineHeight: 1,
                     marginBottom: '0.75rem',
                   }}
@@ -56,7 +56,7 @@ export default function SpecsSection({ specs }: Props) {
                   display: 'block',
                   fontFamily: 'var(--font-mono)',
                   fontSize: '0.6875rem',
-                  color: '#777',
+                  color: 'var(--ink-soft)',
                   textTransform: 'uppercase',
                   letterSpacing: '0.15em',
                 }}>

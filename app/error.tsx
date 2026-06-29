@@ -10,7 +10,6 @@ interface ErrorProps {
 
 export default function GlobalError({ error, reset }: ErrorProps) {
   useEffect(() => {
-    // Log to console in development; swap for a real error service in production
     console.error('[ENVEME] Unhandled page error:', error)
   }, [error])
 
@@ -18,7 +17,7 @@ export default function GlobalError({ error, reset }: ErrorProps) {
     <main
       style={{
         minHeight: '100vh',
-        background: '#0A0A0A',
+        background: 'var(--bg)',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -31,7 +30,7 @@ export default function GlobalError({ error, reset }: ErrorProps) {
         style={{
           fontFamily: 'var(--font-mono)',
           fontSize: '0.6875rem',
-          color: '#E8920A',
+          color: 'var(--accent)',
           letterSpacing: '0.3em',
           textTransform: 'uppercase',
           marginBottom: '1rem',
@@ -44,7 +43,7 @@ export default function GlobalError({ error, reset }: ErrorProps) {
           fontFamily: 'var(--font-display)',
           fontSize: 'clamp(2.5rem, 8vw, 5rem)',
           fontWeight: 800,
-          color: '#FFFFFF',
+          color: 'var(--ink)',
           textTransform: 'uppercase',
           letterSpacing: '-0.02em',
           lineHeight: 1,
@@ -57,7 +56,7 @@ export default function GlobalError({ error, reset }: ErrorProps) {
         style={{
           fontFamily: 'var(--font-body)',
           fontSize: '0.9375rem',
-          color: '#666',
+          color: 'var(--ink-faint)',
           lineHeight: 1.7,
           maxWidth: '28rem',
           marginBottom: '2.5rem',
@@ -74,7 +73,7 @@ export default function GlobalError({ error, reset }: ErrorProps) {
             fontSize: '0.8125rem',
             fontWeight: 700,
             color: '#000',
-            background: '#E8920A',
+            background: 'var(--accent)',
             border: 'none',
             cursor: 'pointer',
             padding: '0.875rem 2rem',
@@ -91,9 +90,9 @@ export default function GlobalError({ error, reset }: ErrorProps) {
             fontFamily: 'var(--font-body)',
             fontSize: '0.8125rem',
             fontWeight: 600,
-            color: '#FFF',
+            color: 'var(--ink)',
             background: 'transparent',
-            border: '1px solid rgba(255,255,255,0.2)',
+            border: '1px solid var(--line)',
             padding: '0.875rem 2rem',
             borderRadius: '0.5rem',
             textTransform: 'uppercase',

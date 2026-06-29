@@ -3,7 +3,7 @@ export default function BuildLoading() {
     <main
       style={{
         minHeight: '100vh',
-        background: '#0A0A0A',
+        background: 'var(--bg)',
         paddingTop: '9rem',
         paddingBottom: '6rem',
         display: 'flex',
@@ -15,7 +15,7 @@ export default function BuildLoading() {
         style={{
           fontFamily: 'var(--font-mono)',
           fontSize: '0.6875rem',
-          color: '#E8920A',
+          color: 'var(--accent)',
           letterSpacing: '0.25em',
           textTransform: 'uppercase',
         }}

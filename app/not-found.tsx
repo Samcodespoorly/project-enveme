@@ -18,7 +18,7 @@ export default function NotFound() {
         style={{
           fontFamily: 'var(--font-mono)',
           fontSize: '0.6875rem',
-          color: '#E8920A',
+          color: 'var(--accent)',
           letterSpacing: '0.3em',
           textTransform: 'uppercase',
           marginBottom: '1rem',
@@ -31,12 +31,12 @@ export default function NotFound() {
           fontFamily: 'var(--font-display)',
           fontSize: 'clamp(4rem, 12vw, 9rem)',
           fontWeight: 900,
-          color: '#FFFFFF',
+          color: 'var(--ink)',
           textTransform: 'uppercase',
           letterSpacing: '-0.03em',
           lineHeight: 0.9,
           marginBottom: '2rem',
-          textShadow: '0 0 80px rgba(232,146,10,0.15)',
+          textShadow: '0 0 80px rgba(191,74,35,0.15)',
         }}
       >
         404
@@ -45,7 +45,7 @@ export default function NotFound() {
         style={{
           fontFamily: 'var(--font-body)',
           fontSize: '0.9375rem',
-          color: '#666',
+          color: 'var(--ink-faint)',
           lineHeight: 1.7,
           maxWidth: '26rem',
           marginBottom: '2.5rem',
@@ -60,7 +60,7 @@ export default function NotFound() {
           fontSize: '0.8125rem',
           fontWeight: 700,
           color: '#000',
-          background: '#E8920A',
+          background: 'var(--accent)',
           padding: '0.875rem 2rem',
           borderRadius: '0.5rem',
           textTransform: 'uppercase',

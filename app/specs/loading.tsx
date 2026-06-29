@@ -3,7 +3,7 @@ export default function SpecsLoading() {
     <main
       style={{
         minHeight: '100vh',
-        background: '#0A0A0A',
+        background: 'var(--bg)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -13,7 +13,7 @@ export default function SpecsLoading() {
         style={{
           fontFamily: 'var(--font-mono)',
           fontSize: '0.6875rem',
-          color: '#E8920A',
+          color: 'var(--accent)',
           letterSpacing: '0.25em',
           textTransform: 'uppercase',
         }}

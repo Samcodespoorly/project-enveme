@@ -21,7 +21,7 @@ export default async function SpecsPage() {
     item.label === 'Odometer' ? { ...item, value: liveOdometer } : item
   )
   return (
-    <main style={{ minHeight: '100vh', background: '#0A0A0A', paddingTop: '9rem', paddingBottom: '6rem' }}>
+    <main style={{ minHeight: '100vh', background: 'var(--bg)', paddingTop: '9rem', paddingBottom: '6rem' }}>
       <div className="page-container">
 
         <SectionHeading
@@ -39,26 +39,26 @@ export default async function SpecsPage() {
               fontFamily: 'var(--font-display)',
               fontSize: '1.25rem',
               fontWeight: 700,
-              color: '#FFF',
+              color: 'var(--ink)',
               textTransform: 'uppercase',
               letterSpacing: '0.03em',
               marginBottom: '1.25rem',
             }}>
               Factory Specifications
             </h3>
-            <div style={{ borderRadius: '1.25rem', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', overflow: 'hidden' }}>
+            <div style={{ borderRadius: '1.25rem', background: 'var(--surface)', border: '1px solid var(--line)', overflow: 'hidden' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                 <tbody>
                   {derivedSpecs.keySpecs.map((spec, i) => (
                     <tr key={spec.label} style={{
-                      borderBottom: '1px solid rgba(255,255,255,0.05)',
-                      background: i % 2 === 0 ? 'rgba(255,255,255,0.015)' : 'transparent',
+                      borderBottom: '1px solid var(--line-soft)',
+                      background: i % 2 === 0 ? 'var(--surface)' : 'transparent',
                     }}>
                       <td style={{
                         padding: '0.875rem 1.5rem',
                         fontFamily: 'var(--font-mono)',
                         fontSize: '0.6875rem',
-                        color: '#666',
+                        color: 'var(--ink-faint)',
                         textTransform: 'uppercase',
                         letterSpacing: '0.12em',
                         width: '40%',
@@ -69,7 +69,7 @@ export default async function SpecsPage() {
                         padding: '0.875rem 1.5rem',
                         fontFamily: 'var(--font-body)',
                         fontSize: '0.875rem',
-                        color: '#E8E8E8',
+                        color: 'var(--ink)',
                       }}>
                         {spec.value}
                       </td>
@@ -86,7 +86,7 @@ export default async function SpecsPage() {
               fontFamily: 'var(--font-display)',
               fontSize: '1.25rem',
               fontWeight: 700,
-              color: '#FFF',
+              color: 'var(--ink)',
               textTransform: 'uppercase',
               letterSpacing: '0.03em',
               marginBottom: '1.25rem',
@@ -103,7 +103,7 @@ export default async function SpecsPage() {
                       fontFamily: 'var(--font-mono)',
                       fontSize: '1.25rem',
                       fontWeight: 700,
-                      color: '#E8920A',
+                      color: 'var(--accent)',
                       marginBottom: '0.5rem',
                     }}
                   >
@@ -113,7 +113,7 @@ export default async function SpecsPage() {
                     display: 'block',
                     fontFamily: 'var(--font-mono)',
                     fontSize: '0.625rem',
-                    color: '#666',
+                    color: 'var(--ink-faint)',
                     textTransform: 'uppercase',
                     letterSpacing: '0.15em',
                   }}>
@@ -131,7 +131,7 @@ export default async function SpecsPage() {
             fontFamily: 'var(--font-display)',
             fontSize: '1.25rem',
             fontWeight: 700,
-            color: '#FFF',
+            color: 'var(--ink)',
             textTransform: 'uppercase',
             letterSpacing: '0.03em',
             marginBottom: '1.25rem',
@@ -144,7 +144,7 @@ export default async function SpecsPage() {
                 <p style={{
                   fontFamily: 'var(--font-mono)',
                   fontSize: '0.625rem',
-                  color: '#666',
+                  color: 'var(--ink-faint)',
                   textTransform: 'uppercase',
                   letterSpacing: '0.15em',
                   marginBottom: '0.625rem',
@@ -154,7 +154,7 @@ export default async function SpecsPage() {
                 <p style={{
                   fontFamily: 'var(--font-body)',
                   fontSize: '0.9375rem',
-                  color: '#E8E8E8',
+                  color: 'var(--ink)',
                   fontWeight: 500,
                 }}>
                   {item.value}
@@ -166,12 +166,12 @@ export default async function SpecsPage() {
 
         <div style={{
           borderRadius: '1.25rem',
-          background: 'rgba(255,255,255,0.02)',
-          border: '1px solid rgba(255,255,255,0.06)',
+          background: 'var(--surface)',
+          border: '1px solid var(--line-soft)',
           padding: '1.75rem',
           textAlign: 'center',
         }}>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: '#555' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--ink-faint)' }}>
             Odometer synced live from GarageOS · Static specs from factory documentation.
           </p>
         </div>

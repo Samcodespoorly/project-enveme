@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 
-export default function ReadingProgress({ color = '#E8920A' }: { color?: string }) {
+export default function ReadingProgress({ color = 'var(--accent)' }: { color?: string }) {
   const [progress, setProgress] = useState(0)
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export default function ReadingProgress({ color = '#E8920A' }: { color?: string 
         right: 0,
         height: '3px',
         zIndex: 9999,
-        background: 'rgba(0,0,0,0.3)',
+        background: 'rgba(42,32,24,0.12)',
         pointerEvents: 'none',
       }}
     >
@@ -36,7 +36,7 @@ export default function ReadingProgress({ color = '#E8920A' }: { color?: string 
         style={{
           height: '100%',
           width: `${progress}%`,
-          background: `linear-gradient(to right, ${color}, #FBB940)`,
+          background: `linear-gradient(to right, ${color}, var(--accent-2))`,
           transition: 'width 0.1s linear',
           boxShadow: `0 0 8px ${color}80`,
         }}

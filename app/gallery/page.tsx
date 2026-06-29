@@ -32,7 +32,7 @@ export default async function GalleryPage() {
           <p style={{
             fontFamily: 'var(--font-mono)',
             fontSize: '0.625rem',
-            color: '#E8920A',
+            color: 'var(--accent)',
             letterSpacing: '0.3em',
             textTransform: 'uppercase',
             marginBottom: '1.25rem',
@@ -43,7 +43,7 @@ export default async function GalleryPage() {
             fontFamily: 'var(--font-display)',
             fontSize: 'clamp(3rem, 8vw, 6rem)',
             fontWeight: 800,
-            color: '#FFFFFF',
+            color: 'var(--ink)',
             textTransform: 'uppercase',
             letterSpacing: '-0.02em',
             lineHeight: 0.92,
@@ -54,13 +54,13 @@ export default async function GalleryPage() {
           <div style={{
             height: '2px',
             maxWidth: '180px',
-            background: 'linear-gradient(to right, #E8920A 0%, rgba(232,146,10,0.1) 70%, transparent 100%)',
+            background: 'linear-gradient(to right, var(--accent), transparent)',
             marginBottom: '1.5rem',
           }} />
           <p style={{
             fontFamily: 'var(--font-body)',
             fontSize: '1rem',
-            color: '#888',
+            color: 'var(--ink-soft)',
             lineHeight: 1.7,
             maxWidth: '36rem',
           }}>
@@ -73,8 +73,8 @@ export default async function GalleryPage() {
           display: 'inline-flex',
           alignItems: 'center',
           gap: '0.625rem',
-          background: 'rgba(232,146,10,0.06)',
-          border: '1px solid rgba(232,146,10,0.18)',
+          background: 'var(--surface)',
+          border: '1px solid var(--line)',
           borderRadius: '2rem',
           padding: '0.5rem 1.25rem',
           marginBottom: '3rem',
@@ -88,7 +88,7 @@ export default async function GalleryPage() {
           <span style={{
             fontFamily: 'var(--font-mono)',
             fontSize: '0.5625rem',
-            color: '#E8920A',
+            color: 'var(--accent)',
             letterSpacing: '0.22em',
             textTransform: 'uppercase',
           }}>
@@ -144,7 +144,7 @@ export default async function GalleryPage() {
                         right: '0.5rem',
                         fontFamily: 'var(--font-mono)',
                         fontSize: '0.5rem',
-                        color: '#FFF',
+                        color: 'var(--ink)',
                         background: 'rgba(0,0,0,0.6)',
                         padding: '0.2rem 0.5rem',
                         borderRadius: '0.25rem',
@@ -159,16 +159,16 @@ export default async function GalleryPage() {
                     width: '100%',
                     height: '80px',
                     borderRadius: '0.75rem',
-                    background: 'repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 4px, transparent 4px, transparent 12px)',
-                    border: '1px dashed rgba(255,255,255,0.08)',
+                    background: 'repeating-linear-gradient(45deg, var(--surface) 0px, var(--surface) 4px, transparent 4px, transparent 12px)',
+                    border: '1px dashed var(--line)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}>
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style={{ opacity: 0.25 }}>
-                      <rect x="3" y="3" width="18" height="18" rx="2" stroke="#E8920A" strokeWidth="1.5" />
-                      <circle cx="8.5" cy="8.5" r="1.5" stroke="#E8920A" strokeWidth="1.5" />
-                      <path d="M21 15l-5-5L5 21" stroke="#E8920A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      <rect x="3" y="3" width="18" height="18" rx="2" stroke="var(--accent)" strokeWidth="1.5" />
+                      <circle cx="8.5" cy="8.5" r="1.5" stroke="var(--accent)" strokeWidth="1.5" />
+                      <path d="M21 15l-5-5L5 21" stroke="var(--accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </div>
                 )}
@@ -178,7 +178,7 @@ export default async function GalleryPage() {
                     fontFamily: 'var(--font-display)',
                     fontSize: '1rem',
                     fontWeight: 700,
-                    color: '#FFF',
+                    color: 'var(--ink)',
                     textTransform: 'uppercase',
                     letterSpacing: '0.03em',
                     marginBottom: '0.25rem',
@@ -188,7 +188,7 @@ export default async function GalleryPage() {
                   <p style={{
                     fontFamily: 'var(--font-mono)',
                     fontSize: '0.625rem',
-                    color: '#666',
+                    color: 'var(--ink-faint)',
                     letterSpacing: '0.1em',
                   }}>
                     {set.note}
@@ -216,7 +216,7 @@ export default async function GalleryPage() {
 
         {/* CTA back to build */}
         <div style={{
-          borderTop: '1px solid rgba(255,255,255,0.06)',
+          borderTop: '1px solid var(--line-soft)',
           paddingTop: '2.5rem',
           display: 'flex',
           alignItems: 'center',
@@ -226,7 +226,7 @@ export default async function GalleryPage() {
           <p style={{
             fontFamily: 'var(--font-mono)',
             fontSize: '0.625rem',
-            color: '#555',
+            color: 'var(--ink-faint)',
             letterSpacing: '0.15em',
             textTransform: 'uppercase',
           }}>
@@ -235,11 +235,11 @@ export default async function GalleryPage() {
           <Link href="/build" style={{
             fontFamily: 'var(--font-mono)',
             fontSize: '0.75rem',
-            color: '#E8920A',
+            color: 'var(--accent)',
             letterSpacing: '0.15em',
             textTransform: 'uppercase',
             textDecoration: 'none',
-            border: '1px solid rgba(232,146,10,0.3)',
+            border: '1px solid var(--line)',
             padding: '0.5rem 1.25rem',
             borderRadius: '0.5rem',
             transition: 'background 0.15s ease, border-color 0.15s ease',
