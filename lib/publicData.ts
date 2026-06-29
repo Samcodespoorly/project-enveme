@@ -462,6 +462,66 @@ export async function fetchPublicProfile(): Promise<PublicProfile> {
   return profile
 }
 
+// ── Gallery ───────────────────────────────────────────────────────────────
+
+export interface PublicGalleryImage {
+  url: string
+  caption?: string
+}
+
+export interface PublicGallerySet {
+  id: string
+  label: string
+  note: string
+  status: 'PLANNED' | 'SHOOTING' | 'PUBLISHED'
+  coverUrl?: string
+  images: PublicGalleryImage[]
+  order: number
+}
+
+export interface PublicGallery {
+  sets: PublicGallerySet[]
+}
+
+const FALLBACK_GALLERY: PublicGallery = {
+  sets: [
+    { id: '1', label: 'Acquisition',       note: 'Day-1 condition photography',  status: 'PLANNED', images: [], order: 1 },
+    { id: '2', label: 'Suspension Install', note: 'Tein coilover fitment process', status: 'PLANNED', images: [], order: 2 },
+    { id: '3', label: 'Engine Bay',         note: '2JZ-GE detail shots',           status: 'PLANNED', images: [], order: 3 },
+    { id: '4', label: 'Interior',           note: 'Factory cabin & gauge cluster',  status: 'PLANNED', images: [], order: 4 },
+    { id: '5', label: 'Undercarriage',      note: 'Chassis & subframe condition',   status: 'PLANNED', images: [], order: 5 },
+    { id: '6', label: 'Rolling Shots',      note: 'On-road & static photography',   status: 'PLANNED', images: [], order: 6 },
+  ],
+}
+
+export async function fetchPublicGallery(): Promise<PublicGallery> {
+  const fields = await fetchDoc('public/gallery')
+  if (!fields) return FALLBACK_GALLERY
+
+  const sets: PublicGallerySet[] = arrValues(fields.sets).map(setVal => {
+    const sf = mapFields(setVal)
+    const images: PublicGalleryImage[] = arrValues(sf.images).map(imgVal => {
+      const img = mapFields(imgVal)
+      return {
+        url:     str(img.url),
+        caption: str(img.caption) || undefined,
+      }
+    })
+    return {
+      id:       str(sf.id),
+      label:    str(sf.label),
+      note:     str(sf.note),
+      status:   (str(sf.status) as PublicGallerySet['status']) || 'PLANNED',
+      coverUrl: str(sf.coverUrl) || undefined,
+      images,
+      order:    num(sf.order),
+    }
+  })
+
+  if (sets.length === 0) return FALLBACK_GALLERY
+  return { sets: sets.sort((a, b) => a.order - b.order) }
+}
+
 // ── Specs ─────────────────────────────────────────────────────────────────
 
 export interface PublicSpecs {
