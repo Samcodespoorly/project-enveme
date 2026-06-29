@@ -24,7 +24,6 @@ const SoarerScene = dynamic(() => import('@/components/three/SoarerScene'), {
         gap: '1.5rem',
       }}
     >
-      {/* Amber pulsing ring */}
       <div style={{ position: 'relative', width: '48px', height: '48px' }}>
         <div style={{
           position: 'absolute',
@@ -72,8 +71,28 @@ const SoarerScene = dynamic(() => import('@/components/three/SoarerScene'), {
   ),
 })
 
-function clamp(v: number, min = 0, max = 1) {
-  return Math.max(min, Math.min(max, v))
+const BEATS = [
+  { id: 'hero',      base: 'translateY(-50%)', in0: 0,    in1: 0,    out0: 0.09, out1: 0.16, enter: [0, 0]   as [number, number], exit: [0, -48] as [number, number], blur: 6 },
+  { id: 'engine',    base: 'translateY(-50%)', in0: 0.20, in1: 0.29, out0: 0.34, out1: 0.41, enter: [-60, 0] as [number, number], exit: [0, -28] as [number, number], blur: 9 },
+  { id: 'chassis',   base: 'translateY(-50%)', in0: 0.45, in1: 0.54, out0: 0.59, out1: 0.66, enter: [60, 0]  as [number, number], exit: [0, -28] as [number, number], blur: 9 },
+  { id: 'telemetry', base: 'translateX(-50%)', in0: 0.62, in1: 0.70, out0: 0.78, out1: 0.84, enter: [0, 34]  as [number, number], exit: [0, -18] as [number, number], blur: 7 },
+  { id: 'cta',       base: '',                 in0: 0.86, in1: 0.94, out0: 1.1,  out1: 1.2,  enter: [0, 26]  as [number, number], exit: [0, 0]   as [number, number], blur: 8 },
+] as const
+
+type Beat = typeof BEATS[number]
+
+function paintBeat(beat: Beat, progress: number) {
+  let op: number, ox: number, oy: number, bl: number
+  if (progress < beat.in0)        { op=0; ox=beat.enter[0]; oy=beat.enter[1]; bl=beat.blur }
+  else if (progress < beat.in1)   { const t=(progress-beat.in0)/(beat.in1-beat.in0||1); op=t; ox=beat.enter[0]*(1-t); oy=beat.enter[1]*(1-t); bl=beat.blur*(1-t) }
+  else if (progress < beat.out0)  { op=1; ox=0; oy=0; bl=0 }
+  else if (progress < beat.out1)  { const t=(progress-beat.out0)/(beat.out1-beat.out0); op=1-t; ox=beat.exit[0]*t; oy=beat.exit[1]*t; bl=beat.blur*t }
+  else                            { op=0; ox=beat.exit[0]; oy=beat.exit[1]; bl=beat.blur }
+  return {
+    opacity: op,
+    transform: `${beat.base} translate(${ox.toFixed(1)}px,${oy.toFixed(1)}px)`,
+    filter: bl > 0.05 ? `blur(${bl.toFixed(1)}px)` : 'none',
+  }
 }
 
 type Props = { vehicle: PublicVehicle }
@@ -85,12 +104,13 @@ export default function SceneSection({ vehicle }: Props) {
     { label: 'CHASSIS', value: 'JZZ31' },
     { label: 'ENGINE',  value: '2JZ-GE' },
   ]
-  const containerRef   = useRef<HTMLDivElement>(null)
+  const containerRef      = useRef<HTMLDivElement>(null)
   const scrollProgressRef = useRef<number>(0)
-  const overlay1Ref    = useRef<HTMLDivElement>(null)
-  const overlay2Ref    = useRef<HTMLDivElement>(null)
-  const overlay3Ref    = useRef<HTMLDivElement>(null)
-  const overlay4Ref    = useRef<HTMLDivElement>(null)
+  const overlay1Ref       = useRef<HTMLDivElement>(null)
+  const overlay2Ref       = useRef<HTMLDivElement>(null)
+  const overlay3Ref       = useRef<HTMLDivElement>(null)
+  const overlay4Ref       = useRef<HTMLDivElement>(null)
+  const overlay5Ref       = useRef<HTMLDivElement>(null)
   const [mounted, setMounted] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
 
@@ -107,6 +127,8 @@ export default function SceneSection({ vehicle }: Props) {
     const container = containerRef.current
     if (!container) return
 
+    const beatRefs = [overlay1Ref, overlay2Ref, overlay3Ref, overlay4Ref, overlay5Ref]
+
     const trigger = ScrollTrigger.create({
       trigger: container,
       start: 'top top',
@@ -117,66 +139,15 @@ export default function SceneSection({ vehicle }: Props) {
         const p = self.progress
         scrollProgressRef.current = p
 
-        // ── Overlay 1: Hero panel ──────────────────────────────────────
-        // Stays fully visible until 15% scroll, then fades + rises out
-        const el1 = overlay1Ref.current
-        if (el1) {
-          if (p < 0.15) {
-            el1.style.opacity = '1'
-            el1.style.transform = 'translateY(0px)'
-            el1.style.pointerEvents = 'auto'
-          } else {
-            const t = clamp((p - 0.15) / 0.12)
-            el1.style.opacity = String(1 - t)
-            el1.style.transform = `translateY(${t * 32}px)`
-            el1.style.pointerEvents = 'none'
-          }
-        }
-
-        // ── Overlay 2: Engine specs panel (28–50%) ────────────────────
-        const el2 = overlay2Ref.current
-        if (el2) {
-          const opacity = p < 0.28
-            ? 0
-            : p < 0.35
-              ? clamp((p - 0.28) / 0.07)
-              : p > 0.43
-                ? clamp(1 - (p - 0.43) / 0.07)
-                : 1
-          const rawX = p < 0.35 ? (1 - clamp((p - 0.28) / 0.07)) * -40 : 0
-          el2.style.opacity = String(opacity)
-          el2.style.transform = `translateX(${rawX}px)`
-        }
-
-        // ── Overlay 3: Suspension panel (55–75%) ─────────────────────
-        const el3 = overlay3Ref.current
-        if (el3) {
-          const opacity = p < 0.55
-            ? 0
-            : p < 0.62
-              ? clamp((p - 0.55) / 0.07)
-              : p > 0.68
-                ? clamp(1 - (p - 0.68) / 0.07)
-                : 1
-          const rawX = p < 0.62 ? (1 - clamp((p - 0.55) / 0.07)) * 40 : 0
-          el3.style.opacity = String(opacity)
-          el3.style.transform = `translateX(${rawX}px)`
-        }
-
-        // ── Overlay 4: CTA (80–97%) ───────────────────────────────────
-        const el4 = overlay4Ref.current
-        if (el4) {
-          const opacity = p < 0.8
-            ? 0
-            : p < 0.87
-              ? clamp((p - 0.8) / 0.07)
-              : p > 0.92
-                ? clamp(1 - (p - 0.92) / 0.05)
-                : 1
-          const y = p < 0.87 ? (1 - clamp((p - 0.8) / 0.07)) * 20 : 0
-          el4.style.opacity = String(opacity)
-          el4.style.transform = `translateY(${y}px)`
-        }
+        BEATS.forEach((beat, i) => {
+          const el = beatRefs[i].current
+          if (!el) return
+          const s = paintBeat(beat, p)
+          el.style.opacity = String(s.opacity)
+          el.style.transform = s.transform
+          el.style.filter = s.filter
+          if (i === 0) el.style.pointerEvents = s.opacity > 0.05 ? 'auto' : 'none'
+        })
       },
     })
 
@@ -184,8 +155,6 @@ export default function SceneSection({ vehicle }: Props) {
   }, [isMobile, mounted])
 
   // ── Mobile static hero (no canvas, no GSAP pin) ─────────────────────────
-  // Return a visibility-hidden placeholder (not null) so the page layout
-  // reserves the correct space before hydration completes, avoiding CLS.
   if (!mounted) {
     return (
       <div
@@ -206,7 +175,6 @@ export default function SceneSection({ vehicle }: Props) {
         position: 'relative',
         overflow: 'hidden',
       }}>
-        {/* Ambient amber glow */}
         <div style={{
           position: 'absolute',
           top: '30%',
@@ -218,7 +186,6 @@ export default function SceneSection({ vehicle }: Props) {
           pointerEvents: 'none',
         }} />
 
-        {/* Label */}
         <motion.div
           style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.75rem' }}
           initial={{ opacity: 0 }}
@@ -231,7 +198,6 @@ export default function SceneSection({ vehicle }: Props) {
           </span>
         </motion.div>
 
-        {/* ENVEME heading */}
         <motion.h1
           style={{
             fontFamily: 'var(--font-display)',
@@ -251,7 +217,6 @@ export default function SceneSection({ vehicle }: Props) {
           ENVEME
         </motion.h1>
 
-        {/* Amber divider */}
         <motion.div
           style={{
             height: '2px',
@@ -264,7 +229,6 @@ export default function SceneSection({ vehicle }: Props) {
           transition={{ duration: 0.9, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
         />
 
-        {/* Spec row */}
         <motion.div
           style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem 1.5rem', marginBottom: '1.5rem' }}
           initial={{ opacity: 0, y: 20 }}
@@ -286,7 +250,6 @@ export default function SceneSection({ vehicle }: Props) {
           ))}
         </motion.div>
 
-        {/* Subtitle */}
         <motion.p
           style={{ fontFamily: 'var(--font-body)', fontSize: '0.9375rem', color: '#888', lineHeight: 1.65, marginBottom: '2rem', maxWidth: '340px' }}
           initial={{ opacity: 0, y: 16 }}
@@ -296,7 +259,6 @@ export default function SceneSection({ vehicle }: Props) {
           Complete build documentation — mechanical, electrical, and chassis work tracked from acquisition to completion.
         </motion.p>
 
-        {/* CTA buttons */}
         <motion.div
           style={{ display: 'flex', gap: '0.875rem', flexWrap: 'wrap' }}
           initial={{ opacity: 0, y: 16 }}
@@ -341,7 +303,6 @@ export default function SceneSection({ vehicle }: Props) {
           </Link>
         </motion.div>
 
-        {/* Scroll hint */}
         <motion.div
           style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginTop: '2.5rem' }}
           initial={{ opacity: 0 }}
@@ -368,29 +329,24 @@ export default function SceneSection({ vehicle }: Props) {
         <SoarerScene scrollProgressRef={scrollProgressRef} />
       </div>
 
-      {/* ── Overlay 1: Hero panel (visible at load, exits on scroll) ── */}
+      {/* ── Beat 0: Hero panel — visible at load, exits on scroll ── */}
       <div
         ref={overlay1Ref}
+        data-beat="hero"
         style={{
           position: 'absolute',
-          inset: 0,
+          left: 0,
+          top: '50%',
           zIndex: 10,
-          pointerEvents: 'auto',
+          paddingLeft: 'clamp(2rem, 5vw, 5rem)',
+          paddingRight: '2rem',
+          maxWidth: 'min(58%, 640px)',
           opacity: 1,
+          transform: 'translateY(-50%)',
+          pointerEvents: 'auto',
         }}
       >
-        {/* Constrain text to left ~50% of screen */}
-        <div
-          style={{
-            height: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            paddingLeft: 'clamp(2rem, 5vw, 5rem)',
-            paddingRight: '2rem',
-            maxWidth: 'min(58%, 640px)',
-          }}
-        >
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
           {/* Label with left amber rule */}
           <motion.div
             style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.75rem' }}
@@ -622,23 +578,22 @@ export default function SceneSection({ vehicle }: Props) {
         </div>
       </div>
 
-      {/* ── Overlay 2: Engine specs panel (28–50%, slides from left) ── */}
+      {/* ── Beat 1: Engine specs panel (slides from left) ── */}
       <div
         style={{
           position: 'absolute',
           left: '2rem',
           top: '50%',
-          marginTop: '-6rem',
           zIndex: 10,
           pointerEvents: 'none',
         }}
       >
         <div
           ref={overlay2Ref}
+          data-beat="engine"
           className="glass"
           style={{
             opacity: 0,
-            transform: 'translateX(-40px)',
             padding: '1.75rem 2rem',
             borderRadius: '1rem',
             maxWidth: '260px',
@@ -685,23 +640,22 @@ export default function SceneSection({ vehicle }: Props) {
         </div>
       </div>
 
-      {/* ── Overlay 3: Suspension panel (55–75%, slides from right) ── */}
+      {/* ── Beat 2: Chassis panel (slides from right) ── */}
       <div
         style={{
           position: 'absolute',
           right: '2rem',
           top: '50%',
-          marginTop: '-6rem',
           zIndex: 10,
           pointerEvents: 'none',
         }}
       >
         <div
           ref={overlay3Ref}
+          data-beat="chassis"
           className="glass"
           style={{
             opacity: 0,
-            transform: 'translateX(40px)',
             padding: '1.75rem 2rem',
             borderRadius: '1rem',
             maxWidth: '260px',
@@ -717,7 +671,7 @@ export default function SceneSection({ vehicle }: Props) {
               marginBottom: '1rem',
             }}
           >
-            SUSPENSION
+            CHASSIS
           </p>
           <p
             style={{
@@ -747,9 +701,58 @@ export default function SceneSection({ vehicle }: Props) {
         </div>
       </div>
 
-      {/* ── Overlay 4: CTA (80–97%) ── */}
+      {/* ── Beat 3: Telemetry panel (centered, slides from below) ── */}
       <div
-        ref={overlay4Ref}
+        style={{
+          position: 'absolute',
+          left: '50%',
+          bottom: '8rem',
+          zIndex: 10,
+          pointerEvents: 'none',
+        }}
+      >
+        <div
+          ref={overlay4Ref}
+          data-beat="telemetry"
+          className="glass"
+          style={{
+            opacity: 0,
+            padding: '1.5rem 2rem',
+            borderRadius: '1rem',
+            textAlign: 'center',
+          }}
+        >
+          <p
+            style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.5625rem',
+              color: '#E8920A',
+              letterSpacing: '0.3em',
+              textTransform: 'uppercase',
+              marginBottom: '0.5rem',
+            }}
+          >
+            ODOMETER
+          </p>
+          <p
+            style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: '2rem',
+              fontWeight: 700,
+              color: '#FFFFFF',
+              lineHeight: 1,
+              letterSpacing: '0.05em',
+            }}
+          >
+            {vehicle.odometer.toLocaleString()} km
+          </p>
+        </div>
+      </div>
+
+      {/* ── Beat 4: CTA (enters from below, stays) ── */}
+      <div
+        ref={overlay5Ref}
+        data-beat="cta"
         style={{
           position: 'absolute',
           bottom: '4rem',
@@ -816,10 +819,7 @@ export default function SceneSection({ vehicle }: Props) {
             ((e.currentTarget as HTMLAnchorElement).style.background = '#E8920A')
           }
         >
-          Enter the Build Journal
-          <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
-            <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
+          SCROLL TO EXPLORE →
         </Link>
       </div>
     </div>
