@@ -37,7 +37,7 @@ export default function GallerySection({ gallery }: { gallery: PublicGallery }) 
     : buildPlaceholderFrames(gallery.sets)
 
   return (
-    <section style={{ position: 'relative', zIndex: 5, background: 'var(--bg)', padding: 'clamp(4.5rem,11vh,8rem) clamp(1.25rem,5vw,5rem)', borderTop: '1px solid var(--line-soft)' }}>
+    <section className="sec-reveal" style={{ position: 'relative', zIndex: 5, background: 'var(--bg)', padding: 'clamp(4.5rem,11vh,8rem) clamp(1.25rem,5vw,5rem)', borderTop: '1px solid var(--line-soft)' }}>
       <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: '2rem', flexWrap: 'wrap', marginBottom: '3rem' }}>
         <div>
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: '.6rem', letterSpacing: '.3em', color: 'var(--ink-faint)', textTransform: 'uppercase' }}>
@@ -62,6 +62,8 @@ export default function GallerySection({ gallery }: { gallery: PublicGallery }) 
             }}
           >
             <div className="frame-holder">
+              <span className="frame-corner frame-corner--tr" />
+              <span className="frame-corner frame-corner--bl" />
               {f.url ? (
                 <img
                   src={f.url}

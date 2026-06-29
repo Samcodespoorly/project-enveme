@@ -41,7 +41,7 @@ function Segment() {
 export default function SpecTicker() {
   return (
     <div
-      className="ticker-outer"
+      className="ticker-outer sec-reveal"
       style={{
         position: 'relative',
         zIndex: 5,

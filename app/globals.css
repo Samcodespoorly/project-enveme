@@ -243,8 +243,12 @@ body {
   left: 0;
   width: 0;
   height: 1px;
-  background: #E8920A;
+  background: var(--accent);
   transition: width 0.3s ease;
+}
+
+.nav-underline-link:hover {
+  color: var(--ink) !important;
 }
 
 .nav-underline-link:hover::after,
@@ -304,33 +308,33 @@ body {
 
 /* Footer hover utilities */
 .footer-link {
-  color: #A0A0A0;
+  color: var(--ink-soft);
   text-decoration: none;
   transition: color 0.2s;
 }
 .footer-link:hover {
-  color: #FFFFFF;
+  color: var(--ink);
 }
 
 .footer-social {
-  color: #666;
+  color: var(--ink-faint);
   transition: color 0.2s;
 }
 .footer-social:hover {
-  color: #FFFFFF;
+  color: var(--ink);
 }
 
 .footer-email {
   font-family: var(--font-mono);
   font-size: 0.625rem;
-  color: #555;
+  color: var(--ink-faint);
   text-decoration: none;
   letter-spacing: 0.1em;
   margin-top: 0.25rem;
   transition: color 0.2s;
 }
 .footer-email:hover {
-  color: #E8920A;
+  color: var(--accent);
 }
 
 /* Live status dot — pulsing green indicator */
@@ -422,3 +426,32 @@ body {
 }
 .frame-holder::before { left: -1px; top: -1px; border-right: 0; border-bottom: 0; }
 .frame-holder::after  { right: -1px; bottom: -1px; border-left: 0; border-top: 0; }
+
+/* ── Film-frame additional corners (top-right + bottom-left) ─────────────── */
+.frame-corner {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-color: var(--ink-faint);
+  border-style: solid;
+}
+.frame-corner--tr {
+  top: 4px; right: 4px;
+  border-width: 1px 1px 0 0;
+}
+.frame-corner--bl {
+  bottom: 4px; left: 4px;
+  border-width: 0 0 1px 1px;
+}
+
+/* ── Scroll-driven section reveal ────────────────────────────────────────── */
+@keyframes reveal-up {
+  from { opacity: 0; transform: translateY(26px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.sec-reveal {
+  animation: reveal-up linear both;
+  animation-timeline: view();
+  animation-range: entry 0% entry 30%;
+}

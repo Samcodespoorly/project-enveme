@@ -14,26 +14,23 @@ const techStack = [
 
 export default function Footer() {
   return (
-    <footer style={{ background: '#111111', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+    <footer style={{ background: 'var(--bg2)', borderTop: '1px solid var(--line-soft)' }}>
       <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '3rem 1.5rem' }}>
 
-        {/* Top row */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '2rem', marginBottom: '2rem' }}
           className="md-grid-3">
 
-          {/* Brand */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
-              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.25rem', color: '#FFF', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.25rem', color: 'var(--ink)', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
                 ENVEME
               </span>
-              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#E8920A', display: 'inline-block' }} />
+              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--accent)', display: 'inline-block' }} />
             </div>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: '#666' }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--ink-faint)' }}>
               1995 Toyota Soarer JZZ31
             </p>
 
-            {/* Social links */}
             <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.5rem' }}>
               <a
                 href="https://www.linkedin.com/in/samuel-donovan-293470275/"
@@ -60,7 +57,6 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Nav */}
           <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
             {navLinks.map((link) => (
               <Link
@@ -74,12 +70,11 @@ export default function Footer() {
             ))}
           </nav>
 
-          {/* Engineer */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
-            <p style={{ fontFamily: 'var(--font-body)', color: '#A0A0A0', fontSize: '0.875rem' }}>
+            <p style={{ fontFamily: 'var(--font-body)', color: 'var(--ink-soft)', fontSize: '0.875rem' }}>
               Built by Samuel Donovan
             </p>
-            <p style={{ fontFamily: 'var(--font-body)', color: '#666', fontSize: '0.75rem' }}>
+            <p style={{ fontFamily: 'var(--font-body)', color: 'var(--ink-faint)', fontSize: '0.75rem' }}>
               Mechatronics &amp; Finance/Economics
             </p>
             <a
@@ -91,9 +86,8 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Tech stack */}
-        <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '1.5rem', marginBottom: '1.5rem' }}>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', color: '#555', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '0.875rem' }}>
+        <div style={{ borderTop: '1px solid var(--line-soft)', paddingTop: '1.5rem', marginBottom: '1.5rem' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', color: 'var(--ink-faint)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '0.875rem' }}>
             BUILT WITH
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
@@ -101,9 +95,9 @@ export default function Footer() {
               <span key={tech} style={{
                 fontFamily: 'var(--font-mono)',
                 fontSize: '0.625rem',
-                color: '#666',
-                background: 'rgba(255,255,255,0.04)',
-                border: '1px solid rgba(255,255,255,0.08)',
+                color: 'var(--ink-faint)',
+                background: 'var(--surface)',
+                border: '1px solid var(--line-soft)',
                 padding: '0.25rem 0.625rem',
                 borderRadius: '0.375rem',
                 letterSpacing: '0.05em',
@@ -114,9 +108,8 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Copyright */}
-        <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '1.5rem' }}>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.625rem', color: '#555' }}>
+        <div style={{ borderTop: '1px solid var(--line-soft)', paddingTop: '1.5rem' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.625rem', color: 'var(--ink-faint)' }}>
             &copy; {new Date().getFullYear()} ENVEME. All rights reserved.
           </p>
         </div>
