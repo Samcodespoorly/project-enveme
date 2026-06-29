@@ -384,6 +384,84 @@ export async function fetchPublicJournal(): Promise<PublicJournalEntry[]> {
   return entries.sort((a, b) => b.order - a.order)
 }
 
+// ── Profile ───────────────────────────────────────────────────────────────
+
+export interface PublicProfile {
+  intro: string[]
+  stats: { label: string; value: string }[]
+  education: { degree: string; school: string; status: string; description: string }
+  skills: { title: string; description: string }[]
+  capabilities: string[]
+  availability: string
+}
+
+const FALLBACK_PROFILE: PublicProfile = {
+  intro: [
+    "I'm Samuel Donovan — a conjoint Mechatronics Engineering and Finance/Economics student in New Zealand. Project ENVEME is my platform to demonstrate full-stack engineering capability: from the mechanical knowledge to maintain and modify a 1995 Toyota Soarer, to the software skills to build this portfolio, to the financial analysis that underpins every build decision.",
+    "The JZZ31 Soarer is the perfect project platform — a naturally aspirated inline-6, a sophisticated chassis, and a growing community. Every stage of the build is documented here as a living portfolio of applied engineering.",
+  ],
+  stats: [
+    { label: 'Degree', value: 'Conjoint BE + BCom' },
+    { label: 'Specialisation', value: 'Mechatronics · Finance' },
+    { label: 'Year', value: 'Year 3 (in progress)' },
+    { label: 'Location', value: 'Auckland, New Zealand' },
+  ],
+  education: {
+    degree: 'BE(Hons) Mechatronics · BCom Finance/Economics',
+    school: 'University of Auckland',
+    status: 'CONJOINT DEGREE · IN PROGRESS',
+    description: 'A conjoint degree combining honours-level engineering with commerce. Covering control systems, embedded software, financial modelling, and economic analysis.',
+  },
+  skills: [
+    { title: 'Mechanical Engineering', description: 'Thermodynamics, dynamics, materials science, and machine design applied to real-world automotive systems.' },
+    { title: 'Electrical Systems', description: 'Vehicle wiring, CAN bus diagnostics, sensor integration, and embedded microcontroller projects.' },
+    { title: 'Software Development', description: 'Full-stack web development with Next.js, TypeScript, Firebase. This site is a live demonstration.' },
+    { title: 'Project Management', description: 'Budgeting, scheduling, and documentation of a long-running engineering project from acquisition through build.' },
+    { title: 'Financial Analysis', description: 'Total cost of ownership modelling, build cost tracking, and depreciation analysis for the JZZ31 platform.' },
+    { title: 'AI-Assisted Development', description: 'Leveraging AI tools for code generation, research, and documentation acceleration throughout the project.' },
+  ],
+  capabilities: [
+    'End-to-end engineering project ownership — from concept to execution',
+    'Integration of mechanical, electrical, and software systems',
+    'Quantitative analysis of project cost and value',
+    'Technical documentation and portfolio communication',
+    'Iterative problem solving under real constraints',
+    'Full-stack web application development with modern tooling',
+  ],
+  availability: 'Available · Auckland, NZ · 2026',
+}
+
+export async function fetchPublicProfile(): Promise<PublicProfile> {
+  const fields = await fetchDoc('public/profile')
+  if (!fields) return FALLBACK_PROFILE
+
+  const ef = mapFields(fields.education)
+
+  const profile: PublicProfile = {
+    intro:        arrValues(fields.intro).map(v => str(v)).filter(Boolean),
+    stats:        arrValues(fields.stats).map(s => {
+      const sf = mapFields(s)
+      return { label: str(sf.label), value: str(sf.value) }
+    }),
+    education: {
+      degree:      str(ef.degree),
+      school:      str(ef.school),
+      status:      str(ef.status),
+      description: str(ef.description),
+    },
+    skills:       arrValues(fields.skills).map(s => {
+      const sf = mapFields(s)
+      return { title: str(sf.title), description: str(sf.description) }
+    }),
+    capabilities: arrValues(fields.capabilities).map(v => str(v)).filter(Boolean),
+    availability: str(fields.availability),
+  }
+
+  const isEmpty = profile.intro.length === 0 && profile.skills.length === 0
+  if (isEmpty) return FALLBACK_PROFILE
+  return profile
+}
+
 // ── Specs ─────────────────────────────────────────────────────────────────
 
 export interface PublicSpecs {

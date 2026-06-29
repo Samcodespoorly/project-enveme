@@ -1,31 +1,18 @@
 import type { Metadata } from 'next'
 import SectionHeading from '@/components/ui/SectionHeading'
 import ContactButtons from '@/components/ui/ContactButtons'
+import { fetchPublicProfile } from '@/lib/publicData'
+
+export const revalidate = 300
 
 export const metadata: Metadata = {
   title: 'About — ENVEME',
   description: 'Samuel Donovan — Mechatronics & Finance/Economics student. Project ENVEME is a live engineering portfolio.',
 }
 
-const skills = [
-  { title: 'Mechanical Engineering', description: 'Thermodynamics, dynamics, materials science, and machine design applied to real-world automotive systems.' },
-  { title: 'Electrical Systems', description: 'Vehicle wiring, CAN bus diagnostics, sensor integration, and embedded microcontroller projects.' },
-  { title: 'Software Development', description: 'Full-stack web development with Next.js, TypeScript, Firebase. This site is a live demonstration.' },
-  { title: 'Project Management', description: 'Budgeting, scheduling, and documentation of a long-running engineering project from acquisition through build.' },
-  { title: 'Financial Analysis', description: 'Total cost of ownership modelling, build cost tracking, and depreciation analysis for the JZZ31 platform.' },
-  { title: 'AI-Assisted Development', description: 'Leveraging AI tools for code generation, research, and documentation acceleration throughout the project.' },
-]
+export default async function AboutPage() {
+  const profile = await fetchPublicProfile()
 
-const capabilities = [
-  'End-to-end engineering project ownership — from concept to execution',
-  'Integration of mechanical, electrical, and software systems',
-  'Quantitative analysis of project cost and value',
-  'Technical documentation and portfolio communication',
-  'Iterative problem solving under real constraints',
-  'Full-stack web application development with modern tooling',
-]
-
-export default function AboutPage() {
   return (
     <main style={{ minHeight: '100vh', background: '#0A0A0A', paddingTop: '9rem', paddingBottom: '6rem' }}>
       <div className="page-container">
@@ -48,7 +35,7 @@ export default function AboutPage() {
         }}>
           <span className="status-dot-live" style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#34D399', flexShrink: 0 }} />
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', color: '#E8920A', letterSpacing: '0.22em', textTransform: 'uppercase' }}>
-            Available · Auckland, NZ · 2026
+            {profile.availability}
           </span>
         </div>
 
@@ -61,12 +48,7 @@ export default function AboutPage() {
           paddingBottom: '3rem',
           borderBottom: '1px solid rgba(255,255,255,0.06)',
         }}>
-          {[
-            { label: 'Degree', value: 'Conjoint BE + BCom' },
-            { label: 'Specialisation', value: 'Mechatronics · Finance' },
-            { label: 'Year', value: 'Year 3 (in progress)' },
-            { label: 'Location', value: 'Auckland, New Zealand' },
-          ].map(stat => (
+          {profile.stats.map(stat => (
             <div key={stat.label}>
               <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5rem', color: '#666', letterSpacing: '0.25em', textTransform: 'uppercase', display: 'block', marginBottom: '0.25rem' }}>
                 {stat.label}
@@ -80,12 +62,20 @@ export default function AboutPage() {
 
         {/* Intro */}
         <div style={{ marginBottom: '4rem', maxWidth: '44rem' }}>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.0625rem', color: '#BBBBBB', lineHeight: 1.75, marginBottom: '1.25rem' }}>
-            I&apos;m Samuel Donovan — a conjoint Mechatronics Engineering and Finance/Economics student in New Zealand. Project ENVEME is my platform to demonstrate full-stack engineering capability: from the mechanical knowledge to maintain and modify a 1995 Toyota Soarer, to the software skills to build this portfolio, to the financial analysis that underpins every build decision.
-          </p>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.0625rem', color: '#BBBBBB', lineHeight: 1.75 }}>
-            The JZZ31 Soarer is the perfect project platform — a naturally aspirated inline-6, a sophisticated chassis, and a growing community. Every stage of the build is documented here as a living portfolio of applied engineering.
-          </p>
+          {profile.intro.map((para, i) => (
+            <p
+              key={i}
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '1.0625rem',
+                color: '#BBBBBB',
+                lineHeight: 1.75,
+                marginBottom: i < profile.intro.length - 1 ? '1.25rem' : undefined,
+              }}
+            >
+              {para}
+            </p>
+          ))}
         </div>
 
         {/* Education */}
@@ -119,7 +109,7 @@ export default function AboutPage() {
               textTransform: 'uppercase',
               marginBottom: '0.875rem',
             }}>
-              CONJOINT DEGREE · IN PROGRESS
+              {profile.education.status}
             </p>
             <h4 style={{
               fontFamily: 'var(--font-display)',
@@ -130,10 +120,10 @@ export default function AboutPage() {
               letterSpacing: '0.03em',
               marginBottom: '1rem',
             }}>
-              BE(Hons) Mechatronics · BCom Finance/Economics
+              {profile.education.degree}
             </h4>
             <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.9375rem', color: '#BBBBBB', lineHeight: 1.7 }}>
-              A conjoint degree combining honours-level engineering with commerce. Covering control systems, embedded software, financial modelling, and economic analysis.
+              {profile.education.description}
             </p>
           </div>
         </div>
@@ -152,7 +142,7 @@ export default function AboutPage() {
             Skill Areas
           </h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1rem' }}>
-            {skills.map((skill) => (
+            {profile.skills.map((skill) => (
               <div key={skill.title} className="card" style={{ padding: '2rem' }}>
                 <h4 style={{
                   fontFamily: 'var(--font-display)',
@@ -188,7 +178,7 @@ export default function AboutPage() {
           </h3>
           <div className="card">
             <ul style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-              {capabilities.map((cap) => (
+              {profile.capabilities.map((cap) => (
                 <li key={cap} style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem' }}>
                   <span style={{ marginTop: '0.5rem', width: '6px', height: '6px', borderRadius: '50%', background: '#E8920A', flexShrink: 0 }} />
                   <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.9375rem', color: '#BBBBBB', lineHeight: 1.65 }}>
