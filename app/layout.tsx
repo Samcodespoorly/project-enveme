@@ -2,18 +2,12 @@ import type { Metadata } from 'next'
 import {
   Saira_Condensed,
   Saira,
-  Instrument_Serif,
-  Newsreader,
-  Archivo,
-  Spline_Sans_Mono,
   JetBrains_Mono,
 } from 'next/font/google'
 import './globals.css'
 import Navigation from '@/components/layout/Navigation'
 import Footer from '@/components/layout/Footer'
 import SmoothScrollProvider from '@/components/providers/SmoothScrollProvider'
-import { SkinProvider } from '@/contexts/SkinContext'
-import SkinDock from '@/components/SkinDock'
 
 const sairaCondensed = Saira_Condensed({
   subsets: ['latin'],
@@ -26,34 +20,6 @@ const saira = Saira({
   subsets: ['latin'],
   weight: ['400', '500', '600'],
   variable: '--font-saira',
-  display: 'swap',
-})
-
-const instrumentSerif = Instrument_Serif({
-  subsets: ['latin'],
-  weight: ['400'],
-  variable: '--font-instrument-serif',
-  display: 'swap',
-})
-
-const newsreader = Newsreader({
-  subsets: ['latin'],
-  weight: ['400', '500'],
-  variable: '--font-newsreader',
-  display: 'swap',
-})
-
-const archivo = Archivo({
-  subsets: ['latin'],
-  weight: ['400', '500', '700', '800'],
-  variable: '--font-archivo',
-  display: 'swap',
-})
-
-const splineSansMono = Spline_Sans_Mono({
-  subsets: ['latin'],
-  weight: ['400', '500'],
-  variable: '--font-spline-mono',
   display: 'swap',
 })
 
@@ -89,17 +55,14 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${sairaCondensed.variable} ${saira.variable} ${instrumentSerif.variable} ${newsreader.variable} ${archivo.variable} ${splineSansMono.variable} ${jetbrainsMono.variable}`}
+      className={`${sairaCondensed.variable} ${saira.variable} ${jetbrainsMono.variable}`}
     >
       <body>
-        <SkinProvider>
-          <SmoothScrollProvider>
-            <Navigation />
-            {children}
-            <Footer />
-            <SkinDock />
-          </SmoothScrollProvider>
-        </SkinProvider>
+        <SmoothScrollProvider>
+          <Navigation />
+          {children}
+          <Footer />
+        </SmoothScrollProvider>
       </body>
     </html>
   )

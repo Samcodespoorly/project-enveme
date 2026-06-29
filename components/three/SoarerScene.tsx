@@ -6,7 +6,6 @@ import { Environment, useProgress } from '@react-three/drei'
 import * as THREE from 'three'
 import CarModel from './CarModel'
 import ScrollCamera from './ScrollCamera'
-import { useSkin } from '@/contexts/SkinContext'
 
 interface SoarerSceneProps {
   scrollProgressRef: React.MutableRefObject<number>
@@ -93,55 +92,38 @@ function LoadingOverlay() {
   )
 }
 
-function SkinLights() {
-  const { skin } = useSkin()
-  const s = skin.scene
+function HeritageLights() {
   return (
     <>
-      <ambientLight color={s.ambient.color} intensity={s.ambient.intensity} />
-      <directionalLight color={s.key.color} intensity={s.key.intensity} position={s.key.pos} />
-      <directionalLight color={s.fill.color} intensity={s.fill.intensity} position={s.fill.pos} />
-      <directionalLight color={s.rim.color} intensity={s.rim.intensity} position={s.rim.pos} />
+      <ambientLight color="#fff3da" intensity={0.85} />
+      <directionalLight color="#ffe7b0" intensity={2.4} position={[5, 8, 5]} />
+      <directionalLight color="#bcae90" intensity={0.7} position={[-6, 3, -4]} />
+      <directionalLight color="#ffffff" intensity={1.3} position={[-3, 6, -6]} />
     </>
   )
 }
 
-function SkinFloor() {
-  const { skin } = useSkin()
-  const f = skin.scene.floor
+function HeritageFloor() {
   return (
     <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.66, 0]}>
       <circleGeometry args={[40, 64]} />
-      <meshStandardMaterial
-        color={f.color}
-        metalness={f.metalness}
-        roughness={f.roughness}
-        transparent
-        opacity={f.opacity}
-      />
+      <meshStandardMaterial color="#cdbf9f" metalness={0.0} roughness={0.85} transparent opacity={0.9} />
     </mesh>
   )
 }
 
-function SkinSceneEffects() {
-  const { skin } = useSkin()
+function HeritageSceneEffects() {
   const { gl, scene } = useThree()
   useEffect(() => {
-    gl.toneMappingExposure = skin.scene.exposure
-    scene.fog = new THREE.Fog(skin.scene.fog.color, skin.scene.fog.near, skin.scene.fog.far)
-  }, [skin, gl, scene])
+    gl.toneMappingExposure = 1.12
+    scene.fog = new THREE.Fog('#e7dcc4', 9, 26)
+  }, [gl, scene])
   return null
-}
-
-function SkinEnvironment() {
-  const { skin } = useSkin()
-  return <Environment preset="studio" environmentIntensity={skin.scene.envIntensity} />
 }
 
 export default function SoarerScene({ scrollProgressRef }: SoarerSceneProps) {
   const [canvasVisible, setCanvasVisible] = useState(false)
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const { skin } = useSkin()
 
   useEffect(() => {
     timerRef.current = setTimeout(() => setCanvasVisible(true), 80)
@@ -156,7 +138,7 @@ export default function SoarerScene({ scrollProgressRef }: SoarerSceneProps) {
         position: 'relative',
         width: '100%',
         height: '100%',
-        background: `linear-gradient(to bottom, ${skin.scene.background[0]}, ${skin.scene.background[1]})`,
+        background: 'linear-gradient(to bottom, #EFE7D6, #DCCDAE)',
       }}
     >
       <LoadingOverlay />
@@ -175,15 +157,15 @@ export default function SoarerScene({ scrollProgressRef }: SoarerSceneProps) {
         performance={{ min: 0.5 }}
         gl={{ antialias: false, alpha: true, powerPreference: 'high-performance', toneMapping: THREE.ACESFilmicToneMapping }}
       >
-        <SkinLights />
-        <SkinSceneEffects />
-        <SkinEnvironment />
+        <HeritageLights />
+        <HeritageSceneEffects />
+        <Environment preset="studio" environmentIntensity={0.55} />
 
         <Suspense fallback={null}>
           <CarModel />
         </Suspense>
 
-        <SkinFloor />
+        <HeritageFloor />
         <ScrollCamera scrollProgressRef={scrollProgressRef} />
       </Canvas>
     </div>

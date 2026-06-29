@@ -35,9 +35,28 @@
 }
 
 :root {
+  --bg:        #EBE2CF;
+  --bg2:       #E0D4B9;
+  --surface:   rgba(42,32,24,0.045);
+  --surface-2: rgba(42,32,24,0.07);
+  --ink:       #2A211A;
+  --ink-soft:  #6E5F4D;
+  --ink-faint: #9A8B73;
+  --line:      rgba(42,32,24,0.16);
+  --line-soft: rgba(42,32,24,0.08);
+  --accent:    #BF4A23;
+  --accent-2:  #9A7B2E;
+  --on-accent: #F4ECDB;
+  --glass-bg:  rgba(235,226,207,0.62);
+  --glass-bd:  rgba(42,32,24,0.14);
+  --grain:     0.10;
+  --vignette:  0;
+  --scanline:  0;
+  --radius:    4px;
+  --blur:      2px;
   --font-display: var(--font-saira-cond);
-  --font-body: var(--font-saira);
-  --font-mono: var(--font-jetbrains);
+  --font-body:    var(--font-saira);
+  --font-mono:    var(--font-jetbrains);
 }
 
 * {
@@ -57,8 +76,8 @@ html {
 }
 
 body {
-  background: #0A0A0A;
-  color: #FAFAFA;
+  background: var(--bg);
+  color: var(--ink);
   font-family: var(--font-body), 'Saira', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -348,14 +367,6 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-}
-
-/* ── Skin switching transitions ─────────────────────────────────────────── */
-body,
-.sec,
-nav,
-footer {
-  transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease;
 }
 
 /* ── Reduced motion ──────────────────────────────────────────────────────── */
