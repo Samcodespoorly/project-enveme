@@ -113,7 +113,7 @@ function TimelineNode({ color }: { color: string }) {
       height: '0.75rem',
       borderRadius: '50%',
       background: color,
-      boxShadow: `0 0 0 4px var(--bg), 0 0 10px ${color}80`,
+      boxShadow: `0 0 0 4px var(--bg)${color.startsWith('#') ? `, 0 0 10px ${color}80` : ''}`,
       flexShrink: 0,
     }} />
   )

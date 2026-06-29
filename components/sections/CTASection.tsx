@@ -94,7 +94,7 @@ export default function CTASection() {
               fontSize: '0.8125rem',
               fontWeight: 600,
               color: 'var(--ink)',
-              background: 'var(--line)',
+              background: 'var(--surface)',
               border: '1px solid var(--line)',
               padding: '1rem 2.5rem',
               borderRadius: '0.75rem',

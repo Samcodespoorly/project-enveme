@@ -3,8 +3,8 @@
 @theme {
   --color-enveme-bg: var(--bg);
   --color-enveme-surface: var(--bg2);
-  --color-enveme-surface2: #1A1A1A;
-  --color-enveme-surface3: #222222;
+  --color-enveme-surface2: var(--surface-2);
+  --color-enveme-surface3: var(--line-soft);
   --color-accent: var(--accent);
 
   /* Semantic background tokens */
