@@ -16,7 +16,7 @@ const SoarerScene = dynamic(() => import('@/components/three/SoarerScene'), {
     <div
       className="w-full h-full"
       style={{
-        background: 'var(--color-bg-primary)',
+        background: 'var(--bg)',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -167,7 +167,7 @@ export default function SceneSection({ vehicle }: Props) {
     return (
       <section style={{
         minHeight: '100vh',
-        background: 'var(--color-bg-primary)',
+        background: 'var(--bg)',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -322,7 +322,7 @@ export default function SceneSection({ vehicle }: Props) {
   return (
     <div
       ref={containerRef}
-      style={{ height: '100vh', position: 'relative', background: 'var(--color-bg-primary)', overflow: 'hidden' }}
+      style={{ height: '100vh', position: 'relative', background: 'var(--bg)', overflow: 'hidden' }}
     >
       {/* Three.js canvas — full viewport */}
       <div style={{ position: 'absolute', inset: 0 }}>

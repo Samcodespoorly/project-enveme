@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
 @theme {
-  --color-enveme-bg: #0A0A0A;
+  --color-enveme-bg: var(--bg);
   --color-enveme-surface: #111111;
   --color-enveme-surface2: #1A1A1A;
   --color-enveme-surface3: #222222;
   --color-accent: #E8920A;
 
   /* Semantic background tokens */
-  --color-bg-primary: #0A0A0A;
-  --color-bg-secondary: #0D0D10;
+  --color-bg-primary: var(--bg);
+  --color-bg-secondary: var(--bg);
 
   --font-family-display: var(--font-display), 'Saira Condensed', sans-serif;
   --font-family-body: var(--font-body), 'Saira', sans-serif;

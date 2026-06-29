@@ -29,7 +29,7 @@ function LoadingOverlay() {
         gap: '1.25rem',
         pointerEvents: 'none',
         zIndex: 5,
-        background: 'var(--color-bg-primary)',
+        background: 'var(--bg)',
       }}
     >
       <div style={{ position: 'relative', width: '48px', height: '48px' }}>
