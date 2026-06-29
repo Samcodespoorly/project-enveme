@@ -350,6 +350,14 @@ body {
   background-clip: text;
 }
 
+/* ── Skin switching transitions ─────────────────────────────────────────── */
+body,
+.sec,
+nav,
+footer {
+  transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+}
+
 /* ── Reduced motion ──────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *,

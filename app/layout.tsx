@@ -12,6 +12,8 @@ import './globals.css'
 import Navigation from '@/components/layout/Navigation'
 import Footer from '@/components/layout/Footer'
 import SmoothScrollProvider from '@/components/providers/SmoothScrollProvider'
+import { SkinProvider } from '@/contexts/SkinContext'
+import SkinDock from '@/components/SkinDock'
 
 const sairaCondensed = Saira_Condensed({
   subsets: ['latin'],
@@ -90,11 +92,14 @@ export default function RootLayout({
       className={`${sairaCondensed.variable} ${saira.variable} ${instrumentSerif.variable} ${newsreader.variable} ${archivo.variable} ${splineSansMono.variable} ${jetbrainsMono.variable}`}
     >
       <body>
-        <SmoothScrollProvider>
-          <Navigation />
-          {children}
-          <Footer />
-        </SmoothScrollProvider>
+        <SkinProvider>
+          <SmoothScrollProvider>
+            <Navigation />
+            {children}
+            <Footer />
+            <SkinDock />
+          </SmoothScrollProvider>
+        </SkinProvider>
       </body>
     </html>
   )
