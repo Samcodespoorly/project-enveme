@@ -1,25 +1,30 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { journalEntries, type ContentBlock } from '@/lib/buildData'
+import { fetchPublicJournal, type PublicContentBlock } from '@/lib/publicData'
 import Badge from '@/components/ui/Badge'
 import ReadingProgress from '@/components/ui/ReadingProgress'
 
 type Props = { params: Promise<{ slug: string }> }
 
-export function generateStaticParams() {
-  return journalEntries.map((e) => ({ slug: e.slug }))
+export const dynamicParams = true
+export const revalidate = 300
+
+export async function generateStaticParams() {
+  const entries = await fetchPublicJournal()
+  return entries.map(e => ({ slug: e.slug }))
 }
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params
-  const entry = journalEntries.find((e) => e.slug === slug)
+  const entries = await fetchPublicJournal()
+  const entry = entries.find((e) => e.slug === slug)
   return {
     title: entry ? `${entry.title} — ENVEME` : 'Build Journal — ENVEME',
     description: entry?.excerpt,
   }
 }
 
-function renderBlock(block: ContentBlock, tagColor: string, index: number) {
+function renderBlock(block: PublicContentBlock, tagColor: string, index: number) {
   switch (block.type) {
     case 'paragraph':
       return (
@@ -28,7 +33,7 @@ function renderBlock(block: ContentBlock, tagColor: string, index: number) {
           style={{
             fontFamily: 'var(--font-body)',
             fontSize: '1rem',
-            color: '#C0C0C0',
+            color: 'var(--ink-soft)',
             lineHeight: 1.75,
             marginBottom: '1.5rem',
           }}
@@ -45,7 +50,7 @@ function renderBlock(block: ContentBlock, tagColor: string, index: number) {
             fontFamily: 'var(--font-display)',
             fontSize: 'clamp(1.25rem, 3vw, 1.75rem)',
             fontWeight: 700,
-            color: '#FFFFFF',
+            color: 'var(--ink)',
             textTransform: 'uppercase',
             letterSpacing: '0.02em',
             borderLeft: `3px solid ${tagColor}`,
@@ -64,8 +69,8 @@ function renderBlock(block: ContentBlock, tagColor: string, index: number) {
           key={index}
           style={{
             borderRadius: '1rem',
-            border: '1px dashed rgba(255,255,255,0.12)',
-            background: 'rgba(255,255,255,0.02)',
+            border: '1px dashed var(--line)',
+            background: 'var(--surface)',
             aspectRatio: '16/9',
             display: 'flex',
             flexDirection: 'column',
@@ -80,7 +85,7 @@ function renderBlock(block: ContentBlock, tagColor: string, index: number) {
             height="28"
             viewBox="0 0 24 24"
             fill="none"
-            stroke="#E8920A"
+            stroke="var(--accent)"
             strokeWidth="1.5"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -89,12 +94,42 @@ function renderBlock(block: ContentBlock, tagColor: string, index: number) {
             <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
             <circle cx="12" cy="13" r="4" />
           </svg>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', color: '#555', letterSpacing: '0.3em', textTransform: 'uppercase' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', color: 'var(--ink-faint)', letterSpacing: '0.3em', textTransform: 'uppercase' }}>
             PHOTOGRAPHY COMING SOON
           </p>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.8125rem', color: '#666' }}>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.8125rem', color: 'var(--ink-faint)' }}>
             {block.caption}
           </p>
+        </div>
+      )
+
+    case 'image':
+      return (
+        <div key={index} style={{ marginBottom: '2rem' }}>
+          <img
+            src={block.url}
+            alt={block.caption ?? ''}
+            loading="lazy"
+            style={{
+              width: '100%',
+              aspectRatio: '16/9',
+              objectFit: 'cover',
+              borderRadius: '1rem',
+              border: '1px solid var(--line)',
+            }}
+          />
+          {block.caption && (
+            <p style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.6875rem',
+              color: 'var(--ink-faint)',
+              textAlign: 'center',
+              marginTop: '0.75rem',
+              letterSpacing: '0.1em',
+            }}>
+              {block.caption}
+            </p>
+          )}
         </div>
       )
 
@@ -104,8 +139,8 @@ function renderBlock(block: ContentBlock, tagColor: string, index: number) {
           key={index}
           style={{
             borderRadius: '1rem',
-            background: 'rgba(255,255,255,0.04)',
-            border: '1px solid rgba(255,255,255,0.08)',
+            background: 'var(--surface)',
+            border: '1px solid var(--line)',
             overflow: 'hidden',
             marginBottom: '2rem',
           }}
@@ -116,15 +151,15 @@ function renderBlock(block: ContentBlock, tagColor: string, index: number) {
                 <tr
                   key={row.label}
                   style={{
-                    borderBottom: '1px solid rgba(255,255,255,0.05)',
-                    background: i % 2 === 0 ? 'rgba(255,255,255,0.015)' : 'transparent',
+                    borderBottom: '1px solid var(--line-soft)',
+                    background: i % 2 === 0 ? 'var(--surface)' : 'transparent',
                   }}
                 >
                   <td style={{
                     padding: '0.75rem 1.25rem',
                     fontFamily: 'var(--font-mono)',
                     fontSize: '0.6875rem',
-                    color: '#666',
+                    color: 'var(--ink-faint)',
                     textTransform: 'uppercase',
                     letterSpacing: '0.1em',
                     width: '40%',
@@ -135,7 +170,7 @@ function renderBlock(block: ContentBlock, tagColor: string, index: number) {
                     padding: '0.75rem 1.25rem',
                     fontFamily: 'var(--font-body)',
                     fontSize: '0.875rem',
-                    color: '#E0E0E0',
+                    color: 'var(--ink)',
                   }}>
                     {row.value}
                   </td>
@@ -171,7 +206,7 @@ function renderBlock(block: ContentBlock, tagColor: string, index: number) {
           <p style={{
             fontFamily: 'var(--font-body)',
             fontSize: '0.9375rem',
-            color: '#BBBBBB',
+            color: 'var(--ink-soft)',
             lineHeight: 1.7,
           }}>
             {block.text}
@@ -186,16 +221,17 @@ function renderBlock(block: ContentBlock, tagColor: string, index: number) {
 
 export default async function BuildEntryPage({ params }: Props) {
   const { slug } = await params
-  const entry = journalEntries.find((e) => e.slug === slug)
+  const entries = await fetchPublicJournal()
+  const entry = entries.find((e) => e.slug === slug)
 
   if (!entry) notFound()
 
-  const currentIndex = journalEntries.findIndex((e) => e.slug === slug)
-  const prevEntry = currentIndex < journalEntries.length - 1 ? journalEntries[currentIndex + 1] : null
-  const nextEntry = currentIndex > 0 ? journalEntries[currentIndex - 1] : null
+  const currentIndex = entries.findIndex((e) => e.slug === slug)
+  const prevEntry = currentIndex < entries.length - 1 ? entries[currentIndex + 1] : null
+  const nextEntry = currentIndex > 0 ? entries[currentIndex - 1] : null
 
   return (
-    <main style={{ minHeight: '100vh', background: '#0A0A0A', paddingTop: '9rem', paddingBottom: '6rem' }}>
+    <main style={{ minHeight: '100vh', background: 'var(--bg)', paddingTop: '9rem', paddingBottom: '6rem' }}>
       <ReadingProgress color={entry.tagColor} />
       <div className="page-container">
 
@@ -208,7 +244,7 @@ export default async function BuildEntryPage({ params }: Props) {
             gap: '0.5rem',
             fontFamily: 'var(--font-mono)',
             fontSize: '0.6875rem',
-            color: '#E8920A',
+            color: 'var(--accent)',
             textDecoration: 'none',
             letterSpacing: '0.15em',
             textTransform: 'uppercase',
@@ -221,18 +257,18 @@ export default async function BuildEntryPage({ params }: Props) {
         {/* Page hero bar */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
           <Badge label={entry.category} color={entry.tagColor} />
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: '#666', letterSpacing: '0.1em' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--ink-faint)', letterSpacing: '0.1em' }}>
             {entry.date}
           </span>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: '#555', letterSpacing: '0.1em' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--ink-faint)', letterSpacing: '0.1em' }}>
             {entry.readTime}
           </span>
         </div>
 
-        {/* Amber rule */}
+        {/* Accent rule */}
         <div style={{
           height: '1px',
-          background: `linear-gradient(to right, ${entry.tagColor}, rgba(232,146,10,0.1), transparent)`,
+          background: `linear-gradient(to right, ${entry.tagColor}, transparent)`,
           marginBottom: '2rem',
         }} />
 
@@ -241,7 +277,7 @@ export default async function BuildEntryPage({ params }: Props) {
           fontFamily: 'var(--font-display)',
           fontSize: 'clamp(2rem, 5vw, 3.5rem)',
           fontWeight: 800,
-          color: '#FFFFFF',
+          color: 'var(--ink)',
           textTransform: 'uppercase',
           letterSpacing: '-0.02em',
           lineHeight: 1.0,
@@ -255,7 +291,7 @@ export default async function BuildEntryPage({ params }: Props) {
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem', marginBottom: '2.5rem' }}>
             {entry.tools && entry.tools.length > 0 && (
               <div>
-                <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', color: '#555', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+                <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', color: 'var(--ink-faint)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
                   TOOLS USED
                 </p>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.375rem' }}>
@@ -263,9 +299,9 @@ export default async function BuildEntryPage({ params }: Props) {
                     <span key={tool} style={{
                       fontFamily: 'var(--font-mono)',
                       fontSize: '0.625rem',
-                      color: '#888',
-                      background: 'rgba(255,255,255,0.04)',
-                      border: '1px solid rgba(255,255,255,0.08)',
+                      color: 'var(--ink-soft)',
+                      background: 'var(--surface)',
+                      border: '1px solid var(--line)',
                       padding: '0.25rem 0.625rem',
                       borderRadius: '0.375rem',
                     }}>
@@ -277,7 +313,7 @@ export default async function BuildEntryPage({ params }: Props) {
             )}
             {entry.cost && (
               <div>
-                <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', color: '#555', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+                <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', color: 'var(--ink-faint)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
                   TOTAL COST
                 </p>
                 <span style={{
@@ -294,7 +330,7 @@ export default async function BuildEntryPage({ params }: Props) {
         )}
 
         {/* Separator */}
-        <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', marginBottom: '2.5rem' }} />
+        <div style={{ borderTop: '1px solid var(--line-soft)', marginBottom: '2.5rem' }} />
 
         {/* Content */}
         <div style={{ maxWidth: '720px' }}>
@@ -304,7 +340,7 @@ export default async function BuildEntryPage({ params }: Props) {
         {/* Prev / Next navigation */}
         {(prevEntry || nextEntry) && (
           <div style={{
-            borderTop: '1px solid rgba(255,255,255,0.06)',
+            borderTop: '1px solid var(--line-soft)',
             marginTop: '3rem',
             paddingTop: '2rem',
             display: 'grid',
@@ -314,7 +350,7 @@ export default async function BuildEntryPage({ params }: Props) {
             <div>
               {prevEntry && (
                 <Link href={`/build/${prevEntry.slug}`} style={{ textDecoration: 'none' }}>
-                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', color: '#555', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', color: 'var(--ink-faint)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
                     ← Earlier
                   </p>
                   <p className="journal-nav-title" style={{ fontSize: '1rem', fontWeight: 700, textTransform: 'uppercase', lineHeight: 1.2 }}>
@@ -326,7 +362,7 @@ export default async function BuildEntryPage({ params }: Props) {
             <div style={{ textAlign: 'right' }}>
               {nextEntry && (
                 <Link href={`/build/${nextEntry.slug}`} style={{ textDecoration: 'none' }}>
-                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', color: '#555', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', color: 'var(--ink-faint)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
                     More recent →
                   </p>
                   <p className="journal-nav-title" style={{ fontSize: '1rem', fontWeight: 700, textTransform: 'uppercase', lineHeight: 1.2 }}>

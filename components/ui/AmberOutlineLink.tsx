@@ -9,8 +9,6 @@ interface AmberOutlineLinkProps {
   className?: string
 }
 
-// Uses Next.js Link so internal routes get client-side navigation.
-// External URLs (starting with http) are passed through transparently by Link.
 export default function AmberOutlineLink({
   href,
   children,
@@ -30,12 +28,12 @@ export default function AmberOutlineLink({
         fontSize: '0.75rem',
         letterSpacing: '0.15em',
         textTransform: 'uppercase',
-        color: '#E8920A',
-        border: `1px solid ${hovered ? 'rgba(232,146,10,0.6)' : 'rgba(232,146,10,0.3)'}`,
+        color: 'var(--accent)',
+        border: `1px solid ${hovered ? 'var(--accent)' : 'var(--line)'}`,
         borderRadius: '0.5rem',
         padding: '0.625rem 1.25rem',
         textDecoration: 'none',
-        background: hovered ? 'rgba(232,146,10,0.08)' : 'transparent',
+        background: hovered ? 'var(--surface)' : 'transparent',
         transition: 'background 0.15s ease, border-color 0.15s ease',
         cursor: 'pointer',
       }}

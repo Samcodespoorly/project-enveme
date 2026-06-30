@@ -12,8 +12,8 @@ export default function ContactButtons() {
           display: 'inline-flex',
           alignItems: 'center',
           gap: '0.625rem',
-          background: '#E8920A',
-          color: '#000',
+          background: 'var(--accent)',
+          color: 'var(--on-accent)',
           fontFamily: 'var(--font-body)',
           fontWeight: 700,
           fontSize: '0.8125rem',
@@ -24,8 +24,8 @@ export default function ContactButtons() {
           textDecoration: 'none',
           transition: 'background 0.2s ease',
         }}
-        onMouseEnter={e => (e.currentTarget.style.background = '#FBB940')}
-        onMouseLeave={e => (e.currentTarget.style.background = '#E8920A')}
+        onMouseEnter={e => (e.currentTarget.style.background = 'var(--accent-2)')}
+        onMouseLeave={e => (e.currentTarget.style.background = 'var(--accent)')}
       >
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
           <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
@@ -43,7 +43,7 @@ export default function ContactButtons() {
           alignItems: 'center',
           gap: '0.625rem',
           background: 'transparent',
-          color: '#FFF',
+          color: 'var(--ink)',
           fontFamily: 'var(--font-body)',
           fontWeight: 600,
           fontSize: '0.8125rem',
@@ -51,18 +51,18 @@ export default function ContactButtons() {
           textTransform: 'uppercase',
           padding: '0.9375rem 2rem',
           borderRadius: '0.625rem',
-          border: '1px solid rgba(255,255,255,0.2)',
+          border: '1px solid var(--line)',
           textDecoration: 'none',
           transition: 'border-color 0.2s ease, background 0.2s ease',
         }}
         onMouseEnter={e => {
           const el = e.currentTarget as HTMLAnchorElement
-          el.style.borderColor = 'rgba(255,255,255,0.4)'
-          el.style.background = 'rgba(255,255,255,0.06)'
+          el.style.borderColor = 'rgba(42,32,24,0.32)'
+          el.style.background = 'rgba(42,32,24,0.06)'
         }}
         onMouseLeave={e => {
           const el = e.currentTarget as HTMLAnchorElement
-          el.style.borderColor = 'rgba(255,255,255,0.2)'
+          el.style.borderColor = 'var(--line)'
           el.style.background = 'transparent'
         }}
       >

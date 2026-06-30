@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 }
 
 const CATEGORY_COLOURS: Record<string, string> = {
-  suspension: '#E8920A',
+  suspension: 'var(--accent)',
   engine:     '#F87171',
   electrical: '#22D3EE',
   exterior:   '#A78BFA',
@@ -47,7 +47,7 @@ function PartCard({ part }: { part: PublicMod }) {
             fontFamily: 'var(--font-display)',
             fontSize: '1.0625rem',
             fontWeight: 700,
-            color: '#FFF',
+            color: 'var(--ink)',
             textTransform: 'uppercase',
             letterSpacing: '0.03em',
             lineHeight: 1.2,
@@ -55,7 +55,7 @@ function PartCard({ part }: { part: PublicMod }) {
             {part.name}
           </h3>
           {part.brand && (
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.8125rem', color: '#E8920A', marginTop: '0.25rem', fontWeight: 500 }}>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.8125rem', color: 'var(--accent)', marginTop: '0.25rem', fontWeight: 500 }}>
               {part.brand}
             </p>
           )}
@@ -64,7 +64,7 @@ function PartCard({ part }: { part: PublicMod }) {
       </div>
 
       {part.description && (
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.875rem', color: '#AAAAAA', lineHeight: 1.6 }}>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.875rem', color: 'var(--ink-soft)', lineHeight: 1.6 }}>
           {part.description}
         </p>
       )}
@@ -74,37 +74,37 @@ function PartCard({ part }: { part: PublicMod }) {
         gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
         gap: '0.75rem 1.25rem',
         paddingTop: '0.875rem',
-        borderTop: '1px solid rgba(255,255,255,0.06)',
+        borderTop: '1px solid var(--line-soft)',
       }}>
         {part.partNumber && (
           <div>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5rem', color: '#666', letterSpacing: '0.25em', textTransform: 'uppercase', display: 'block', marginBottom: '0.2rem' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5rem', color: 'var(--ink-faint)', letterSpacing: '0.25em', textTransform: 'uppercase', display: 'block', marginBottom: '0.2rem' }}>
               Part No.
             </span>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8125rem', color: '#DDD' }}>{part.partNumber}</span>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8125rem', color: 'var(--ink)' }}>{part.partNumber}</span>
           </div>
         )}
         {part.oemPartNumber && (
           <div>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5rem', color: '#666', letterSpacing: '0.25em', textTransform: 'uppercase', display: 'block', marginBottom: '0.2rem' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5rem', color: 'var(--ink-faint)', letterSpacing: '0.25em', textTransform: 'uppercase', display: 'block', marginBottom: '0.2rem' }}>
               OEM Cross-Ref
             </span>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8125rem', color: '#DDD' }}>{part.oemPartNumber}</span>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8125rem', color: 'var(--ink)' }}>{part.oemPartNumber}</span>
           </div>
         )}
         {part.fitmentNotes && (
           <div>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5rem', color: '#666', letterSpacing: '0.25em', textTransform: 'uppercase', display: 'block', marginBottom: '0.2rem' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5rem', color: 'var(--ink-faint)', letterSpacing: '0.25em', textTransform: 'uppercase', display: 'block', marginBottom: '0.2rem' }}>
               Fitment
             </span>
-            <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.8125rem', color: '#DDD' }}>{part.fitmentNotes}</span>
+            <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.8125rem', color: 'var(--ink)' }}>{part.fitmentNotes}</span>
           </div>
         )}
         <div>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5rem', color: '#666', letterSpacing: '0.25em', textTransform: 'uppercase', display: 'block', marginBottom: '0.2rem' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5rem', color: 'var(--ink-faint)', letterSpacing: '0.25em', textTransform: 'uppercase', display: 'block', marginBottom: '0.2rem' }}>
             Installed
           </span>
-          <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.8125rem', color: '#DDD' }}>
+          <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.8125rem', color: 'var(--ink)' }}>
             {formatDate(part.installDate)}
             {part.installOdometer ? ` · ${part.installOdometer.toLocaleString('en-NZ')} km` : ''}
           </span>
@@ -128,7 +128,7 @@ export default async function PartsPage() {
   ]
 
   return (
-    <main style={{ minHeight: '100vh', background: '#0A0A0A', paddingTop: '9rem', paddingBottom: '6rem' }}>
+    <main style={{ minHeight: '100vh', background: 'var(--bg)', paddingTop: '9rem', paddingBottom: '6rem' }}>
       <div className="page-container">
 
         <SectionHeading
@@ -142,14 +142,14 @@ export default async function PartsPage() {
           display: 'inline-flex',
           alignItems: 'center',
           gap: '0.625rem',
-          background: 'rgba(232,146,10,0.08)',
-          border: '1px solid rgba(232,146,10,0.2)',
+          background: 'var(--surface)',
+          border: '1px solid var(--line)',
           borderRadius: '2rem',
           padding: '0.4375rem 1rem',
           marginBottom: '2.5rem',
         }}>
           <span className="status-dot-live" style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#34D399', flexShrink: 0 }} />
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', color: '#E8920A', letterSpacing: '0.22em', textTransform: 'uppercase' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', color: 'var(--accent)', letterSpacing: '0.22em', textTransform: 'uppercase' }}>
             {synced ? `Live from GarageOS · synced ${synced}` : 'Live from GarageOS'}
           </span>
         </div>
@@ -161,14 +161,14 @@ export default async function PartsPage() {
           gap: '1rem 2.5rem',
           marginBottom: '3rem',
           paddingBottom: '2.5rem',
-          borderBottom: '1px solid rgba(255,255,255,0.06)',
+          borderBottom: '1px solid var(--line-soft)',
         }}>
           {stats.map(stat => (
             <div key={stat.label}>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5rem', color: '#666', letterSpacing: '0.25em', textTransform: 'uppercase', display: 'block', marginBottom: '0.25rem' }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5rem', color: 'var(--ink-faint)', letterSpacing: '0.25em', textTransform: 'uppercase', display: 'block', marginBottom: '0.25rem' }}>
                 {stat.label}
               </span>
-              <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.75rem', color: '#FFF', fontWeight: 700 }}>
+              <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.75rem', color: 'var(--ink)', fontWeight: 700 }}>
                 {stat.value}
               </span>
             </div>
@@ -181,10 +181,10 @@ export default async function PartsPage() {
           </div>
         ) : (
           <div className="card" style={{ textAlign: 'center', padding: '4rem 2rem' }}>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6875rem', color: '#E8920A', letterSpacing: '0.3em', textTransform: 'uppercase', marginBottom: '0.75rem' }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6875rem', color: 'var(--accent)', letterSpacing: '0.3em', textTransform: 'uppercase', marginBottom: '0.75rem' }}>
               CATALOGUE EMPTY
             </p>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.9375rem', color: '#AAAAAA' }}>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.9375rem', color: 'var(--ink-soft)' }}>
               Parts marked public in GarageOS appear here automatically.
             </p>
           </div>

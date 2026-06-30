@@ -1,33 +1,20 @@
 import type { Metadata } from 'next'
 import SectionHeading from '@/components/ui/SectionHeading'
 import ContactButtons from '@/components/ui/ContactButtons'
+import { fetchPublicProfile } from '@/lib/publicData'
+
+export const revalidate = 300
 
 export const metadata: Metadata = {
   title: 'About — ENVEME',
   description: 'Samuel Donovan — Mechatronics & Finance/Economics student. Project ENVEME is a live engineering portfolio.',
 }
 
-const skills = [
-  { title: 'Mechanical Engineering', description: 'Thermodynamics, dynamics, materials science, and machine design applied to real-world automotive systems.' },
-  { title: 'Electrical Systems', description: 'Vehicle wiring, CAN bus diagnostics, sensor integration, and embedded microcontroller projects.' },
-  { title: 'Software Development', description: 'Full-stack web development with Next.js, TypeScript, Firebase. This site is a live demonstration.' },
-  { title: 'Project Management', description: 'Budgeting, scheduling, and documentation of a long-running engineering project from acquisition through build.' },
-  { title: 'Financial Analysis', description: 'Total cost of ownership modelling, build cost tracking, and depreciation analysis for the JZZ31 platform.' },
-  { title: 'AI-Assisted Development', description: 'Leveraging AI tools for code generation, research, and documentation acceleration throughout the project.' },
-]
+export default async function AboutPage() {
+  const profile = await fetchPublicProfile()
 
-const capabilities = [
-  'End-to-end engineering project ownership — from concept to execution',
-  'Integration of mechanical, electrical, and software systems',
-  'Quantitative analysis of project cost and value',
-  'Technical documentation and portfolio communication',
-  'Iterative problem solving under real constraints',
-  'Full-stack web application development with modern tooling',
-]
-
-export default function AboutPage() {
   return (
-    <main style={{ minHeight: '100vh', background: '#0A0A0A', paddingTop: '9rem', paddingBottom: '6rem' }}>
+    <main style={{ minHeight: '100vh', background: 'var(--bg)', paddingTop: '9rem', paddingBottom: '6rem' }}>
       <div className="page-container">
 
         <SectionHeading
@@ -40,15 +27,15 @@ export default function AboutPage() {
           display: 'inline-flex',
           alignItems: 'center',
           gap: '0.625rem',
-          background: 'rgba(232,146,10,0.08)',
-          border: '1px solid rgba(232,146,10,0.2)',
+          background: 'var(--surface)',
+          border: '1px solid var(--line)',
           borderRadius: '2rem',
           padding: '0.4375rem 1rem',
           marginBottom: '2rem',
         }}>
           <span className="status-dot-live" style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#34D399', flexShrink: 0 }} />
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', color: '#E8920A', letterSpacing: '0.22em', textTransform: 'uppercase' }}>
-            Available · Auckland, NZ · 2026
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', color: 'var(--accent)', letterSpacing: '0.22em', textTransform: 'uppercase' }}>
+            {profile.availability}
           </span>
         </div>
 
@@ -59,19 +46,14 @@ export default function AboutPage() {
           gap: '1rem 2.5rem',
           marginBottom: '3.5rem',
           paddingBottom: '3rem',
-          borderBottom: '1px solid rgba(255,255,255,0.06)',
+          borderBottom: '1px solid var(--line-soft)',
         }}>
-          {[
-            { label: 'Degree', value: 'Conjoint BE + BCom' },
-            { label: 'Specialisation', value: 'Mechatronics · Finance' },
-            { label: 'Year', value: 'Year 3 (in progress)' },
-            { label: 'Location', value: 'Auckland, New Zealand' },
-          ].map(stat => (
+          {profile.stats.map(stat => (
             <div key={stat.label}>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5rem', color: '#666', letterSpacing: '0.25em', textTransform: 'uppercase', display: 'block', marginBottom: '0.25rem' }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5rem', color: 'var(--ink-faint)', letterSpacing: '0.25em', textTransform: 'uppercase', display: 'block', marginBottom: '0.25rem' }}>
                 {stat.label}
               </span>
-              <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.9375rem', color: '#DDDDDD', fontWeight: 500 }}>
+              <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.9375rem', color: 'var(--ink)', fontWeight: 500 }}>
                 {stat.value}
               </span>
             </div>
@@ -80,12 +62,20 @@ export default function AboutPage() {
 
         {/* Intro */}
         <div style={{ marginBottom: '4rem', maxWidth: '44rem' }}>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.0625rem', color: '#BBBBBB', lineHeight: 1.75, marginBottom: '1.25rem' }}>
-            I&apos;m Samuel Donovan — a conjoint Mechatronics Engineering and Finance/Economics student in New Zealand. Project ENVEME is my platform to demonstrate full-stack engineering capability: from the mechanical knowledge to maintain and modify a 1995 Toyota Soarer, to the software skills to build this portfolio, to the financial analysis that underpins every build decision.
-          </p>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.0625rem', color: '#BBBBBB', lineHeight: 1.75 }}>
-            The JZZ31 Soarer is the perfect project platform — a naturally aspirated inline-6, a sophisticated chassis, and a growing community. Every stage of the build is documented here as a living portfolio of applied engineering.
-          </p>
+          {profile.intro.map((para, i) => (
+            <p
+              key={i}
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '1.0625rem',
+                color: 'var(--ink-soft)',
+                lineHeight: 1.75,
+                marginBottom: i < profile.intro.length - 1 ? '1.25rem' : undefined,
+              }}
+            >
+              {para}
+            </p>
+          ))}
         </div>
 
         {/* Education */}
@@ -94,7 +84,7 @@ export default function AboutPage() {
             fontFamily: 'var(--font-display)',
             fontSize: '1.5rem',
             fontWeight: 700,
-            color: '#FFF',
+            color: 'var(--ink)',
             textTransform: 'uppercase',
             letterSpacing: '0.03em',
             marginBottom: '1.25rem',
@@ -103,37 +93,37 @@ export default function AboutPage() {
           </h3>
           <div style={{
             borderRadius: '1.25rem',
-            background: 'rgba(255,255,255,0.04)',
-            borderTop: '1px solid rgba(255,255,255,0.08)',
-            borderRight: '1px solid rgba(255,255,255,0.08)',
-            borderBottom: '1px solid rgba(255,255,255,0.08)',
-            borderLeft: '3px solid #E8920A',
+            background: 'var(--surface)',
+            borderTop: '1px solid var(--line)',
+            borderRight: '1px solid var(--line)',
+            borderBottom: '1px solid var(--line)',
+            borderLeft: '3px solid var(--accent)',
             padding: '2.5rem 3rem',
             transition: 'border-color 0.3s ease-out, transform 0.3s ease-out, box-shadow 0.3s ease-out',
           }}>
             <p style={{
               fontFamily: 'var(--font-mono)',
               fontSize: '0.6875rem',
-              color: '#E8920A',
+              color: 'var(--accent)',
               letterSpacing: '0.25em',
               textTransform: 'uppercase',
               marginBottom: '0.875rem',
             }}>
-              CONJOINT DEGREE · IN PROGRESS
+              {profile.education.status}
             </p>
             <h4 style={{
               fontFamily: 'var(--font-display)',
               fontSize: '1.5rem',
               fontWeight: 700,
-              color: '#FFF',
+              color: 'var(--ink)',
               textTransform: 'uppercase',
               letterSpacing: '0.03em',
               marginBottom: '1rem',
             }}>
-              BE(Hons) Mechatronics · BCom Finance/Economics
+              {profile.education.degree}
             </h4>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.9375rem', color: '#BBBBBB', lineHeight: 1.7 }}>
-              A conjoint degree combining honours-level engineering with commerce. Covering control systems, embedded software, financial modelling, and economic analysis.
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.9375rem', color: 'var(--ink-soft)', lineHeight: 1.7 }}>
+              {profile.education.description}
             </p>
           </div>
         </div>
@@ -144,7 +134,7 @@ export default function AboutPage() {
             fontFamily: 'var(--font-display)',
             fontSize: '1.5rem',
             fontWeight: 700,
-            color: '#FFF',
+            color: 'var(--ink)',
             textTransform: 'uppercase',
             letterSpacing: '0.03em',
             marginBottom: '1.25rem',
@@ -152,20 +142,20 @@ export default function AboutPage() {
             Skill Areas
           </h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1rem' }}>
-            {skills.map((skill) => (
+            {profile.skills.map((skill) => (
               <div key={skill.title} className="card" style={{ padding: '2rem' }}>
                 <h4 style={{
                   fontFamily: 'var(--font-display)',
                   fontSize: '0.9375rem',
                   fontWeight: 600,
-                  color: '#FFF',
+                  color: 'var(--ink)',
                   textTransform: 'uppercase',
                   letterSpacing: '0.05em',
                   marginBottom: '0.75rem',
                 }}>
                   {skill.title}
                 </h4>
-                <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.875rem', color: '#AAAAAA', lineHeight: 1.65 }}>
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.875rem', color: 'var(--ink-soft)', lineHeight: 1.65 }}>
                   {skill.description}
                 </p>
               </div>
@@ -179,7 +169,7 @@ export default function AboutPage() {
             fontFamily: 'var(--font-display)',
             fontSize: '1.5rem',
             fontWeight: 700,
-            color: '#FFF',
+            color: 'var(--ink)',
             textTransform: 'uppercase',
             letterSpacing: '0.03em',
             marginBottom: '1.25rem',
@@ -188,10 +178,10 @@ export default function AboutPage() {
           </h3>
           <div className="card">
             <ul style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-              {capabilities.map((cap) => (
+              {profile.capabilities.map((cap) => (
                 <li key={cap} style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem' }}>
-                  <span style={{ marginTop: '0.5rem', width: '6px', height: '6px', borderRadius: '50%', background: '#E8920A', flexShrink: 0 }} />
-                  <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.9375rem', color: '#BBBBBB', lineHeight: 1.65 }}>
+                  <span style={{ marginTop: '0.5rem', width: '6px', height: '6px', borderRadius: '50%', background: 'var(--accent)', flexShrink: 0 }} />
+                  <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.9375rem', color: 'var(--ink-soft)', lineHeight: 1.65 }}>
                     {cap}
                   </span>
                 </li>
@@ -202,21 +192,21 @@ export default function AboutPage() {
 
         {/* ── Get in Touch ─────────────────────────────────────────── */}
         <div style={{ marginTop: '5rem' }}>
-          {/* Amber rule */}
+          {/* Accent rule */}
           <div style={{
             height: '1px',
-            background: 'linear-gradient(to right, #E8920A, rgba(232,146,10,0.1), transparent)',
+            background: 'linear-gradient(to right, var(--accent), transparent)',
             marginBottom: '3rem',
           }} />
 
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6875rem', color: '#E8920A', letterSpacing: '0.3em', textTransform: 'uppercase', marginBottom: '1rem' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6875rem', color: 'var(--accent)', letterSpacing: '0.3em', textTransform: 'uppercase', marginBottom: '1rem' }}>
             CONTACT
           </p>
           <h2 style={{
             fontFamily: 'var(--font-display)',
             fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
             fontWeight: 800,
-            color: '#FFFFFF',
+            color: 'var(--ink)',
             textTransform: 'uppercase',
             letterSpacing: '-0.02em',
             lineHeight: 0.95,
@@ -230,19 +220,19 @@ export default function AboutPage() {
             display: 'inline-flex',
             alignItems: 'center',
             gap: '0.625rem',
-            background: 'rgba(232,146,10,0.1)',
-            border: '1px solid rgba(232,146,10,0.25)',
+            background: 'var(--surface)',
+            border: '1px solid var(--line)',
             borderRadius: '2rem',
             padding: '0.5rem 1.25rem',
             marginBottom: '2rem',
           }}>
             <span className="status-dot-live" style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#34D399', flexShrink: 0 }} />
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.625rem', color: '#E8920A', letterSpacing: '0.2em', textTransform: 'uppercase' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.625rem', color: 'var(--accent)', letterSpacing: '0.2em', textTransform: 'uppercase' }}>
               Open to internships &amp; graduate roles · Auckland, NZ · 2026
             </span>
           </div>
 
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: '1rem', color: '#BBBBBB', lineHeight: 1.75, maxWidth: '38rem', marginBottom: '2.5rem' }}>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.75, maxWidth: '38rem', marginBottom: '2.5rem' }}>
             Interested in working together, or just curious about the build? I&apos;m actively seeking engineering internships and graduate positions. Reach out on LinkedIn or browse the project code on GitHub.
           </p>
 

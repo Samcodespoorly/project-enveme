@@ -25,7 +25,7 @@ const FALLBACK_ENTRIES: DisplayEntry[] = [
   {
     date: 'Jul 2025',
     tag: 'MILESTONE',
-    tagColor: '#E8920A',
+    tagColor: 'var(--accent)',
     title: 'Acquisition',
     description: 'Purchased the JZZ31 with just 49,000 km on the clock — a genuinely low-mileage example of the naturally aspirated 2JZ-GE grand tourer.',
   },
@@ -84,7 +84,7 @@ function TimelineCard({
         fontFamily: 'var(--font-display)',
         fontSize: 'clamp(1.125rem, 2vw, 1.625rem)',
         fontWeight: 700,
-        color: '#FFFFFF',
+        color: 'var(--ink)',
         textTransform: 'uppercase',
         letterSpacing: '-0.01em',
         lineHeight: 1.1,
@@ -96,7 +96,7 @@ function TimelineCard({
       <p style={{
         fontFamily: 'var(--font-body)',
         fontSize: '0.9375rem',
-        color: '#AAAAAA',
+        color: 'var(--ink-soft)',
         lineHeight: 1.7,
         textAlign: align === 'right' ? 'right' : 'left',
       }}>
@@ -113,7 +113,7 @@ function TimelineNode({ color }: { color: string }) {
       height: '0.75rem',
       borderRadius: '50%',
       background: color,
-      boxShadow: `0 0 0 4px #0D0D10, 0 0 10px ${color}80`,
+      boxShadow: `0 0 0 4px var(--bg)${color.startsWith('#') ? `, 0 0 10px ${color}80` : ''}`,
       flexShrink: 0,
     }} />
   )
@@ -126,7 +126,7 @@ export default function TimelineSection({ entries }: Props) {
           ? new Date(e.startDate).toLocaleDateString('en-NZ', { month: 'short', year: 'numeric' })
           : '',
         tag: STATUS_TAG[e.status]?.tag ?? e.status.toUpperCase(),
-        tagColor: STATUS_TAG[e.status]?.color ?? '#E8920A',
+        tagColor: STATUS_TAG[e.status]?.color ?? 'var(--accent)',
         title: e.title,
         description: e.description ?? '',
       }))
@@ -156,7 +156,7 @@ export default function TimelineSection({ entries }: Props) {
             top: '0.5rem',
             bottom: '0.5rem',
             width: '2px',
-            background: 'linear-gradient(to bottom, transparent, #E8920A 8%, #E8920A 92%, transparent)',
+            background: 'linear-gradient(to bottom, transparent, var(--accent) 8%, var(--accent) 92%, transparent)',
           }} />
 
           {/* Desktop: line in center */}
@@ -167,11 +167,11 @@ export default function TimelineSection({ entries }: Props) {
             top: '0.5rem',
             bottom: '0.5rem',
             width: '2px',
-            background: 'linear-gradient(to bottom, transparent, #E8920A 8%, #E8920A 92%, transparent)',
+            background: 'linear-gradient(to bottom, transparent, var(--accent) 8%, var(--accent) 92%, transparent)',
           }} />
 
           {displayEntries.map((entry, i) => {
-            const isLeft = i % 2 === 0 // even = date on left, card on right
+            const isLeft = i % 2 === 0
 
             return (
               <div key={`${entry.title}-${i}`} className="timeline-entry-wrap">
@@ -184,7 +184,6 @@ export default function TimelineSection({ entries }: Props) {
                   viewport={{ once: true, margin: '-20px' }}
                   transition={{ duration: 0.65, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  {/* Node sits on the left line */}
                   <div style={{
                     position: 'absolute',
                     left: '0.75rem',
@@ -194,13 +193,12 @@ export default function TimelineSection({ entries }: Props) {
                     <TimelineNode color={entry.tagColor} />
                   </div>
 
-                  {/* Card */}
                   <div className="card" style={{ flex: 1 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.875rem', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
                       <span style={{
                         fontFamily: 'var(--font-mono)',
                         fontSize: '0.75rem',
-                        color: '#E8920A',
+                        color: 'var(--accent)',
                         letterSpacing: '0.15em',
                       }}>
                         {entry.date}
@@ -211,7 +209,7 @@ export default function TimelineSection({ entries }: Props) {
                       fontFamily: 'var(--font-display)',
                       fontSize: 'clamp(1.25rem, 3vw, 1.75rem)',
                       fontWeight: 700,
-                      color: '#FFFFFF',
+                      color: 'var(--ink)',
                       textTransform: 'uppercase',
                       letterSpacing: '-0.01em',
                       lineHeight: 1.1,
@@ -222,7 +220,7 @@ export default function TimelineSection({ entries }: Props) {
                     <p style={{
                       fontFamily: 'var(--font-body)',
                       fontSize: '0.9375rem',
-                      color: '#AAAAAA',
+                      color: 'var(--ink-soft)',
                       lineHeight: 1.7,
                     }}>
                       {entry.description}
@@ -247,18 +245,16 @@ export default function TimelineSection({ entries }: Props) {
                     paddingTop: '1.25rem',
                   }}>
                     {isLeft ? (
-                      // Date label on left
                       <span style={{
                         fontFamily: 'var(--font-mono)',
                         fontSize: '0.75rem',
-                        color: '#E8920A',
+                        color: 'var(--accent)',
                         letterSpacing: '0.15em',
                         paddingTop: '0.375rem',
                       }}>
                         {entry.date}
                       </span>
                     ) : (
-                      // Card on left (right-aligned text)
                       <TimelineCard entry={entry} align="right" />
                     )}
                   </div>
@@ -278,14 +274,12 @@ export default function TimelineSection({ entries }: Props) {
                     paddingTop: '1.25rem',
                   }}>
                     {isLeft ? (
-                      // Card on right
                       <TimelineCard entry={entry} align="left" />
                     ) : (
-                      // Date label on right
                       <span style={{
                         fontFamily: 'var(--font-mono)',
                         fontSize: '0.75rem',
-                        color: '#E8920A',
+                        color: 'var(--accent)',
                         letterSpacing: '0.15em',
                         paddingTop: '0.375rem',
                         display: 'block',

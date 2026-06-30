@@ -1,8 +1,9 @@
 'use client'
 
 import { Suspense, useEffect, useRef, useState } from 'react'
-import { Canvas } from '@react-three/fiber'
-import { Grid, useProgress } from '@react-three/drei'
+import { Canvas, useThree } from '@react-three/fiber'
+import { Environment, useProgress } from '@react-three/drei'
+import * as THREE from 'three'
 import CarModel from './CarModel'
 import ScrollCamera from './ScrollCamera'
 
@@ -10,7 +11,6 @@ interface SoarerSceneProps {
   scrollProgressRef: React.MutableRefObject<number>
 }
 
-// Overlay rendered outside the Canvas (in DOM) showing GLB load progress.
 function LoadingOverlay() {
   const { progress, active } = useProgress()
   if (!active) return null
@@ -29,10 +29,9 @@ function LoadingOverlay() {
         gap: '1.25rem',
         pointerEvents: 'none',
         zIndex: 5,
-        background: 'var(--color-bg-primary)',
+        background: 'var(--bg)',
       }}
     >
-      {/* Amber pulsing rings */}
       <div style={{ position: 'relative', width: '48px', height: '48px' }}>
         <div style={{
           position: 'absolute',
@@ -57,7 +56,6 @@ function LoadingOverlay() {
         }} />
       </div>
 
-      {/* Progress bar */}
       <div style={{ width: '120px', height: '2px', background: 'rgba(255,255,255,0.08)', borderRadius: '9999px', overflow: 'hidden' }}>
         <div
           style={{
@@ -70,7 +68,6 @@ function LoadingOverlay() {
         />
       </div>
 
-      {/* Percentage label */}
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.375rem' }}>
         <p style={{
           fontFamily: 'var(--font-mono)',
@@ -95,13 +92,40 @@ function LoadingOverlay() {
   )
 }
 
+function HeritageLights() {
+  return (
+    <>
+      <ambientLight color="#fff3da" intensity={0.85} />
+      <directionalLight color="#ffe7b0" intensity={2.4} position={[5, 8, 5]} />
+      <directionalLight color="#bcae90" intensity={0.7} position={[-6, 3, -4]} />
+      <directionalLight color="#ffffff" intensity={1.3} position={[-3, 6, -6]} />
+    </>
+  )
+}
+
+function HeritageFloor() {
+  return (
+    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.66, 0]}>
+      <circleGeometry args={[40, 64]} />
+      <meshStandardMaterial color="#cdbf9f" metalness={0.0} roughness={0.85} transparent opacity={0.9} />
+    </mesh>
+  )
+}
+
+function HeritageSceneEffects() {
+  const { gl, scene } = useThree()
+  useEffect(() => {
+    gl.toneMappingExposure = 1.12
+    scene.fog = new THREE.Fog('#e7dcc4', 9, 26)
+  }, [gl, scene])
+  return null
+}
+
 export default function SoarerScene({ scrollProgressRef }: SoarerSceneProps) {
   const [canvasVisible, setCanvasVisible] = useState(false)
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
-    // Brief delay so WebGL context initialises before we fade in the canvas,
-    // preventing a visible flash of an uninitialised black rectangle.
     timerRef.current = setTimeout(() => setCanvasVisible(true), 80)
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current)
@@ -114,31 +138,13 @@ export default function SoarerScene({ scrollProgressRef }: SoarerSceneProps) {
         position: 'relative',
         width: '100%',
         height: '100%',
-        // Atmospheric dark base with ambient amber glow so the area isn't
-        // a blank black void while the canvas and model load.
-        background:
-          'radial-gradient(ellipse 80% 60% at 55% 55%, rgba(232,146,10,0.07) 0%, #0A0A0A 70%), #0A0A0A',
+        background: 'linear-gradient(to bottom, #EFE7D6, #DCCDAE)',
       }}
     >
-      {/* Subtle off-centre amber glows for depth — visible pre-canvas */}
-      <div
-        aria-hidden="true"
-        style={{
-          position: 'absolute',
-          inset: 0,
-          pointerEvents: 'none',
-          background:
-            'radial-gradient(circle at 30% 70%, rgba(232,146,10,0.04) 0%, transparent 50%),' +
-            'radial-gradient(circle at 70% 30%, rgba(251,185,64,0.03) 0%, transparent 45%)',
-          zIndex: 1,
-        }}
-      />
-
-      {/* DOM-layer progress overlay — reads useProgress outside the Canvas */}
       <LoadingOverlay />
 
       <Canvas
-        camera={{ position: [3, 1.5, 7], fov: 45 }}
+        camera={{ position: [4.4, 1.05, 6.6], fov: 42 }}
         style={{
           width: '100%',
           height: '100%',
@@ -149,35 +155,19 @@ export default function SoarerScene({ scrollProgressRef }: SoarerSceneProps) {
         }}
         dpr={[1, 1.5]}
         performance={{ min: 0.5 }}
-        gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
+        gl={{ antialias: false, alpha: true, powerPreference: 'high-performance', toneMapping: THREE.ACESFilmicToneMapping }}
       >
-        {/* Lighting */}
-        <ambientLight intensity={0.5} />
-        <directionalLight position={[5, 8, 5]} intensity={1.4} color="#FBB940" />
-        <directionalLight position={[-5, 3, -5]} intensity={0.5} color="#6680ff" />
-        <pointLight position={[0, 4, 0]} intensity={0.6} color="#E8920A" />
+        <HeritageLights />
+        <HeritageSceneEffects />
+        <Environment preset="studio" environmentIntensity={0.55} />
 
-        {/* Car model — wrapped in Suspense so the canvas doesn't crash
-            if the GLB takes time to load on slow connections */}
         <Suspense fallback={null}>
           <CarModel />
         </Suspense>
 
-        {/* Floor grid */}
-        <Grid
-          infiniteGrid
-          cellSize={0.5}
-          sectionSize={2}
-          cellColor="#2a2a2a"
-          sectionColor="#3a3a3a"
-          fadeDistance={18}
-          position={[0, -0.7, 0]}
-        />
-
-        {/* Scroll-driven camera — no OrbitControls, scroll position drives the camera */}
+        <HeritageFloor />
         <ScrollCamera scrollProgressRef={scrollProgressRef} />
       </Canvas>
     </div>
   )
 }
-

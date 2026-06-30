@@ -1,9 +1,11 @@
 import type { MetadataRoute } from 'next'
-import { journalEntries } from '@/lib/buildData'
+import { fetchPublicJournal } from '@/lib/publicData'
 
 const BASE = 'https://project-enveme.vercel.app'
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const journalEntries = await fetchPublicJournal()
+
   const pages = ['', '/about', '/build', '/parts', '/specs', '/gallery'].map((path) => ({
     url: `${BASE}${path}`,
     changeFrequency: 'weekly' as const,

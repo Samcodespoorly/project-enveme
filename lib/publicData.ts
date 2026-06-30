@@ -1,3 +1,5 @@
+import { journalEntries } from './buildData'
+
 // lib/publicData.ts
 // Server-side helpers to fetch the publicly readable Firestore documents
 // that GarageOS syncs via syncPublic.ts.
@@ -83,6 +85,30 @@ export interface PublicCompliance {
   updatedAt: string
 }
 
+export type PublicContentBlock =
+  | { type: 'paragraph'; text: string }
+  | { type: 'heading'; text: string }
+  | { type: 'callout'; label: string; text: string; color?: string }
+  | { type: 'spec-table'; rows: { label: string; value: string }[] }
+  | { type: 'image'; url: string; caption?: string }
+  | { type: 'image-placeholder'; caption: string }
+
+export interface PublicJournalEntry {
+  slug: string
+  title: string
+  date: string
+  category: string
+  tagColor: string
+  excerpt: string
+  readTime: string
+  order: number
+  published: boolean
+  tools?: string[]
+  cost?: string
+  relatedMods?: string[]
+  content: PublicContentBlock[]
+}
+
 // ── Fallback data ─────────────────────────────────────────────────────────
 
 const FALLBACK_VEHICLE: PublicVehicle = {
@@ -95,6 +121,13 @@ const FALLBACK_VEHICLE: PublicVehicle = {
   buildStatus: 'Street registered · Active build',
   updatedAt: '',
 }
+
+const FALLBACK_JOURNAL: PublicJournalEntry[] = journalEntries.map(e => ({
+  ...e,
+  order: 0,
+  published: true,
+  content: e.content as PublicContentBlock[],
+}))
 
 // ── REST API helpers ──────────────────────────────────────────────────────
 
@@ -139,6 +172,11 @@ function mapFields(v: FirestoreValue | undefined): Record<string, FirestoreValue
 function arrValues(v: FirestoreValue | undefined): FirestoreValue[] {
   if (!v || !('arrayValue' in v)) return []
   return v.arrayValue.values ?? []
+}
+
+function bool(v: FirestoreValue | undefined, fallback = false): boolean {
+  if (!v) return fallback
+  return 'booleanValue' in v ? v.booleanValue : fallback
 }
 
 async function fetchDoc(
@@ -292,4 +330,303 @@ export async function fetchPublicCompliance(): Promise<PublicCompliance> {
     entries,
     updatedAt: str(fields.updatedAt),
   }
+}
+
+export async function fetchPublicJournal(): Promise<PublicJournalEntry[]> {
+  const fields = await fetchDoc('public/journal')
+  if (!fields) return FALLBACK_JOURNAL
+
+  const entries = arrValues(fields.entries).map(entry => {
+    const f = mapFields(entry)
+    const content: PublicContentBlock[] = arrValues(f.content).map(block => {
+      const bf = mapFields(block)
+      const type = str(bf.type)
+      switch (type) {
+        case 'paragraph':        return { type: 'paragraph' as const, text: str(bf.text) }
+        case 'heading':          return { type: 'heading' as const, text: str(bf.text) }
+        case 'image-placeholder': return { type: 'image-placeholder' as const, caption: str(bf.caption) }
+        case 'image':            return { type: 'image' as const, url: str(bf.url), caption: str(bf.caption) || undefined }
+        case 'callout':          return {
+          type:  'callout' as const,
+          label: str(bf.label),
+          text:  str(bf.text),
+          color: str(bf.color) || undefined,
+        }
+        case 'spec-table': return {
+          type: 'spec-table' as const,
+          rows: arrValues(bf.rows).map(r => {
+            const rf = mapFields(r)
+            return { label: str(rf.label), value: str(rf.value) }
+          }),
+        }
+        default: return { type: 'paragraph' as const, text: '' }
+      }
+    })
+
+    return {
+      slug:        str(f.slug),
+      title:       str(f.title),
+      date:        str(f.date),
+      category:    str(f.category),
+      tagColor:    str(f.tagColor, '#F87171'),
+      excerpt:     str(f.excerpt),
+      readTime:    str(f.readTime),
+      order:       num(f.order),
+      published:   bool(f.published, true),
+      tools:       arrValues(f.tools).map(t => str(t)).filter(Boolean),
+      cost:        str(f.cost) || undefined,
+      relatedMods: arrValues(f.relatedMods).map(m => str(m)).filter(Boolean),
+      content,
+    }
+  })
+
+  if (entries.length === 0) return FALLBACK_JOURNAL
+  return entries.filter(e => e.published).sort((a, b) => b.order - a.order)
+}
+
+// ── Profile ───────────────────────────────────────────────────────────────
+
+export interface PublicProfile {
+  intro: string[]
+  stats: { label: string; value: string }[]
+  education: { degree: string; school: string; status: string; description: string }
+  skills: { title: string; description: string }[]
+  capabilities: string[]
+  availability: string
+}
+
+const FALLBACK_PROFILE: PublicProfile = {
+  intro: [
+    "I'm Samuel Donovan — a conjoint Mechatronics Engineering and Finance/Economics student in New Zealand. Project ENVEME is my platform to demonstrate full-stack engineering capability: from the mechanical knowledge to maintain and modify a 1995 Toyota Soarer, to the software skills to build this portfolio, to the financial analysis that underpins every build decision.",
+    "The JZZ31 Soarer is the perfect project platform — a naturally aspirated inline-6, a sophisticated chassis, and a growing community. Every stage of the build is documented here as a living portfolio of applied engineering.",
+  ],
+  stats: [
+    { label: 'Degree', value: 'Conjoint BE + BCom' },
+    { label: 'Specialisation', value: 'Mechatronics · Finance' },
+    { label: 'Year', value: 'Year 3 (in progress)' },
+    { label: 'Location', value: 'Auckland, New Zealand' },
+  ],
+  education: {
+    degree: 'BE(Hons) Mechatronics · BCom Finance/Economics',
+    school: 'University of Auckland',
+    status: 'CONJOINT DEGREE · IN PROGRESS',
+    description: 'A conjoint degree combining honours-level engineering with commerce. Covering control systems, embedded software, financial modelling, and economic analysis.',
+  },
+  skills: [
+    { title: 'Mechanical Engineering', description: 'Thermodynamics, dynamics, materials science, and machine design applied to real-world automotive systems.' },
+    { title: 'Electrical Systems', description: 'Vehicle wiring, CAN bus diagnostics, sensor integration, and embedded microcontroller projects.' },
+    { title: 'Software Development', description: 'Full-stack web development with Next.js, TypeScript, Firebase. This site is a live demonstration.' },
+    { title: 'Project Management', description: 'Budgeting, scheduling, and documentation of a long-running engineering project from acquisition through build.' },
+    { title: 'Financial Analysis', description: 'Total cost of ownership modelling, build cost tracking, and depreciation analysis for the JZZ31 platform.' },
+    { title: 'AI-Assisted Development', description: 'Leveraging AI tools for code generation, research, and documentation acceleration throughout the project.' },
+  ],
+  capabilities: [
+    'End-to-end engineering project ownership — from concept to execution',
+    'Integration of mechanical, electrical, and software systems',
+    'Quantitative analysis of project cost and value',
+    'Technical documentation and portfolio communication',
+    'Iterative problem solving under real constraints',
+    'Full-stack web application development with modern tooling',
+  ],
+  availability: 'Available · Auckland, NZ · 2026',
+}
+
+export async function fetchPublicProfile(): Promise<PublicProfile> {
+  const fields = await fetchDoc('public/profile')
+  if (!fields) return FALLBACK_PROFILE
+
+  const ef = mapFields(fields.education)
+
+  const profile: PublicProfile = {
+    intro:        arrValues(fields.intro).map(v => str(v)).filter(Boolean),
+    stats:        arrValues(fields.stats).map(s => {
+      const sf = mapFields(s)
+      return { label: str(sf.label), value: str(sf.value) }
+    }),
+    education: {
+      degree:      str(ef.degree),
+      school:      str(ef.school),
+      status:      str(ef.status),
+      description: str(ef.description),
+    },
+    skills:       arrValues(fields.skills).map(s => {
+      const sf = mapFields(s)
+      return { title: str(sf.title), description: str(sf.description) }
+    }),
+    capabilities: arrValues(fields.capabilities).map(v => str(v)).filter(Boolean),
+    availability: str(fields.availability),
+  }
+
+  const isEmpty = profile.intro.length === 0 && profile.skills.length === 0
+  if (isEmpty) return FALLBACK_PROFILE
+  return profile
+}
+
+// ── Gallery ───────────────────────────────────────────────────────────────
+
+export interface PublicGalleryImage {
+  url: string
+  caption?: string
+}
+
+export interface PublicGallerySet {
+  id: string
+  label: string
+  note: string
+  status: 'PLANNED' | 'SHOOTING' | 'PUBLISHED'
+  coverUrl?: string
+  images: PublicGalleryImage[]
+  order: number
+}
+
+export interface PublicGallery {
+  sets: PublicGallerySet[]
+}
+
+const FALLBACK_GALLERY: PublicGallery = {
+  sets: [
+    { id: '1', label: 'Acquisition',       note: 'Day-1 condition photography',  status: 'PLANNED', images: [], order: 1 },
+    { id: '2', label: 'Suspension Install', note: 'Tein coilover fitment process', status: 'PLANNED', images: [], order: 2 },
+    { id: '3', label: 'Engine Bay',         note: '2JZ-GE detail shots',           status: 'PLANNED', images: [], order: 3 },
+    { id: '4', label: 'Interior',           note: 'Factory cabin & gauge cluster',  status: 'PLANNED', images: [], order: 4 },
+    { id: '5', label: 'Undercarriage',      note: 'Chassis & subframe condition',   status: 'PLANNED', images: [], order: 5 },
+    { id: '6', label: 'Rolling Shots',      note: 'On-road & static photography',   status: 'PLANNED', images: [], order: 6 },
+  ],
+}
+
+export async function fetchPublicGallery(): Promise<PublicGallery> {
+  const fields = await fetchDoc('public/gallery')
+  if (!fields) return FALLBACK_GALLERY
+
+  const sets: PublicGallerySet[] = arrValues(fields.sets).map(setVal => {
+    const sf = mapFields(setVal)
+    const images: PublicGalleryImage[] = arrValues(sf.images).map(imgVal => {
+      const img = mapFields(imgVal)
+      return {
+        url:     str(img.url),
+        caption: str(img.caption) || undefined,
+      }
+    })
+    return {
+      id:       str(sf.id),
+      label:    str(sf.label),
+      note:     str(sf.note),
+      status:   (str(sf.status) as PublicGallerySet['status']) || 'PLANNED',
+      coverUrl: str(sf.coverUrl) || undefined,
+      images,
+      order:    num(sf.order),
+    }
+  })
+
+  if (sets.length === 0) return FALLBACK_GALLERY
+  return { sets: sets.sort((a, b) => a.order - b.order) }
+}
+
+// ── Specs ─────────────────────────────────────────────────────────────────
+
+export interface PublicSpecs {
+  vehicle:      { name: string; chassis: string; alsoKnownAs: string; year: number; bodyStyle: string; plate: string; market: string }
+  engine:       { code: string; type: string; displacement: string; aspiration: string; powerHp: number; powerRpm: number; torqueLbft: number; torqueRpm: number }
+  drivetrain:   { transmission: string; layout: string }
+  dimensions:   { kerbWeight: number }
+  currentState: { condition: string; colour: string; status: string }
+  updatedAt:    string
+}
+
+export interface SpecsRow { label: string; value: string }
+
+export interface DerivedSpecs {
+  keySpecs:          SpecsRow[]
+  specsGrid:         SpecsRow[]
+  currentStateItems: SpecsRow[]
+  homepageSpecs:     SpecsRow[]
+}
+
+import {
+  keySpecs as FALLBACK_KEY_SPECS,
+  specsGrid as FALLBACK_SPECS_GRID,
+  currentStateItems as FALLBACK_CURRENT_STATE,
+  homepageSpecs as FALLBACK_HOMEPAGE_SPECS,
+} from './vehicleData'
+
+const FALLBACK_DERIVED: DerivedSpecs = {
+  keySpecs:          FALLBACK_KEY_SPECS,
+  specsGrid:         FALLBACK_SPECS_GRID,
+  currentStateItems: FALLBACK_CURRENT_STATE,
+  homepageSpecs:     FALLBACK_HOMEPAGE_SPECS,
+}
+
+export async function fetchPublicSpecs(): Promise<DerivedSpecs> {
+  const fields = await fetchDoc('public/specs')
+  if (!fields) return FALLBACK_DERIVED
+
+  const vf   = mapFields(fields.vehicle)
+  const ef   = mapFields(fields.engine)
+  const df   = mapFields(fields.drivetrain)
+  const dims = mapFields(fields.dimensions)
+  const cs   = mapFields(fields.currentState)
+
+  const chassis      = str(vf.chassis)
+  const engineCode   = str(ef.code)
+  const displacement = str(ef.displacement)
+  const powerHp      = num(ef.powerHp)
+  const powerRpm     = num(ef.powerRpm)
+  const torqueLbft   = num(ef.torqueLbft)
+  const torqueRpm    = num(ef.torqueRpm)
+  const transmission = str(df.transmission)
+  const layout       = str(df.layout)
+  const kerbWeight   = num(dims.kerbWeight)
+
+  const keySpecs: SpecsRow[] = [
+    { label: 'Make',          value: str(vf.name, 'Toyota Soarer').split(' ')[0] || 'Toyota' },
+    { label: 'Model',         value: `Soarer (${chassis})` },
+    { label: 'Also known as', value: str(vf.alsoKnownAs) },
+    { label: 'Year',          value: String(num(vf.year, 1995)) },
+    { label: 'Engine code',   value: engineCode },
+    { label: 'Engine type',   value: str(ef.type) },
+    { label: 'Displacement',  value: displacement },
+    { label: 'Power output',  value: `${powerHp} hp @ ${powerRpm} RPM` },
+    { label: 'Torque',        value: `${torqueLbft} lb-ft @ ${torqueRpm} RPM` },
+    { label: 'Aspiration',    value: str(ef.aspiration) },
+    { label: 'Transmission',  value: transmission },
+    { label: 'Drivetrain',    value: layout },
+    { label: 'Kerb weight',   value: `${kerbWeight} kg` },
+    { label: 'Body style',    value: str(vf.bodyStyle) },
+  ]
+
+  const specsGrid: SpecsRow[] = [
+    { value: engineCode,                 label: 'Engine' },
+    { value: displacement,               label: 'Displacement' },
+    { value: `${powerHp} hp`,            label: 'Peak Power' },
+    { value: `${powerRpm} rpm`,          label: 'Power RPM' },
+    { value: `${torqueLbft} lb-ft`,      label: 'Peak Torque' },
+    { value: `${torqueRpm} rpm`,         label: 'Torque RPM' },
+    { value: transmission.split(' ')[0], label: 'Gearbox' },
+    { value: layout,                     label: 'Drivetrain' },
+    { value: `${kerbWeight} kg`,         label: 'Kerb Weight' },
+    { value: chassis,                    label: 'Chassis' },
+    { value: String(num(vf.year, 1995)), label: 'Year' },
+    { value: str(vf.market, 'NZ').split(' ')[0].replace(',', ''), label: 'Market' },
+  ]
+
+  const currentStateItems: SpecsRow[] = [
+    { label: 'Odometer',        value: '—' },
+    { label: 'Condition',       value: str(cs.condition) },
+    { label: 'Original colour', value: str(cs.colour) },
+    { label: 'Status',          value: str(cs.status) },
+    { label: 'NZ plate',        value: str(vf.plate) },
+  ]
+
+  const homepageSpecs: SpecsRow[] = [
+    { value: engineCode,                 label: 'Engine Code' },
+    { value: displacement,               label: 'Displacement' },
+    { value: `${powerHp} hp`,            label: 'Peak Power' },
+    { value: `${torqueLbft} lb-ft`,      label: 'Peak Torque' },
+    { value: transmission,               label: 'Transmission' },
+    { value: layout,                     label: 'Drivetrain' },
+    { value: `${kerbWeight} kg`,         label: 'Kerb Weight' },
+    { value: String(num(vf.year, 1995)), label: 'Model Year' },
+  ]
+
+  return { keySpecs, specsGrid, currentStateItems, homepageSpecs }
 }

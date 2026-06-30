@@ -1,69 +1,58 @@
 'use client'
 
-import { useFrame, useThree } from '@react-three/fiber'
+import { useRef } from 'react'
+import { useFrame } from '@react-three/fiber'
+import * as THREE from 'three'
 
 interface ScrollCameraProps {
   scrollProgressRef: React.MutableRefObject<number>
 }
 
-function lerp(a: number, b: number, t: number): number {
-  return a + (b - a) * t
-}
-
-// Camera orbits around the car across these 4 keyframes
-const cameraPath = [
-  { progress: 0,    position: [3, 1.5, 7]  as [number, number, number] },
-  { progress: 0.33, position: [5, 1.2, 3]  as [number, number, number] },
-  { progress: 0.66, position: [0, 2.5, 6]  as [number, number, number] },
-  { progress: 1,    position: [-3, 3, 5]   as [number, number, number] },
+const PATH = [
+  { p: 0.00, pos: [4.4, 1.05, 6.6]  as const, tgt: [-1.5, 0.25, 0] as const },
+  { p: 0.20, pos: [5.7, 0.95, 2.3]  as const, tgt: [0.2,  0.35, 0] as const },
+  { p: 0.40, pos: [0.6, 0.7,  -6.4] as const, tgt: [0,    0.45, 0] as const },
+  { p: 0.60, pos: [-5.4, 1.5, -2.6] as const, tgt: [0,    0.4,  0] as const },
+  { p: 0.80, pos: [-3.4, 3.7,  5.4] as const, tgt: [0,    0.2,  0] as const },
+  { p: 1.00, pos: [0,    5.3,  7.6] as const, tgt: [0,    0.05, 0] as const },
 ]
 
-function getCameraPosition(progress: number): [number, number, number] {
-  if (progress <= 0) return cameraPath[0].position
-  if (progress >= 1) return cameraPath[cameraPath.length - 1].position
+function smooth(t: number) { return t * t * (3 - 2 * t) }
 
-  for (let i = 0; i < cameraPath.length - 1; i++) {
-    const start = cameraPath[i]
-    const end = cameraPath[i + 1]
-    if (progress >= start.progress && progress <= end.progress) {
-      const t = (progress - start.progress) / (end.progress - start.progress)
-      return [
-        lerp(start.position[0], end.position[0], t),
-        lerp(start.position[1], end.position[1], t),
-        lerp(start.position[2], end.position[2], t),
-      ]
-    }
+function samplePath(prog: number, outPos: THREE.Vector3, outTgt: THREE.Vector3) {
+  const cp = Math.max(0, Math.min(1, prog))
+  let a = PATH[0], b = PATH[PATH.length - 1]
+  for (let i = 0; i < PATH.length - 1; i++) {
+    if (cp >= PATH[i].p && cp <= PATH[i + 1].p) { a = PATH[i]; b = PATH[i + 1]; break }
   }
-
-  return cameraPath[0].position
+  const span = (b.p - a.p) || 1
+  const t = smooth((cp - a.p) / span)
+  outPos.set(
+    a.pos[0] + (b.pos[0] - a.pos[0]) * t,
+    a.pos[1] + (b.pos[1] - a.pos[1]) * t,
+    a.pos[2] + (b.pos[2] - a.pos[2]) * t,
+  )
+  outTgt.set(
+    a.tgt[0] + (b.tgt[0] - a.tgt[0]) * t,
+    a.tgt[1] + (b.tgt[1] - a.tgt[1]) * t,
+    a.tgt[2] + (b.tgt[2] - a.tgt[2]) * t,
+  )
 }
 
 export default function ScrollCamera({ scrollProgressRef }: ScrollCameraProps) {
-  const { camera } = useThree()
+  const camPos = useRef(new THREE.Vector3(4.4, 1.05, 6.6))
+  const camTgt = useRef(new THREE.Vector3(-1.5, 0.25, 0))
+  const desiredPos = useRef(new THREE.Vector3())
+  const desiredTgt = useRef(new THREE.Vector3())
 
-  useFrame(() => {
-    const progress = scrollProgressRef.current
-    const target = getCameraPosition(progress)
-
-    // Lerp camera position along the path
-    camera.position.x = lerp(camera.position.x, target[0], 0.07)
-    camera.position.y = lerp(camera.position.y, target[1], 0.07)
-    camera.position.z = lerp(camera.position.z, target[2], 0.07)
-
-    // ── Hero lookAt offset ───────────────────────────────────────────────
-    // During the hero state (first ~18% of scroll), look slightly LEFT of the
-    // car so the car occupies the right portion of the viewport — leaving
-    // room for the text overlay on the left. Smoothly transitions to center
-    // (lookAt origin) once the hero text fades out.
-    //
-    // Why this works: the camera always looks toward its target. If the
-    // target is shifted left of the car (origin), the car appears to the
-    // RIGHT in the rendered frame, without moving the geometry at all.
-    const heroT = Math.min(progress / 0.18, 1) // 0 → 1 over first 18% of scroll
-    const lookAtX = lerp(-1.6, 0, heroT)
-    const lookAtY = lerp(0.15, 0, heroT)
-
-    camera.lookAt(lookAtX, lookAtY, 0)
+  useFrame(({ camera, clock }) => {
+    samplePath(scrollProgressRef.current, desiredPos.current, desiredTgt.current)
+    desiredPos.current.y += Math.sin(clock.getElapsedTime() * 0.5) * 0.04
+    const damp = 0.075
+    camPos.current.lerp(desiredPos.current, damp)
+    camTgt.current.lerp(desiredTgt.current, damp)
+    camera.position.copy(camPos.current)
+    camera.lookAt(camTgt.current)
   })
 
   return null

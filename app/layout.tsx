@@ -1,28 +1,32 @@
 import type { Metadata } from 'next'
-import { Barlow_Condensed, DM_Sans, JetBrains_Mono } from 'next/font/google'
+import {
+  Saira_Condensed,
+  Saira,
+  JetBrains_Mono,
+} from 'next/font/google'
 import './globals.css'
 import Navigation from '@/components/layout/Navigation'
 import Footer from '@/components/layout/Footer'
 import SmoothScrollProvider from '@/components/providers/SmoothScrollProvider'
 
-const barlowCondensed = Barlow_Condensed({
+const sairaCondensed = Saira_Condensed({
   subsets: ['latin'],
-  weight: ['400', '600', '700', '800'],
-  variable: '--font-display',
+  weight: ['700', '800'],
+  variable: '--font-saira-cond',
   display: 'swap',
 })
 
-const dmSans = DM_Sans({
+const saira = Saira({
   subsets: ['latin'],
   weight: ['400', '500', '600'],
-  variable: '--font-body',
+  variable: '--font-saira',
   display: 'swap',
 })
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
   weight: ['400', '500'],
-  variable: '--font-mono',
+  variable: '--font-jetbrains',
   display: 'swap',
 })
 
@@ -51,7 +55,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${barlowCondensed.variable} ${dmSans.variable} ${jetbrainsMono.variable}`}
+      className={`${sairaCondensed.variable} ${saira.variable} ${jetbrainsMono.variable}`}
     >
       <body>
         <SmoothScrollProvider>
