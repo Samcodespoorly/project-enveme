@@ -17,7 +17,7 @@ const TwinCanvas = dynamic(() => import('@/components/three/TwinCanvas'), {
       alignItems: 'center',
       justifyContent: 'center',
     }}>
-      <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.625rem', color: '#E8920A', letterSpacing: '0.3em', textTransform: 'uppercase' }}>
+      <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.625rem', color: 'var(--accent)', letterSpacing: '0.3em', textTransform: 'uppercase' }}>
         LOADING DIGITAL TWIN
       </p>
     </div>
@@ -92,10 +92,10 @@ function resolveHotspots(mods: PublicMod[]): ResolvedHotspot[] {
 function FieldRow({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5rem', color: '#666', letterSpacing: '0.25em', textTransform: 'uppercase', display: 'block', marginBottom: '0.2rem' }}>
+      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5rem', color: 'var(--ink-faint)', letterSpacing: '0.25em', textTransform: 'uppercase', display: 'block', marginBottom: '0.2rem' }}>
         {label}
       </span>
-      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8125rem', color: '#DDD' }}>{value}</span>
+      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8125rem', color: 'var(--ink)' }}>{value}</span>
     </div>
   )
 }
@@ -113,14 +113,14 @@ function PanelContent({ hotspot, onClose }: { hotspot: ResolvedHotspot; onClose:
     <>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '1rem', marginBottom: '0.875rem' }}>
         <div>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', color: '#E8920A', letterSpacing: '0.3em', textTransform: 'uppercase', marginBottom: '0.625rem' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', color: 'var(--accent)', letterSpacing: '0.3em', textTransform: 'uppercase', marginBottom: '0.625rem' }}>
             {hotspot.label}
           </p>
-          <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.375rem', fontWeight: 700, color: '#FFF', textTransform: 'uppercase', letterSpacing: '0.02em', lineHeight: 1.15 }}>
+          <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.375rem', fontWeight: 700, color: 'var(--ink)', textTransform: 'uppercase', letterSpacing: '0.02em', lineHeight: 1.15 }}>
             {title}
           </h3>
           {brand && (
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.8125rem', color: '#E8920A', marginTop: '0.3rem', fontWeight: 500 }}>{brand}</p>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.8125rem', color: 'var(--accent)', marginTop: '0.3rem', fontWeight: 500 }}>{brand}</p>
           )}
         </div>
         <button
@@ -132,16 +132,16 @@ function PanelContent({ hotspot, onClose }: { hotspot: ResolvedHotspot; onClose:
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            background: 'rgba(255,255,255,0.05)',
-            border: '1px solid rgba(255,255,255,0.1)',
+            background: 'var(--surface)',
+            border: '1px solid var(--line-soft)',
             borderRadius: '0.5rem',
-            color: '#999',
+            color: 'var(--ink-soft)',
             cursor: 'pointer',
             flexShrink: 0,
             transition: 'color 0.2s ease-out, border-color 0.2s ease-out',
           }}
-          onMouseEnter={e => { e.currentTarget.style.color = '#FFF'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)' }}
-          onMouseLeave={e => { e.currentTarget.style.color = '#999'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)' }}
+          onMouseEnter={e => { e.currentTarget.style.color = 'var(--ink)'; e.currentTarget.style.borderColor = 'var(--line)' }}
+          onMouseLeave={e => { e.currentTarget.style.color = 'var(--ink-soft)'; e.currentTarget.style.borderColor = 'var(--line-soft)' }}
         >
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
             <path d="M2 2l8 8M10 2l-8 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
@@ -150,7 +150,7 @@ function PanelContent({ hotspot, onClose }: { hotspot: ResolvedHotspot; onClose:
       </div>
 
       {body && (
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.875rem', color: '#AAA', lineHeight: 1.65, marginBottom: '1.25rem' }}>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.875rem', color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: '1.25rem' }}>
           {body}
         </p>
       )}
@@ -161,7 +161,7 @@ function PanelContent({ hotspot, onClose }: { hotspot: ResolvedHotspot; onClose:
           gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
           gap: '0.875rem 1.25rem',
           paddingTop: '1rem',
-          borderTop: '1px solid rgba(255,255,255,0.07)',
+          borderTop: '1px solid var(--line-soft)',
           marginBottom: '1.5rem',
         }}>
           {mod?.partNumber && <FieldRow label="Part No." value={mod.partNumber} />}
@@ -183,7 +183,7 @@ function PanelContent({ hotspot, onClose }: { hotspot: ResolvedHotspot; onClose:
           display: 'inline-flex',
           alignItems: 'center',
           gap: '0.5rem',
-          color: '#E8920A',
+          color: 'var(--accent)',
           fontWeight: 600,
           fontSize: '0.75rem',
           letterSpacing: '0.16em',
@@ -241,12 +241,12 @@ export default function DigitalTwinSection({ mods }: Props) {
     <section
       ref={sectionRef}
       id="digital-twin"
-      style={{ background: 'var(--color-bg-primary)', padding: '7rem 0 5rem', position: 'relative', overflow: 'hidden' }}
+      style={{ background: 'var(--bg)', padding: '7rem 0 5rem', position: 'relative', overflow: 'hidden' }}
     >
       <div className="page-container" style={{ position: 'relative' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.25rem' }}>
-          <div style={{ width: '2.5rem', height: '1px', background: 'linear-gradient(to right, #E8920A, rgba(232,146,10,0.2))', flexShrink: 0 }} />
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.625rem', color: '#E8920A', letterSpacing: '0.3em', textTransform: 'uppercase' }}>
+          <div style={{ width: '2.5rem', height: '1px', background: 'linear-gradient(to right, var(--accent), transparent)', flexShrink: 0 }} />
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.625rem', color: 'var(--accent)', letterSpacing: '0.3em', textTransform: 'uppercase' }}>
             INTERACTIVE · LIVE PARTS DATA
           </span>
         </div>
@@ -255,7 +255,7 @@ export default function DigitalTwinSection({ mods }: Props) {
           fontFamily: 'var(--font-display)',
           fontSize: 'clamp(2.25rem, 5vw, 3.75rem)',
           fontWeight: 800,
-          color: '#FFF',
+          color: 'var(--ink)',
           textTransform: 'uppercase',
           letterSpacing: '-0.02em',
           lineHeight: 0.95,
@@ -263,7 +263,7 @@ export default function DigitalTwinSection({ mods }: Props) {
         }}>
           Digital Twin
         </h2>
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.9375rem', color: '#888', lineHeight: 1.65, maxWidth: '34rem', marginBottom: '0.5rem' }}>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.9375rem', color: 'var(--ink-soft)', lineHeight: 1.65, maxWidth: '34rem', marginBottom: '0.5rem' }}>
           Drag to orbit. Tap a marker to pull that component&apos;s record — brand,
           part numbers, and fitment — straight from the GarageOS database.
         </p>
@@ -316,15 +316,15 @@ export default function DigitalTwinSection({ mods }: Props) {
             display: 'flex',
             alignItems: 'center',
             gap: '0.625rem',
-            background: 'rgba(10,10,10,0.7)',
-            border: '1px solid rgba(255,255,255,0.08)',
+            background: 'var(--glass-bg)',
+            border: '1px solid var(--glass-bd)',
             borderRadius: '2rem',
             padding: '0.5rem 1.125rem',
             pointerEvents: 'none',
-            backdropFilter: 'blur(8px)',
+            backdropFilter: 'blur(var(--blur))',
           }}>
-            <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#E8920A', flexShrink: 0 }} />
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', color: '#999', letterSpacing: '0.2em', textTransform: 'uppercase' }}>
+            <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--accent)', flexShrink: 0 }} />
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', color: 'var(--ink-soft)', letterSpacing: '0.2em', textTransform: 'uppercase' }}>
               Drag to orbit · Tap a marker
             </span>
           </div>
