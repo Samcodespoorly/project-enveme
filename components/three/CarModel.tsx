@@ -6,12 +6,12 @@ import * as THREE from 'three'
 
 function makePaint() {
   return new THREE.MeshPhysicalMaterial({
-    color: '#2E5F7A',        // dark base — IBL lifts it to the 1A0 silver-blue
-    metalness: 0.85,         // high metalness → directional lights make specular highlights
-    roughness: 0.18,         // smooth for crisp reflections
-    clearcoat: 0.9,
-    clearcoatRoughness: 0.06,
-    envMapIntensity: 0.5,    // dampen IBL so it doesn't wash out the base colour
+    color: '#7AAEC8',        // 1A0 blue-silver — medium tone, not washed pale
+    metalness: 0.45,         // enough for metallic highlights without mirror-black
+    roughness: 0.28,
+    clearcoat: 0.8,
+    clearcoatRoughness: 0.1,
+    envMapIntensity: 0.6,
   })
 }
 
