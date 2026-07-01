@@ -4,8 +4,8 @@ import { useEffect, useRef, useMemo } from 'react'
 import { useGLTF } from '@react-three/drei'
 import * as THREE from 'three'
 
-// Toyota 1A0 Bluish Silver Metallic
-const PAINT_COLOR = '#8FAABC'
+// Toyota 1A0 Bluish Silver Metallic — saturated enough to survive warm lights
+const PAINT_COLOR = '#4A82A8'
 
 export default function CarModel() {
   const groupRef = useRef<THREE.Group>(null)
@@ -19,6 +19,8 @@ export default function CarModel() {
       const m = materials[name] as THREE.MeshStandardMaterial | undefined
       if (!m) return
       m.color.set(PAINT_COLOR)
+      // Paint1Mtl ships with metalness=0 — nudge it up for metallic sheen
+      if (name === 'Paint1Mtl') m.metalness = 0.25
       m.needsUpdate = true
     })
   }, [materials])
