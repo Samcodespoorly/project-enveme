@@ -99,7 +99,7 @@ export default function TwinCanvas({ hotspots, selectedId, onSelect, reducedMoti
       <directionalLight position={[-6, 3, -4]} intensity={0.6} color="#bcae90" />
       <directionalLight position={[-3, 6, -6]} intensity={1.1} color="#ffffff" />
 
-      <Environment preset="studio" background={false} />
+      <Environment preset="warehouse" background={false} />
 
       <Suspense fallback={null}>
         <CarModel />
