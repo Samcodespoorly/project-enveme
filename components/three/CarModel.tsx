@@ -4,10 +4,24 @@ import { useEffect, useRef, useMemo } from 'react'
 import { useGLTF } from '@react-three/drei'
 import * as THREE from 'three'
 
+// Toyota 1A0 Bluish Silver Metallic
+const PAINT_COLOR = '#8FAABC'
+
 export default function CarModel() {
   const groupRef = useRef<THREE.Group>(null)
 
-  const { scene } = useGLTF('/models/toyota_soarer_web.glb')
+  const { scene, materials } = useGLTF('/models/toyota_soarer_web.glb')
+
+  // Surgically recolour only the two body paint materials by name.
+  // All other materials (glass, interior, trim, tyres) are untouched.
+  useMemo(() => {
+    ;['Paint1Mtl', 'Paint2Mtl'].forEach(name => {
+      const m = materials[name] as THREE.MeshStandardMaterial | undefined
+      if (!m) return
+      m.color.set(PAINT_COLOR)
+      m.needsUpdate = true
+    })
+  }, [materials])
 
   // Clone the scene so React re-renders don't mutate the cached original.
   const clonedScene = useMemo(() => scene.clone(true), [scene])
