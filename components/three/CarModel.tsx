@@ -6,11 +6,12 @@ import * as THREE from 'three'
 
 function makePaint() {
   return new THREE.MeshPhysicalMaterial({
-    color: '#5A87A0',        // Toyota 1A0 — deeper to survive IBL wash-out
-    metalness: 0.0,
-    roughness: 0.38,
-    clearcoat: 1.0,
-    clearcoatRoughness: 0.07,
+    color: '#2E5F7A',        // dark base — IBL lifts it to the 1A0 silver-blue
+    metalness: 0.85,         // high metalness → directional lights make specular highlights
+    roughness: 0.18,         // smooth for crisp reflections
+    clearcoat: 0.9,
+    clearcoatRoughness: 0.06,
+    envMapIntensity: 0.5,    // dampen IBL so it doesn't wash out the base colour
   })
 }
 
