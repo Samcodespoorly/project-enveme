@@ -20,9 +20,13 @@ export default function CarModel() {
     const group = groupRef.current
     if (!clonedScene || !group) return
 
-    // Override light/white body panels → Toyota 1A0 Bluish Silver Metallic.
-    // Dark materials (tires, glass, trim) fall below the luminance threshold
-    // and are left untouched.
+    // Override light body panels → Toyota 1A0 Bluish Silver Metallic.
+    // Access `.color` via cast to catch any material type (MeshStandard,
+    // MeshPhong, MeshBasic, MeshPhysical) without instanceof narrowing.
+    // Dark materials (tires, glass, dark trim) sit below lum < 0.45.
+    //
+    // Automotive metallic paint is nearly a dielectric — metalness ~0.12
+    // lets the albedo color show rather than mirroring the warm lights.
     clonedScene.traverse((child) => {
       if (!(child instanceof THREE.Mesh)) return
       const mats: THREE.Material[] = Array.isArray(child.material)
@@ -30,15 +34,15 @@ export default function CarModel() {
         : [child.material]
 
       const overridden = mats.map((m) => {
-        if (!(m instanceof THREE.MeshStandardMaterial)) return m
-        const { r, g, b } = m.color
-        const lum = 0.299 * r + 0.587 * g + 0.114 * b
-        if (lum < 0.62) return m          // keep dark trim / glass / tyres
-        const n = m.clone()
-        n.color.set('#8FAABC')            // 1A0 hue — cool blue-silver
-        n.metalness = Math.max(m.metalness, 0.82)
-        n.roughness = Math.min(m.roughness, 0.22)
-        return n
+        const col = (m as { color?: THREE.Color }).color
+        if (!col) return m
+        const lum = 0.299 * col.r + 0.587 * col.g + 0.114 * col.b
+        if (lum < 0.45) return m
+        return new THREE.MeshStandardMaterial({
+          color: '#8FAABC',
+          metalness: 0.12,
+          roughness: 0.22,
+        })
       })
 
       child.material = Array.isArray(child.material) ? overridden : overridden[0]
