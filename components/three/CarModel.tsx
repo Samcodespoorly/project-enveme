@@ -38,10 +38,12 @@ export default function CarModel() {
         if (!col) return m
         const lum = 0.299 * col.r + 0.587 * col.g + 0.114 * col.b
         if (lum < 0.45) return m
-        return new THREE.MeshStandardMaterial({
-          color: '#8FAABC',
-          metalness: 0.12,
-          roughness: 0.22,
+        return new THREE.MeshPhysicalMaterial({
+          color: '#8FAABC',   // Toyota 1A0 Bluish Silver Metallic
+          metalness: 0.0,     // paint base coat is a dielectric
+          roughness: 0.38,    // metallic flakes scatter light slightly
+          clearcoat: 1.0,     // gloss clear coat layer on top
+          clearcoatRoughness: 0.07,
         })
       })
 

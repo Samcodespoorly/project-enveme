@@ -2,7 +2,7 @@
 
 import { Suspense, useRef, useState } from 'react'
 import { Canvas } from '@react-three/fiber'
-import { OrbitControls, Html, ContactShadows } from '@react-three/drei'
+import { OrbitControls, Html, ContactShadows, Environment } from '@react-three/drei'
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib'
 import CarModel from './CarModel'
 
@@ -98,6 +98,8 @@ export default function TwinCanvas({ hotspots, selectedId, onSelect, reducedMoti
       <directionalLight position={[5, 8, 5]} intensity={2.2} color="#ffe7b0" />
       <directionalLight position={[-6, 3, -4]} intensity={0.6} color="#bcae90" />
       <directionalLight position={[-3, 6, -6]} intensity={1.1} color="#ffffff" />
+
+      <Environment preset="studio" background={false} />
 
       <Suspense fallback={null}>
         <CarModel />
