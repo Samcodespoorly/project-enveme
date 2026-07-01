@@ -4,8 +4,8 @@ import { useEffect, useRef, useMemo } from 'react'
 import { useGLTF } from '@react-three/drei'
 import * as THREE from 'three'
 
-// Toyota 1A0 Bluish Silver Metallic — saturated enough to survive warm lights
-const PAINT_COLOR = '#4A82A8'
+// Toyota 1A0 Bluish Silver Metallic
+const PAINT_COLOR = '#6B9AB5'
 
 export default function CarModel() {
   const groupRef = useRef<THREE.Group>(null)

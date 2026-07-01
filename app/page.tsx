@@ -13,6 +13,7 @@ import { ModsSectionSkeleton, TimelineSectionSkeleton } from '@/components/ui/Sk
 import {
   fetchPublicVehicle,
   fetchPublicMods,
+  fetchPublicModsDoc,
   fetchPublicTimeline,
   fetchPublicSpecs,
   fetchPublicJournal,
@@ -29,8 +30,21 @@ async function VehicleScene() {
 }
 
 async function InstrumentAsync() {
-  const vehicle = await fetchPublicVehicle()
-  return <InstrumentSection odometer={vehicle.odometer} />
+  const [vehicle, timeline, modsDoc] = await Promise.all([
+    fetchPublicVehicle(),
+    fetchPublicTimeline(),
+    fetchPublicModsDoc(),
+  ])
+  const completedProjects = timeline.filter(t => t.status === 'complete').length
+  const totalProjects = timeline.length
+  return (
+    <InstrumentSection
+      odometer={vehicle.odometer}
+      completedProjects={completedProjects}
+      totalProjects={totalProjects}
+      partsInstalled={modsDoc.totalInstalled}
+    />
+  )
 }
 
 async function ProvenanceAsync() {
