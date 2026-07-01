@@ -20,6 +20,30 @@ export default function CarModel() {
     const group = groupRef.current
     if (!clonedScene || !group) return
 
+    // Override light/white body panels → Toyota 1A0 Bluish Silver Metallic.
+    // Dark materials (tires, glass, trim) fall below the luminance threshold
+    // and are left untouched.
+    clonedScene.traverse((child) => {
+      if (!(child instanceof THREE.Mesh)) return
+      const mats: THREE.Material[] = Array.isArray(child.material)
+        ? child.material
+        : [child.material]
+
+      const overridden = mats.map((m) => {
+        if (!(m instanceof THREE.MeshStandardMaterial)) return m
+        const { r, g, b } = m.color
+        const lum = 0.299 * r + 0.587 * g + 0.114 * b
+        if (lum < 0.62) return m          // keep dark trim / glass / tyres
+        const n = m.clone()
+        n.color.set('#8FAABC')            // 1A0 hue — cool blue-silver
+        n.metalness = Math.max(m.metalness, 0.82)
+        n.roughness = Math.min(m.roughness, 0.22)
+        return n
+      })
+
+      child.material = Array.isArray(child.material) ? overridden : overridden[0]
+    })
+
     // Compute bounding box
     clonedScene.updateMatrixWorld(true)
     const box = new THREE.Box3().setFromObject(clonedScene)
