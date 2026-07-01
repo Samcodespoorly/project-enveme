@@ -42,7 +42,7 @@ interface GaugeProps {
   redFrom?: number
   needleRef: React.RefObject<SVGLineElement | null>
   arcRef: React.RefObject<SVGPathElement | null>
-  valRef: React.RefObject<SVGTextElement | null>
+  valRef: React.RefObject<HTMLSpanElement | null>
 }
 
 function GaugeSVG({ label, sublabel, max, tickLabels, unit, redFrom, needleRef, arcRef, valRef }: GaugeProps) {
@@ -52,8 +52,9 @@ function GaugeSVG({ label, sublabel, max, tickLabels, unit, redFrom, needleRef, 
   const redPath = redFrom != null ? arc(R, A0 + (A1 - A0) * (redFrom / max), A1) : null
 
   return (
-    <div style={{ position: 'relative', width: '100%', maxWidth: '320px', margin: '0 auto' }}>
-      <svg viewBox="0 0 200 210" style={{ width: '100%', overflow: 'visible' }}>
+    <div style={{ width: '100%', maxWidth: '320px', margin: '0 auto' }}>
+      {/* SVG contains only arc geometry, ticks, and needle — no text */}
+      <svg viewBox="0 0 200 175" style={{ width: '100%', overflow: 'visible' }}>
         {/* Track arc */}
         <path d={mainArc} stroke="var(--line)" strokeWidth={5.5} fill="none" />
         {/* Animated fill arc */}
@@ -95,38 +96,29 @@ function GaugeSVG({ label, sublabel, max, tickLabels, unit, redFrom, needleRef, 
         />
         <circle cx={CX} cy={CY} r={8.5} fill="var(--ink)" />
         <circle cx={CX} cy={CY} r={3} fill="var(--accent)" />
-
-        {/* Value — positioned below pivot with clear space */}
-        <text
-          ref={valRef}
-          x={CX} y={CY + 42}
-          textAnchor="middle"
-          fontFamily="var(--font-display)" fontWeight={800} fontSize={26}
-          fill="var(--ink)"
-        >
-          0
-        </text>
-        <text x={CX} y={CY + 59} textAnchor="middle"
-          fontFamily="var(--font-mono)" fontSize={8} letterSpacing="0.18em"
-          fill="var(--accent)" textDecoration="none"
-        >
-          {unit.toUpperCase()}
-        </text>
-
-        {/* Label block — bottom of viewBox, below arc */}
-        <text x={CX} y={190} textAnchor="middle"
-          fontFamily="var(--font-mono)" fontSize={7} letterSpacing="0.28em"
-          fill="var(--ink-faint)"
-        >
-          {label.toUpperCase()}
-        </text>
-        <text x={CX} y={201} textAnchor="middle"
-          fontFamily="var(--font-mono)" fontSize={6.5} letterSpacing="0.18em"
-          fill="var(--ink-faint)" opacity={0.6}
-        >
-          {sublabel.toUpperCase()}
-        </text>
       </svg>
+
+      {/* Value + label in HTML below the SVG — no overlap possible */}
+      <div style={{ textAlign: 'center', marginTop: '-0.25rem' }}>
+        <div>
+          <span
+            ref={valRef}
+            style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.6rem', color: 'var(--ink)' }}
+          >0</span>
+          <span style={{
+            fontFamily: 'var(--font-mono)', fontSize: '0.5rem', letterSpacing: '0.18em',
+            color: 'var(--accent)', textTransform: 'uppercase', marginLeft: '0.4rem',
+          }}>{unit}</span>
+        </div>
+        <div style={{
+          fontFamily: 'var(--font-mono)', fontSize: '0.55rem', letterSpacing: '0.28em',
+          color: 'var(--ink-faint)', textTransform: 'uppercase', marginTop: '0.3rem',
+        }}>{label}</div>
+        <div style={{
+          fontFamily: 'var(--font-mono)', fontSize: '0.5rem', letterSpacing: '0.15em',
+          color: 'var(--ink-faint)', opacity: 0.6, textTransform: 'uppercase',
+        }}>{sublabel}</div>
+      </div>
     </div>
   )
 }
@@ -134,7 +126,7 @@ function GaugeSVG({ label, sublabel, max, tickLabels, unit, redFrom, needleRef, 
 function animateGauge(
   needle: SVGLineElement | null,
   arcEl: SVGPathElement | null,
-  valEl: SVGTextElement | null,
+  valEl: HTMLSpanElement | null,
   target: number,
   max: number,
   fmt?: (n: number) => string,
@@ -169,17 +161,15 @@ export default function InstrumentSection({ odometer, completedProjects, totalPr
   const clusterRef = useRef<HTMLDivElement>(null)
   const buildNeedle  = useRef<SVGLineElement>(null)
   const buildArc     = useRef<SVGPathElement>(null)
-  const buildVal     = useRef<SVGTextElement>(null)
+  const buildVal     = useRef<HTMLSpanElement>(null)
   const modsNeedle   = useRef<SVGLineElement>(null)
   const modsArc      = useRef<SVGPathElement>(null)
-  const modsVal      = useRef<SVGTextElement>(null)
+  const modsVal      = useRef<HTMLSpanElement>(null)
   const stripRefs    = useRef<(HTMLDivElement | null)[]>([])
 
   const digits = String(odometer).padStart(6, '0').split('').map(Number)
 
-  // Build completion % — clamp at 100, gauge max 100
   const buildPct = totalProjects > 0 ? Math.round((completedProjects / totalProjects) * 100) : 0
-  // Mods installed — gauge max rounded up to next 10
   const modsMax = Math.max(20, Math.ceil(partsInstalled / 10) * 10 + 10)
 
   useEffect(() => {
@@ -204,7 +194,6 @@ export default function InstrumentSection({ odometer, completedProjects, totalPr
     return () => io.disconnect()
   }, [odometer, buildPct, partsInstalled, modsMax])
 
-  // Tick labels for each gauge
   const buildLabels = [0, 10, 20, 30, 40, 50].map(v => `${v}%`)
   const modsLabels  = Array.from({ length: 6 }, (_, i) => Math.round(modsMax * i / 10))
 
