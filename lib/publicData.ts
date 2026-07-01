@@ -495,7 +495,7 @@ const FALLBACK_GALLERY: PublicGallery = {
 }
 
 export async function fetchPublicGallery(): Promise<PublicGallery> {
-  const fields = await fetchDoc('public/gallery')
+  const fields = await fetchDoc('public/gallery', 60)
   if (!fields) return FALLBACK_GALLERY
 
   const sets: PublicGallerySet[] = arrValues(fields.sets).map(setVal => {
