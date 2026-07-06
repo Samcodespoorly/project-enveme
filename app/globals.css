@@ -455,3 +455,21 @@ body {
   animation-timeline: view();
   animation-range: entry 0% entry 30%;
 }
+
+/* ── Vehicle passport tag print layout ───────────────────────────────────── */
+@media print {
+  body:has(#passport-tag) * {
+    visibility: hidden;
+  }
+  body:has(#passport-tag) #passport-tag,
+  body:has(#passport-tag) #passport-tag * {
+    visibility: visible;
+  }
+  body:has(#passport-tag) #passport-tag {
+    position: fixed;
+    top: 1cm;
+    left: 1cm;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

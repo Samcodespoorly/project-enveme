@@ -5,6 +5,7 @@ const navLinks = [
   { label: 'Specs', href: '/specs' },
   { label: 'Gallery', href: '/gallery' },
   { label: 'About', href: '/about' },
+  { label: 'Passport', href: '/passport' },
 ]
 
 const techStack = [
