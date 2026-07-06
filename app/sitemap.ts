@@ -6,7 +6,7 @@ const BASE = 'https://project-enveme.vercel.app'
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const journalEntries = await fetchPublicJournal()
 
-  const pages = ['', '/about', '/build', '/parts', '/specs', '/gallery'].map((path) => ({
+  const pages = ['', '/about', '/build', '/parts', '/specs', '/gallery', '/passport'].map((path) => ({
     url: `${BASE}${path}`,
     changeFrequency: 'weekly' as const,
     priority: path === '' ? 1 : 0.7,

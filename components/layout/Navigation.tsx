@@ -6,10 +6,12 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 const navLinks = [
+  { label: 'Home', href: '/' },
   { label: 'Build', href: '/build' },
   { label: 'Parts', href: '/parts' },
   { label: 'Specs', href: '/specs' },
   { label: 'Gallery', href: '/gallery' },
+  { label: 'Passport', href: '/passport' },
   { label: 'About', href: '/about' },
 ]
 
@@ -105,16 +107,6 @@ export default function Navigation() {
             style={{ background: 'var(--glass-bg)', borderBottom: '1px solid var(--glass-bd)' }}
           >
             <ul className="flex flex-col gap-5">
-              <li>
-                <Link
-                  href="/"
-                  onClick={() => setMenuOpen(false)}
-                  className="text-sm flex items-center gap-2"
-                  style={{ fontFamily: 'var(--font-body)', color: 'var(--accent)' }}
-                >
-                  ← Home
-                </Link>
-              </li>
               {navLinks.map((link) => {
                 const isActive = pathname === link.href
                 return (
